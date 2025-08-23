@@ -4,17 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nexaur - Collaborate. Create. Innovate.</title>
-    <!-- Font Awesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Google Fonts - Poppins for general text -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Explore and purchase thousands of cutting-edge websites, AI models, and applications. Nexaur is the premier marketplace for top-tier digital solutions.">
+    <meta name="keywords" content="digital marketplace, websites, ai models, applications, templates, code, developer tools, collaboration, innovation">
+
+    <!-- Open Graph / Facebook Meta Tags (placeholders) -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.nexaur.com/">
+    <meta property="og:title" content="Nexaur - Collaborate. Create. Innovate.">
+    <meta property="og:description" content="Nexaur provides the tools for your design team to bring their most ambitious ideas to life, faster than ever before.">
+    <meta property="og:image" content="https://via.placeholder.com/1200x630/3498db/ffffff?text=Nexaur+Social+Preview">
+
+    <!-- Twitter Card Meta Tags (placeholders) -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.nexaur.com/">
+    <meta property="twitter:title" content="Nexaur - Collaborate. Create. Innovate.">
+    <meta property="twitter:description" content="Nexaur provides the tools for your design team to bring their most ambitious ideas to life, faster than ever before.">
+    <meta property="twitter:image" content="https://via.placeholder.com/1200x675/3498db/ffffff?text=Nexaur+Twitter+Preview">
+
+    <!-- Fonts and icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+
+    <!-- Model Viewer for 3D elements (AI Character) -->
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
 
     <style>
-        /* Basic Reset & Base Styles */
+        /* --- General Reset & Base Styles --- */
         * {
             margin: 0;
             padding: 0;
-            box-sizing: border-box; /* Essential for responsive layouts */
+            box-sizing: border-box;
         }
 
         :root {
@@ -28,10 +51,32 @@
             --icon-bg-light: rgba(255, 255, 255, 0.2); /* Transparent white for floating icons */
             --icon-bg-dark: rgba(0, 0, 0, 0.2); /* Transparent black for the right-top icon */
             --icon-color: #fff;
+
+            /* Variables from the professional site */
+            --logo-primary-color: #041765; /* Dark blue */
+            --logo-accent-color: #ea6a21; /* Orange */
+            --btn-buy-now-green: #2ecc71;
+            --btn-buy-now-green-dark: #27ae60;
+            --bg-footer: rgba(0, 0, 0, 0.1);
+            --border-color: rgba(255, 255, 255, 0.25);
+            --color-text-muted: rgba(255, 255, 255, 0.7);
+            --color-white: #ffffff;
+            --fw-bold: 700;
+            --space-1: 0.5rem;
+            --space-2: 1rem;
+            --space-3: 1.5rem;
+            --space-4: 2.5rem;
+            --space-5: 4rem;
+            --radius-md: 16px;
+            --fs-sm: 0.9rem;
+            --transition-fast: all 0.2s ease-in-out;
+            --transition-medium: all 0.3s ease-in-out;
+            --container-width: 1200px; /* Max width for content */
         }
 
         html {
             font-size: 16px; /* Base font size, 'rem' units will scale relative to this */
+            scroll-behavior: smooth; /* Smooth scrolling for anchor links */
         }
 
         body {
@@ -39,6 +84,7 @@
             line-height: 1.6;
             color: var(--text-dark);
             overflow-x: hidden; /* Prevent horizontal scroll on small screens */
+            background-color: #f8f9fa; /* Light background for the whole page */
         }
 
         a {
@@ -50,113 +96,274 @@
             list-style: none;
         }
 
-        /* Navbar Styling */
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 2rem;
+        .container {
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: 0 var(--space-2); /* Horizontal padding */
+        }
+
+        /* Visually Hidden Utility for Accessibility */
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            margin: -1px;
+            padding: 0;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--logo-primary-color);
+            color: var(--color-white);
+            padding: 8px;
+            z-index: 9999;
+            transition: top 0.3s;
+        }
+
+        .skip-link:focus {
+            top: 0;
+        }
+
+        /* --- Header Styling --- */
+        header {
             background-color: var(--navbar-bg);
-            position: fixed; /* Keep navbar visible at the top */
+            padding: 1rem 0;
+            position: fixed;
             width: 100%;
-            z-index: 1000; /* Ensure navbar is above other content */
+            top: 0;
+            left: 0;
+            z-index: 1000;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
         }
 
-        .navbar-logo img {
-            height: 2.5rem; /* Adjust logo size */
-            max-width: 100%;
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: var(--space-2); /* Gap between logo, search, and nav */
         }
 
-        .search-bar {
+        /* Logo Styling */
+        .logo {
             display: flex;
             align-items: center;
-            background-color: var(--search-bg);
+            gap: 12px;
+            text-decoration: none;
+            flex-shrink: 0; /* Prevent logo from shrinking */
+        }
+        .logo .logo-symbol { width: 50px; height: auto; }
+        .logo .logo-text { font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 2.2rem; color: var(--logo-primary-color); text-transform: lowercase; letter-spacing: -1.5px; display: flex; }
+        .logo .logo-text span:first-child { color: var(--logo-accent-color); /* Highlight first char */ }
+
+        /* Logo Animation Styles */
+        .logo-symbol .pixel, .logo-symbol .cart-part, .logo-text .char { opacity: 0; }
+        .logo-symbol .pixel { transform: translateY(15px); }
+        .logo-symbol .cart-handle { transform: translateY(-15px); }
+        .logo-symbol .cart-wheel { transform: translateX(-15px) rotate(-180deg); }
+        .logo-text .char { transform: translateY(20px) scale(0.8); display: inline-block; }
+        .logo.animate .pixel, .logo.animate .cart-part { animation-duration: 0.5s; animation-fill-mode: forwards; animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.277); }
+        .logo.animate .pixel { animation-name: popIn; }
+        .logo.animate .cart-wheel { animation-name: rollIn; }
+        .logo.animate .cart-handle { animation-name: slideIn; }
+        .logo.animate .logo-text .char { animation-name: slideUpIn; animation-duration: 0.6s; animation-fill-mode: forwards; animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.277); animation-delay: calc(0.8s + (var(--char-index) * 0.07s)); }
+        .logo.animate .pixel-1 { animation-delay: 0.0s; } .logo.animate .pixel-2 { animation-delay: 0.05s; } .logo.animate .pixel-3 { animation-delay: 0.1s; } .logo.animate .pixel-4 { animation-delay: 0.15s; } .logo.animate .pixel-5 { animation-delay: 0.2s; }
+        .logo.animate .pixel-special { animation-delay: 0.25s; filter: drop-shadow(0 0 5px var(--logo-accent-color)); }
+        .logo.animate .cart-wheel-1 { animation-delay: 0.4s; } .logo.animate .cart-wheel-2 { animation-delay: 0.45s; } .cart-handle { animation-delay: 0.5s; }
+        @keyframes popIn { from { transform: translateY(15px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes rollIn { from { transform: translateX(-15px) rotate(-180deg); opacity: 0; } to { transform: translateX(0) rotate(0); opacity: 1; } }
+        @keyframes slideIn { from { transform: translateY(-15px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes slideUpIn { to { opacity: 1; transform: translateY(0) scale(1); } }
+        /* End Logo Animation Styles */
+
+        .header-main-content {
+            display: flex;
+            align-items: center;
+            flex-grow: 1; /* Allow to take available space */
+            gap: var(--space-3); /* Space between search and nav items */
+            margin-left: var(--space-4); /* Left margin for header content */
+        }
+
+        /* Search Bar */
+        .header-search {
+            flex-grow: 1;
+            position: relative;
+            max-width: 500px; /* Limit search bar width */
+        }
+
+        .main-search-bar {
+            display: flex;
+            align-items: center;
+            background-color: #ffffff;
             border-radius: 50px;
-            padding: 0.5rem 1.2rem;
-            flex-grow: 0.5; /* Allow search bar to expand */
-            max-width: 600px; /* Limit search bar width on large screens */
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            padding: 8px 15px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            transition: box-shadow 0.2s ease-in-out;
+            border: 1px solid #e0e0e0;
         }
 
-        .search-bar i {
-            color: #888;
-            margin: 0 0.5rem;
-            font-size: 1.1rem;
-        }
-
-        .search-bar input {
+        #main-search-input {
+            flex-grow: 1;
             border: none;
             outline: none;
-            flex-grow: 1; /* Input takes available space */
-            padding: 0.3rem 0;
+            background-color: transparent;
             font-size: 1rem;
-            color: var(--text-dark);
+            font-family: 'Poppins', sans-serif;
+            width: 100%;
+            color: #202124;
         }
 
-        .search-bar input::placeholder {
-            color: #bbb;
+        #main-search-input::placeholder {
+            color: #80868b;
         }
 
-        .navbar-nav ul {
+        .main-search-bar .icon-button {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0 4px;
+            color: #5f6368;
+            font-size: 1.1rem;
+            margin-left: 8px;
+            transition: color 0.2s ease;
+        }
+
+        .main-search-bar .icon-button:hover {
+            color: var(--logo-accent-color);
+        }
+
+        .search-submit-button {
+            margin-left: 0;
+            margin-right: 12px;
+            padding-left: 0;
+            padding-right: 0;
+        }
+
+        .main-search-bar .clear-button {
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+        .main-search-bar input:not(:placeholder-shown) ~ .clear-button {
+            visibility: visible;
+            opacity: 1;
+        }
+        .main-search-bar input:not(:placeholder-shown) + #mainVoiceSearchBtn {
+             margin-left: 0; /* Adjust margin if clear button is shown */
+        }
+
+
+        /* Header Navigation/Actions */
+        .header-nav-actions {
             display: flex;
-            gap: 2rem;
+            align-items: center;
+            gap: var(--space-2);
+            flex-shrink: 0; /* Prevent nav from shrinking */
         }
 
-        .navbar-nav ul li a {
+        .header-option {
             display: flex;
             align-items: center;
             gap: 0.5rem;
             font-weight: 600;
             color: var(--text-dark);
-            transition: color 0.3s ease;
+            transition: var(--transition-medium);
+            white-space: nowrap; /* Keep text on one line */
         }
 
-        .navbar-nav ul li a:hover {
-            color: var(--primary-color);
+        .header-option:hover {
+            color: var(--logo-accent-color);
+            transform: translateY(-2px);
         }
 
-        .navbar-nav ul li a i {
+        .header-option i {
             font-size: 1.2rem;
         }
 
-        /* Hero Section Styling */
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1px solid #ddd;
+        }
+
+        .cart-icon-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -10px;
+            background-color: var(--logo-accent-color);
+            color: white;
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 0.7em;
+            font-weight: bold;
+            display: none; /* Hidden by default */
+            justify-content: center;
+            align-items: center;
+            min-width: 18px;
+            height: 18px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Mobile Menu Toggle */
+        .menu-toggle {
+            display: none; /* Hidden on desktop */
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            flex-shrink: 0;
+            position: relative; /* For accessibility */
+            z-index: 1001; /* Ensure it's above other elements for click */
+        }
+
+        .hamburger-bar {
+            display: block;
+            width: 25px;
+            height: 3px;
+            background-color: var(--text-dark);
+            margin: 5px 0;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .menu-toggle.active .hamburger-bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+        .menu-toggle.active .hamburger-bar:nth-child(2) { opacity: 0; }
+        .menu-toggle.active .hamburger-bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+        /* --- Hero Section Styling --- */
         .hero-section {
             position: relative;
             width: 100%;
-            height: 100vh; /* Full viewport height */
+            height: 100vh;
             display: flex;
-            align-items: center; /* Vertically center content */
+            align-items: center;
             justify-content: center;
-            overflow: hidden; /* Crucial for background video/image */
-            padding-top: 5rem; /* Offset for fixed navbar */
-        }
-
-        .hero-background {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
             overflow: hidden;
+            padding-top: 5rem; /* Offset for fixed navbar */
+            text-align: left; /* Default text alignment */
         }
 
-        .hero-background img { /* For the placeholder image */
-            width: 100%;
-            height: 100%;
-            object-fit: cover; /* Ensures image covers the area, like `background-size: cover` */
-            filter: brightness(0.7); /* Darken the image slightly for text readability */
-        }
-
-        /* If using a video, uncomment this: */
-        /*
-        .background-video {
+        .hero-background-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
             width: 100%;
             height: 100%;
             object-fit: cover;
+            transform: translate(-50%, -50%);
+            z-index: -1;
             filter: brightness(0.7);
         }
-        */
 
         .hero-overlay {
             position: absolute;
@@ -164,44 +371,41 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.4); /* Dark overlay for text readability */
+            background: rgba(0, 0, 0, 0.4);
             z-index: 1;
         }
 
         .hero-content {
             position: relative;
             z-index: 2;
-            text-align: left; /* Align text to the left as per image */
             color: var(--text-light);
-            max-width: 80%; /* Limit content width */
-            margin-right: auto; /* Push content to the left */
-            margin-left: 10%; /* Specific margin from left edge */
+            max-width: 55%; /* Limit content width */
+            margin-left: 8%; /* Specific margin from left edge */
             padding-bottom: 5rem; /* Adjust for better vertical centering */
         }
 
-        .hero-title {
-            /* Fluid font size using clamp(): min, preferred(vw), max */
-            font-size: clamp(2.5rem, 5vw, 4.5rem); 
+        .hero-headline {
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
             font-weight: 700;
             margin-bottom: 1.5rem;
             line-height: 1.2;
         }
 
         .brain-icon {
-            font-size: 1em; /* Keep brain icon size relative to text */
+            font-size: 1em;
         }
 
-        .hero-description {
-            font-size: clamp(1rem, 1.8vw, 1.4rem); /* Fluid font size for description */
+        .hero-subheadline {
+            font-size: clamp(1rem, 1.8vw, 1.4rem);
             font-weight: 400;
             margin-bottom: 2.5rem;
             line-height: 1.5;
         }
 
-        .hero-buttons {
+        .hero-cta-buttons {
             display: flex;
             gap: 1.5rem;
-            flex-wrap: wrap; /* Allow buttons to wrap to the next line on smaller screens */
+            flex-wrap: wrap;
         }
 
         .btn {
@@ -214,24 +418,25 @@
             cursor: pointer;
             transition: all 0.3s ease;
             border: none;
-            white-space: nowrap; /* Prevent text wrapping inside buttons */
+            white-space: nowrap;
+            text-decoration: none; /* Ensure no underline */
         }
 
         .btn-primary {
             background-color: var(--primary-color);
             color: var(--text-light);
-            box-shadow: 0 4px 15px rgba(247, 127, 118, 0.4); /* Soft shadow matching button color */
+            box-shadow: 0 4px 15px rgba(247, 127, 118, 0.4);
         }
 
         .btn-primary:hover {
-            background-color: #e66b62; /* Slightly darker pink on hover */
+            background-color: #e66b62;
             transform: translateY(-2px);
         }
 
         .btn-secondary {
-            background-color: var(--icon-bg-light); /* Transparent white background */
+            background-color: var(--icon-bg-light);
             color: var(--text-light);
-            border: 1px solid rgba(255, 255, 255, 0.4); /* Light border */
+            border: 1px solid rgba(255, 255, 255, 0.4);
         }
 
         .btn-secondary i {
@@ -245,18 +450,24 @@
             transform: translateY(-2px);
         }
 
-        /* Floating Icons */
-        .floating-icons {
+        /* Hero Visual (Images, Floating Icons) */
+        .hero-visual {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 5; /* Above overlay, below content */
-            pointer-events: none; /* Allows clicks to pass through to elements behind if not clicked on icon itself */
+            right: 8%;
+            bottom: 10%;
+            z-index: 2;
+            width: 35%; /* Adjust width of the character image container */
+            max-width: 600px;
         }
 
-        .floating-icon {
+        .hero-character-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.3));
+        }
+
+        .floating-element {
             position: absolute;
             background-color: var(--icon-bg-light);
             color: var(--icon-color);
@@ -268,297 +479,1694 @@
             justify-content: center;
             font-size: 1.8rem;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            backdrop-filter: blur(5px); /* Frosted glass effect */
-            -webkit-backdrop-filter: blur(5px); /* For Safari */
-            pointer-events: auto; /* Make the icon itself clickable */
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            pointer-events: auto;
+            animation: float 6s ease-in-out infinite;
         }
 
-        .floating-icon.left-top {
-            top: 25%; /* Adjust as per image */
-            left: 5%;
+        .floating-element.icon-1 { top: 15%; left: -10%; animation-delay: 0s; }
+        .floating-element.icon-2 { top: 40%; right: -15%; background-color: var(--icon-bg-dark); color: var(--color-white); animation-delay: -1s; }
+        .floating-element.icon-3 { bottom: 5%; left: 20%; animation-delay: -2.5s; }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
         }
 
-        .floating-icon.right-top {
-            top: 25%; /* Adjust as per image */
-            right: 5%;
-            background-color: var(--icon-bg-dark); /* Darker background for the 'A' icon */
+        /* Hero Animation In */
+        .hero-content > *, .hero-visual > * { opacity: 0; transition: opacity 0.8s ease, transform 0.8s ease; }
+        .hero-headline { transform: translateY(20px); transition-delay: 1.0s !important; }
+        .hero-subheadline { transform: translateY(20px); transition-delay: 1.2s !important; }
+        .hero-cta-buttons { transform: translateY(20px); transition-delay: 1.4s !important; }
+        .hero-character-image { transform: scale(0.9); transition-delay: 1.6s !important; }
+        .hero-section.animate-in .hero-content > *, .hero-section.animate-in .hero-visual > * { opacity: 1; transform: translateY(0) scale(1); }
+
+
+        /* --- Marquee Section --- */
+        .marquee-section {
+            padding: var(--space-5) 0;
+            background: linear-gradient(to bottom, #c5c4e0, #e9e8f5);
+            overflow: hidden;
+            position: relative;
+            z-index: 10; /* Ensure it's above other elements if needed */
+        }
+        .marquee-section .container h2 {
+            text-align: center;
+            margin-bottom: var(--space-2);
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #343a40;
+            font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+        }
+        .marquee-section h2::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--logo-accent-color), #f78c4a);
+            border-radius: 2px;
+        }
+        .marquee-container {
+            width: 100%;
+            overflow: hidden;
+            padding: var(--space-3) 0;
+            margin-top: var(--space-4);
+            position: relative;
+            -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+            mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+        }
+        .marquee-container:hover .marquee-track { animation-play-state: paused; }
+        .marquee-track {
+            display: flex;
+            width: fit-content;
+            animation: scroll-left 40s linear infinite;
+        }
+        .marquee-container.reverse .marquee-track { animation-name: scroll-right; animation-duration: 45s; }
+        .marquee-item {
+            flex-shrink: 0;
+            padding: 0.75rem 2rem;
+            margin: 0 var(--space-2);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #3f3c56;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            white-space: nowrap;
+            text-decoration: none;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+        .marquee-item:hover { transform: translateY(-5px) scale(1.05); background: rgba(255, 255, 255, 0.65); color: var(--logo-primary-color); }
+        .marquee-item i { color: var(--logo-accent-color); }
+
+        @keyframes scroll-left { from { transform: translateX(0); } to { transform: translateX(-100%); } }
+        @keyframes scroll-right { from { transform: translateX(-100%); } to { transform: translateX(0); } }
+
+        /* --- Product Grid Section --- */
+        .product-grid-section {
+            padding: var(--space-5) 0;
+            background-color: var(--color-white);
         }
 
-        .floating-icon.bottom-right {
-            bottom: 10%;
-            right: 5%;
+        .product-grid-section h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            color: var(--logo-primary-color);
+            margin-bottom: var(--space-4);
+            text-align: center;
         }
+
+        .product-grid-section h2::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--logo-accent-color), var(--primary-color));
+            margin: 1rem auto 0;
+            border-radius: 2px;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: var(--space-3);
+            margin-bottom: var(--space-5);
+        }
+
+        /* Horizontal Scroll Specifics */
+        .horizontal-scroll-wrapper {
+            position: relative;
+            margin-top: var(--space-3);
+            margin-bottom: var(--space-5); /* Adjust for space below horizontal scroll */
+        }
+        .product-grid.horizontal-scroll {
+            display: flex;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            gap: var(--space-3);
+            padding: var(--space-3) 0.5rem; /* Padding for scroll visibility */
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none; /* Hide scrollbar for Firefox */
+        }
+        .product-grid.horizontal-scroll::-webkit-scrollbar {
+            height: 0; /* Hide scrollbar for Webkit browsers */
+        }
+        .product-grid.horizontal-scroll .product-card-outer {
+            flex-shrink: 0;
+            width: 300px; /* Fixed width for horizontal items */
+            scroll-snap-align: start;
+        }
+
+        .scroll-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10;
+            background-color: rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: #333;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+            transition: var(--transition-fast);
+        }
+        .scroll-button:hover {
+            background-color: white;
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        .scroll-button-prev { left: -22px; }
+        .scroll-button-next { right: -22px; }
+
+        /* --- Product Card Styling --- */
+        .product-card-outer {
+            display: flex;
+            flex-direction: column;
+            background-color: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            transition: var(--transition-medium);
+            height: 100%;
+            position: relative;
+            z-index: 1;
+        }
+        .product-card-outer:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+        .product-card-outer:hover .product-name-heading {
+            color: var(--logo-accent-color);
+        }
+
+        .product-card-content-link {
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            cursor: pointer;
+        }
+
+        .product-card {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .product-card-header {
+            height: 40px;
+            border-top-left-radius: 11px;
+            border-top-right-radius: 11px;
+            display: flex;
+            align-items: center;
+            padding: 0 1rem;
+            font-weight: 600;
+            color: white;
+            text-transform: capitalize;
+            font-size: 0.9em;
+            letter-spacing: 0.5px;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 1px solid #eee;
+        }
+
+        .card-body {
+            padding: 1.2rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .product-name-heading {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+            line-height: 1.3;
+        }
+
+        .long-description-summary {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 0.5rem;
+            flex-grow: 1;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            min-height: 3em;
+            line-height: 1.5em;
+        }
+
+        .price {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #007bff;
+            margin-top: 10px;
+        }
+
+        .card-actions {
+            padding: 15px;
+            border-top: 1px solid #eee;
+            background-color: #f8f9fa;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card-actions .add-to-cart-btn {
+            width: 100%;
+            padding: 12px 5px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            transition: var(--transition-medium);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--color-white);
+            color: var(--logo-primary-color);
+        }
+
+        .card-actions .add-to-cart-btn:hover {
+            background-color: var(--logo-primary-color);
+            color: var(--color-white);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+            border-color: var(--logo-primary-color);
+        }
+
+        .card-actions .add-to-cart-btn.added {
+            background-color: #28a745;
+            color: white;
+            pointer-events: none;
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(40, 167, 69, 0.4);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.277);
+            animation: buttonAdded 0.6s ease-out forwards;
+        }
+
+        .card-actions .add-to-cart-btn.adding {
+            background-color: #3498db;
+            color: white;
+            box-shadow: 0 4px 8px rgba(52, 152, 219, 0.4);
+            transform: scale(1.02);
+        }
+
+        @keyframes buttonAdded {
+            0% { transform: scale(1); background-color: var(--color-white); color: var(--logo-primary-color); }
+            50% { transform: scale(1.05); background-color: #28a745; color: white; box-shadow: 0 4px 8px rgba(40, 167, 69, 0.4); }
+            100% { transform: scale(1); background-color: #28a745; color: white; box-shadow: 0 4px 8px rgba(40, 167, 69, 0.4); }
+        }
+
+        .share-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+            padding-bottom: 15px;
+            background-color: #f8f9fa;
+        }
+
+        .universal-share-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background-color: #4A90E2;
+            color: white;
+            font-size: 1.5rem;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.25);
+            outline: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .universal-share-btn:hover {
+            background-color: #357ABD;
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.35);
+        }
+
+        .universal-share-btn i {
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.8), 0 0 15px rgba(255, 255, 255, 0.4);
+        }
+
+        /* --- Fixed AI Start Button & Chat Box --- */
+        .start-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 950;
+            padding: 15px 25px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            border: none;
+            outline: none;
+            background: linear-gradient(90deg, #8a2be2, #4169e1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            animation: pulseGlow 2.5s infinite ease-in-out;
+        }
+        .start-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(90deg, #9932cc, #5a7bd7);
+        }
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 5px #ea6a21, 0 0 10px #ea6a21; }
+            50% { box-shadow: 0 0 20px #ea6a21, 0 0 30px #ea6a21; }
+            100% { box-shadow: 0 0 5px #ea6a21, 0 0 10px #ea6a21; }
+        }
+
+        #ai-character {
+            position: fixed;
+            bottom: 60px;
+            right: 20px;
+            width: 300px;
+            height: 300px;
+            pointer-events: none;
+            z-index: 999;
+            --poster-color: transparent; /* Hide default poster to let background show */
+            --controls-color: transparent; /* Hide controls if not needed */
+        }
+        #ai-character::part(fallback) { background-color: transparent; } /* Ensure fallback is transparent */
+
+
+        /* Basic Chatbox Styles (simplified from chat.css) */
+        .chatbox {
+            position: fixed;
+            bottom: 80px; /* Above the start button */
+            right: 20px;
+            width: 350px;
+            height: 500px;
+            background-color: #2e3b5e; /* Dark background for chatbox */
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 1000;
+            transform: translateX(400px); /* Off-screen by default */
+            transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+        .chatbox.open { transform: translateX(0); }
+
+        .chatbox-header {
+            background-color: #3f4c6b;
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .chatbox-header span { font-size: 1.1rem; }
+        .chatbox-icons i {
+            margin-left: 15px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.8);
+            transition: color 0.2s ease;
+        }
+        .chatbox-icons i:hover { color: white; }
+        .chatbox-body {
+            flex-grow: 1;
+            padding: 15px;
+            overflow-y: auto;
+            color: white;
+            font-size: 0.95rem;
+            background: linear-gradient(180deg, #2e3b5e, #1a253f);
+        }
+        .chatbox-input-area {
+            display: flex;
+            padding: 10px 15px;
+            background-color: #3f4c6b;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        #shivayChatInput {
+            flex-grow: 1;
+            border: none;
+            outline: none;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 20px;
+            font-size: 1rem;
+            margin-right: 10px;
+        }
+        #shivayChatInput::placeholder { color: rgba(255, 255, 255, 0.6); }
+        #sendChatMsgBtn {
+            background-color: var(--logo-accent-color);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: white;
+            font-size: 1.1rem;
+            transition: background-color 0.2s ease;
+        }
+        #sendChatMsgBtn:hover { background-color: #cc5b17; }
+        .input-mic { margin-right: 10px; }
+
+
+        /* --- Flash Messages --- */
+        .flash-messages {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10000; /* Highest z-index */
+            width: 90%;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .flash-message {
+            padding: 15px 20px;
+            border-radius: 8px;
+            color: #fff;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            animation: fadeInOut 5s forwards;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .flash-message.success { background-color: #28a745; }
+        .flash-message.danger { background-color: #dc3545; }
+        .flash-message.warning { background-color: #ffc107; color: #333; }
+        .flash-message.info { background-color: #17a2b8; }
+
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: translateY(-20px); }
+            10% { opacity: 1; transform: translateY(0); }
+            90% { opacity: 1; transform: translateY(0); }
+            100% { opacity: 0; transform: translateY(-20px); display: none; }
+        }
+
+        /* --- Footer --- */
+        footer {
+            background: var(--bg-footer);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: var(--space-4) 0;
+            margin: var(--space-5) 0 var(--space-2);
+            border-radius: var(--radius-md);
+            border-top: 1px solid var(--border-color);
+            color: var(--color-text-muted);
+        }
+        footer .container {
+            padding: var(--space-4) var(--space-2);
+        }
+        footer h3 {
+            color: var(--color-white);
+            font-weight: var(--fw-bold);
+            margin-bottom: var(--space-2);
+        }
+        footer a {
+            color: var(--color-text-muted);
+            transition: var(--transition-fast);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        footer a:hover {
+            color: var(--color-white);
+            transform: translateX(5px);
+        }
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 2fr; /* Adjusted for a 4-column layout */
+            gap: var(--space-4);
+            margin-bottom: var(--space-4);
+        }
+        .footer-col ul { list-style: none; padding: 0; }
+        .footer-col ul li { margin-bottom: var(--space-1); }
+        .social-links a { font-size: 1.5rem; margin-right: var(--space-2); transition: color 0.2s ease, transform 0.2s ease; }
+        .social-links a:hover { color: var(--logo-accent-color); transform: translateY(-3px); }
+
+        .newsletter-form {
+            display: flex;
+            margin-top: 1rem;
+        }
+        .newsletter-form input[type="email"] {
+            flex-grow: 1;
+            padding: 0.75rem 1rem;
+            border-radius: 8px 0 0 8px;
+            border: 1px solid var(--border-color);
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--color-white);
+            outline: none;
+            font-size: 1rem;
+        }
+        .newsletter-form input[type="email"]::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        .newsletter-form button {
+            padding: 0.75rem 1.2rem;
+            border-radius: 0 8px 8px 0;
+            border: none;
+            background-color: var(--logo-accent-color);
+            color: var(--color-white);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: background-color 0.2s ease;
+        }
+        .newsletter-form button:hover {
+            background-color: #cc5b17;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: var(--space-3);
+            border-top: 1px solid var(--border-color);
+            font-size: var(--fs-sm);
+        }
+
+        /* --- Animations on Scroll --- */
+        .animate-on-scroll { opacity: 0; transform: translateY(40px); transition: opacity 0.7s ease-out, transform 0.7s ease-out; }
+        .animate-on-scroll.is-visible { opacity: 1; transform: translateY(0); }
 
 
         /* --- Responsive Design using Media Queries --- */
 
-        /* For Tablets and smaller Desktops (e.g., screens up to 1024px) */
-        @media (max-width: 1024px) {
-            .navbar {
-                padding: 0.8rem 1.5rem;
+        /* Tablets & smaller Desktops (up to 1200px) */
+        @media (max-width: 1200px) {
+            .container {
+                padding: 0 var(--space-2);
             }
-
-            .navbar-logo img {
-                height: 2.2rem;
+            .header-main-content {
+                margin-left: var(--space-2);
+                gap: var(--space-2);
             }
-
-            .search-bar {
-                padding: 0.4rem 1rem;
-                max-width: 450px;
-            }
-
-            .navbar-nav ul {
-                gap: 1.5rem;
-            }
-
-            .navbar-nav ul li a {
-                font-size: 0.95rem;
-            }
-
             .hero-content {
-                max-width: 90%; /* Allow content to take more width */
-                margin-left: 8%; /* Adjust left margin */
+                max-width: 60%;
+                margin-left: 5%;
             }
-
-            .btn {
-                padding: 0.8rem 2rem;
-                font-size: 1rem;
+            .hero-visual {
+                right: 5%;
+                width: 38%;
             }
+        }
 
-            .floating-icon {
+        /* Large Tablets (up to 992px) */
+        @media (max-width: 992px) {
+            header .container {
+                flex-wrap: wrap; /* Allow wrapping */
+                justify-content: center;
+                gap: var(--space-2);
+            }
+            .logo {
+                width: 100%;
+                justify-content: center;
+                margin-bottom: var(--space-2);
+            }
+            .header-main-content {
+                width: 100%;
+                margin: 0;
+                justify-content: center;
+                order: 3; /* Move search and nav to bottom */
+            }
+            .header-search {
+                order: 1; /* Search first in the main content row */
+                max-width: 600px;
+            }
+            .header-nav-actions {
+                order: 2; /* Nav actions second in the main content row */
+                width: 100%;
+                justify-content: center;
+                gap: var(--space-1);
+                padding-top: var(--space-2);
+                border-top: 1px solid rgba(0,0,0,0.05);
+                margin-top: var(--space-2);
+            }
+            .header-option .option-text {
+                display: none; /* Hide text for nav items on smaller screens */
+            }
+            .header-option i {
+                font-size: 1.4rem; /* Make icons larger */
+            }
+            .hero-section {
+                flex-direction: column;
+                text-align: center;
+                height: auto; /* Allow height to adjust */
+                min-height: 100vh;
+                padding-bottom: var(--space-5);
+            }
+            .hero-content {
+                max-width: 90%;
+                margin: 0 auto;
+                padding-bottom: var(--space-3);
+            }
+            .hero-headline {
+                font-size: clamp(2.2rem, 6vw, 4rem);
+            }
+            .hero-subheadline {
+                font-size: clamp(0.95rem, 2.5vw, 1.3rem);
+            }
+            .hero-cta-buttons {
+                justify-content: center;
+            }
+            .hero-visual {
+                position: relative;
+                right: auto;
+                bottom: auto;
+                width: 60%;
+                max-width: 400px;
+                margin-top: var(--space-4);
+            }
+            .floating-element {
                 width: 3.5rem;
                 height: 3.5rem;
                 font-size: 1.5rem;
             }
-            .floating-icon.left-top { top: 20%; left: 3%; }
-            .floating-icon.right-top { top: 20%; right: 3%; }
-            .floating-icon.bottom-right { bottom: 8%; right: 3%; }
+            .floating-element.icon-1 { top: 10%; left: 0%; }
+            .floating-element.icon-2 { top: 30%; right: 0%; }
+            .floating-element.icon-3 { bottom: 10%; left: 10%; }
+
+            .marquee-section { padding: var(--space-4) 0; }
+            .marquee-item { font-size: 1rem; padding: 0.6rem 1.5rem; }
+
+            .product-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+            .product-grid.horizontal-scroll .product-card-outer {
+                width: 280px;
+            }
+            .scroll-button-prev { left: 0px; }
+            .scroll-button-next { right: 0px; }
+
+            .footer-content {
+                grid-template-columns: 1fr 1fr; /* Two columns on tablets */
+                gap: var(--space-3);
+            }
+            .footer-col:first-child { grid-column: span 2; } /* Make description span two columns */
         }
 
-        /* For Mobile Devices (e.g., screens up to 768px) */
+        /* Mobile Devices (up to 768px) */
         @media (max-width: 768px) {
-            .navbar {
-                flex-wrap: wrap; /* Allow navbar items to stack */
-                justify-content: center; /* Center items when wrapped */
-                padding: 0.8rem 1rem;
+            .header-option .option-text {
+                display: none; /* Keep text hidden */
             }
-
-            .navbar-logo {
-                width: 100%; /* Logo takes full width */
-                text-align: center;
-                margin-bottom: 0.8rem;
+            .header-option i {
+                font-size: 1.3rem;
             }
-
-            .search-bar {
-                order: 3; /* Move search bar to the bottom of the navbar */
-                width: 90%;
-                margin-top: 0.8rem;
-                max-width: none; /* Remove max-width restriction */
+            .main-search-bar {
+                padding: 6px 12px;
             }
-
-            .navbar-nav {
-                order: 2; /* Move nav links between logo and search */
-                width: 100%;
-                margin-top: 0.5rem;
+            #main-search-input {
+                font-size: 0.9rem;
             }
-
-            .navbar-nav ul {
-                justify-content: center; /* Center nav links */
-                gap: 1rem;
-                width: 100%;
-            }
-            .navbar-nav ul li a {
-                font-size: 0.85rem;
-                gap: 0.3rem;
-            }
-            .navbar-nav ul li a i {
+            .main-search-bar .icon-button {
                 font-size: 1rem;
             }
 
-            .hero-content {
-                text-align: center; /* Center text on mobile */
-                margin: 0 auto; /* Center horizontally */
-                max-width: 90%;
-                padding-bottom: 2rem;
+            .hero-headline {
+                font-size: clamp(1.8rem, 8vw, 3rem);
             }
-
-            .hero-title {
-                font-size: clamp(2rem, 8vw, 3.5rem); /* Adjust fluid font size for mobile */
-                margin-bottom: 1rem;
+            .hero-subheadline {
+                font-size: clamp(0.85rem, 3.5vw, 1.1rem);
             }
-
-            .hero-description {
-                font-size: clamp(0.9rem, 3vw, 1.2rem); /* Adjust fluid font size for mobile */
-                margin-bottom: 1.5rem;
-            }
-
-            .hero-buttons {
-                flex-direction: column; /* Stack buttons vertically */
-                align-items: center; /* Center stacked buttons */
-                gap: 1rem;
-            }
-
             .btn {
-                width: 80%; /* Make buttons wider on mobile */
-                max-width: 300px; /* Limit max width of buttons */
+                padding: 0.8rem 1.8rem;
                 font-size: 1rem;
-                padding: 0.8rem 1.5rem;
             }
 
-            .floating-icon {
+            .floating-element {
                 width: 3rem;
                 height: 3rem;
                 font-size: 1.3rem;
             }
-            .floating-icon.left-top { top: 15%; left: 2%; }
-            .floating-icon.right-top { top: 15%; right: 2%; }
-            .floating-icon.bottom-right { bottom: 5%; right: 2%; }
+            .floating-element.icon-1 { top: 5%; left: -5%; }
+            .floating-element.icon-2 { top: 25%; right: -5%; }
+            .floating-element.icon-3 { bottom: 5%; left: 5%; }
+
+            .product-grid {
+                grid-template-columns: 1fr; /* Stack cards vertically */
+            }
+            .product-grid.horizontal-scroll .product-card-outer {
+                width: 90vw; /* Take most of the viewport width */
+                max-width: 320px; /* But don't get too wide */
+            }
+            .scroll-button { display: none; } /* Hide scroll buttons on very small screens */
+
+            .footer-content {
+                grid-template-columns: 1fr; /* Single column layout */
+                text-align: center;
+            }
+            .footer-col:first-child { grid-column: span 1; }
+            .footer-col ul { display: flex; flex-direction: column; align-items: center; }
+            .newsletter-form { justify-content: center; }
+
+            .start-button {
+                bottom: 15px;
+                right: 15px;
+                padding: 10px 18px;
+                font-size: 0.9rem;
+            }
+            #ai-character {
+                bottom: 50px;
+                right: 10px;
+                width: 200px;
+                height: 200px;
+            }
+            .chatbox {
+                width: 90vw;
+                height: 70vh;
+                right: 5vw;
+                bottom: calc(15px + 10px + 45px); /* Button bottom + its padding/margin + its height */
+                border-radius: 10px;
+            }
         }
 
-        /* For Small Mobile Devices (e.g., screens up to 480px) */
+        /* Small Mobile Devices (up to 480px) */
         @media (max-width: 480px) {
-            .navbar {
-                padding: 0.5rem;
-            }
-            .navbar-logo img {
-                height: 2rem;
-            }
-            .search-bar {
-                width: 95%;
-                padding: 0.3rem 0.8rem;
-            }
-            .search-bar i {
-                font-size: 1rem;
-            }
-            .search-bar input {
-                font-size: 0.9rem;
-            }
-            .navbar-nav ul {
-                gap: 0.8rem;
-            }
-            .navbar-nav ul li a {
-                font-size: 0.8rem;
-            }
-            .navbar-nav ul li a i {
-                font-size: 0.9rem;
-            }
-
-            .hero-title {
-                font-size: clamp(1.8rem, 9vw, 2.8rem);
-            }
-            .hero-description {
-                font-size: clamp(0.85rem, 3.5vw, 1.1rem);
+            .logo .logo-text { font-size: 1.8rem; }
+            .hero-headline { font-size: clamp(1.6rem, 9vw, 2.5rem); }
+            .hero-subheadline { font-size: clamp(0.8rem, 4vw, 1rem); }
+            .hero-cta-buttons {
+                flex-direction: column;
+                gap: 1rem;
             }
             .btn {
                 width: 90%;
+                max-width: 250px;
                 font-size: 0.9rem;
-                padding: 0.7rem 1rem;
+                padding: 0.7rem 1.5rem;
             }
-
-            .floating-icon {
+            .floating-element {
                 width: 2.5rem;
                 height: 2.5rem;
                 font-size: 1.1rem;
                 box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
             }
-            .floating-icon.left-top { top: 10%; left: 1%; }
-            .floating-icon.right-top { top: 10%; right: 1%; }
-            .floating-icon.bottom-right { bottom: 3%; right: 1%; }
+            .product-card-outer {
+                width: 100%; /* Full width */
+            }
         }
     </style>
 </head>
 <body>
-    <header class="navbar">
-        <div class="navbar-logo">
-            <!-- Using a placeholder image URL for the logo. Replace with your actual logo path. -->
-            <img src="https://via.placeholder.com/150x50/3498db/ffffff?text=nexaur" alt="Nexaur Logo">
-        </div>
-        <div class="search-bar">
-            <i class="fas fa-search"></i>
-            <input type="text" placeholder="Search for anything...">
-            <i class="fas fa-microphone"></i>
-        </div>
-        <nav class="navbar-nav">
-            <ul>
-                <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
-                <li><a href="#"><i class="fas fa-user"></i> Login</a></li>
-                <li><a href="#"><i class="fas fa-shopping-cart"></i> Cart</a></li>
-            </ul>
-        </nav>
-    </header>
+    <!-- AI Character (3D model placeholder) -->
+    <model-viewer id="ai-character"
+        src="https://modelviewer.dev/shared-assets/models/Astronaut.glb"
+        alt="A friendly AI assistant character"
+        shadow-intensity="1"
+        camera-controls
+        auto-rotate
+        rotation-per-second="10deg"
+        disable-zoom
+        ar-status="not-presenting"
+        exposure="1"
+        disable-tap
+        interaction-prompt="none"
+        class="animated-element"
+        style="display: none;"
+    ></model-viewer>
 
-    <main class="hero-section">
-        <div class="hero-background">
-            <!-- This is a placeholder for the background video/image. -->
-            <!-- For a video, uncomment the video tag and provide your source. -->
-            <!-- <video autoplay muted loop playsinline class="background-video">
-                <source src="your-video.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video> -->
-            <!-- For now, using an image that mimics the appearance of the video frame. -->
-            <img src="https://via.placeholder.com/1920x1080/0d0d0d/ffffff?text=Dynamic+Background" alt="Dynamic Background Mockup">
-        </div>
-        <div class="hero-overlay"></div> <!-- Dark overlay for text readability -->
+    <!-- Fixed AI Start Button -->
+    <button class="start-button animated-button" onclick="window.handleStartButtonClick()">
+        <i class="fas fa-robot"></i>
+        Get Started with AI
+    </button>
 
-        <div class="hero-content">
-            <h1 class="hero-title">
-                Collaborate. <span class="brain-icon" role="img" aria-label="brain emoji">🧠</span> Create. Innovate.
-            </h1>
-            <p class="hero-description">
-                Nexaur provides the tools for your design team to bring <br>
-                their most ambitious ideas to life, faster than ever <br>
-                before.
-            </p>
-            <div class="hero-buttons">
-                <a href="#" class="btn btn-primary">Explore Products</a>
-                <a href="#" class="btn btn-secondary"><i class="fas fa-play-circle"></i> See it in Action</a>
+    <!-- Chat Box (Simplified structure) -->
+    <div id="chatBox" class="chatbox">
+        <div class="chatbox-header">
+            <span>Shivay AI Assistant</span>
+            <div class="chatbox-icons">
+                <i id="headerMicIcon" class="fas fa-microphone mic-icon" title="Speak Command (Header)"></i>
+                <i class="fas fa-cog settings-icon" title="Settings"></i>
+                <i class="fas fa-times close-icon" onclick="window.closeChat()" title="Close Chat"></i>
             </div>
         </div>
-
-        <!-- Floating Icons -->
-        <div class="floating-icons">
-            <div class="floating-icon left-top"><i class="fas fa-sliders-h"></i></div>
-            <div class="floating-icon right-top"><i class="fas fa-font"></i></div> <!-- Using fa-font for 'A' -->
-            <div class="floating-icon bottom-right"><i class="fas fa-layer-group"></i></div>
+        <div class="chatbox-body" id="chatBody">
+            <p style="text-align: center; color: rgba(255,255,255,0.7); margin-top: 1rem;">Welcome! How can I assist you today?</p>
+            <!-- Chat messages will appear here -->
         </div>
+        <div class="chatbox-input-area">
+            <i id="inputAreaMicIcon" class="fas fa-microphone mic-icon input-mic" title="Speak Command (Input)" aria-label="Toggle Voice Input"></i>
+            <input type="text" id="shivayChatInput" placeholder="Type or speak..." aria-label="Type your command">
+            <button id="sendChatMsgBtn" aria-label="Send Command"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <!-- Audio elements (placeholders) -->
+    <audio id="chatOpenSound" src="placeholder.mp3" preload="auto"></audio>
+    <audio id="micToggleSound" src="placeholder.mp3" preload="auto"></audio>
+    <audio id="messageSendSound" src="placeholder.mp3" preload="auto"></audio>
+
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <header>
+        <div class="container">
+            <!-- FULL SVG LOGO WITH ANIMATION STRUCTURE -->
+            <a href="#" class="logo" aria-label="Nexaur homepage">
+                <svg class="logo-symbol" viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
+                    <g fill="var(--logo-primary-color)">
+                        <rect class="pixel pixel-1" x="5" y="5" width="20" height="20" rx="3"/>
+                        <rect class="pixel pixel-2" x="30" y="5" width="20" height="20" rx="3"/>
+                        <rect class="pixel pixel-3" x="55" y="5" width="20" height="20" rx="3"/>
+                        <rect class="pixel pixel-4" x="5" y="30" width="20" height="20" rx="3"/>
+                        <rect class="pixel pixel-5" x="55" y="30" width="20" height="20" rx="3"/>
+                    </g>
+                    <rect class="pixel pixel-special" fill="var(--logo-accent-color)" x="30" y="30" width="20" height="20" rx="3"/>
+                    <g fill="var(--logo-accent-color)">
+                        <rect class="cart-part cart-handle" x="80" y="5" width="10" height="45" rx="3"/>
+                        <circle class="cart-part cart-wheel cart-wheel-1" cx="15" cy="65" r="8"/>
+                        <circle class="cart-part cart-wheel cart-wheel-2" cx="65" cy="65" r="8"/>
+                    </g>
+                </svg>
+                <div class="logo-text">
+                    <span class="char" style="--char-index: 1;">n</span>
+                    <span class="char" style="--char-index: 2;">e</span>
+                    <span class="char" style="--char-index: 3;">x</span>
+                    <span class="char" style="--char-index: 4;">a</span>
+                    <span class="char" style="--char-index: 5;">u</span>
+                    <span class="char" style="--char-index: 6;">r</span>
+                </div>
+            </a>
+            <div class="header-main-content">
+                <div class="header-search">
+                    <form id="mainSearchForm" class="main-search-bar" action="#" method="get">
+                        <button type="submit" class="icon-button search-submit-button" aria-label="Submit search"><i class="fas fa-search" aria-hidden="true"></i></button>
+                        <label for="main-search-input" class="visually-hidden">Search for anything</label>
+                        <input type="search" id="main-search-input" name="q" placeholder="Search for anything...">
+                        <button type="button" class="icon-button clear-button" aria-label="Clear search"><i class="fas fa-times" aria-hidden="true"></i></button>
+                        <button type="button" id="mainVoiceSearchBtn" class="icon-button" aria-label="Search by voice"><i class="fas fa-microphone" aria-hidden="true"></i></button>
+                    </form>
+                    <div id="voiceStatus" style="position: absolute; top: 100%; left: 0; font-size: 0.8em; color: #777; padding-top: 4px;"></div>
+                </div>
+                <div class="header-nav-actions">
+                    <a href="#" class="header-option header-option--home"><i class="fa-solid fa-house"></i><span class="option-text">Home</span></a>
+
+                    <!-- User is logged in (mocked) -->
+                    <a href="#" class="header-option header-option--profile">
+                        <img src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?d=mp&s=40" alt="User Profile" class="user-avatar">
+                        <span class="option-text">John</span>
+                    </a>
+                    <!-- Admin dashboard link (mocked) -->
+                    <a href="#" class="header-option header-option--admin">
+                        <i class="fa-solid fa-gauge-high"></i>
+                        <span class="option-text">Admin</span>
+                    </a>
+                    <!-- End user logged in section -->
+                    
+                    <!-- User is NOT logged in (mocked alternative) -->
+                    <!-- <a href="#" class="header-option header-option--profile"><i class="fa-solid fa-user"></i><span class="option-text">Login</span></a> -->
+                    <!-- End user NOT logged in section -->
+
+                    <a href="#" class="header-option header-option--cart">
+                        <div class="cart-icon-wrapper">
+                            <i class="fa-solid fa-cart-shopping"></i>
+                            <span class="cart-count" id="headerCartCount">0</span>
+                        </div>
+                        <span class="option-text">Cart</span>
+                    </a>
+                </div>
+            </div>
+            <button class="menu-toggle" aria-label="Toggle navigation" aria-expanded="false"><span class="hamburger-bar"></span><span class="hamburger-bar"></span><span class="hamburger-bar"></span></button>
+        </div>
+    </header>
+
+    <!-- Flash Messages Container -->
+    <div class="flash-messages" id="flashMessagesContainer">
+        <!-- Example Flash Message (will be dynamically added/removed by JS in a real app) -->
+        <!-- <div class="flash-message success">
+            <i class="fas fa-check-circle"></i> Item added to cart successfully!
+        </div> -->
+    </div>
+
+    <main id="main-content" role="main">
+        <section class="hero-section">
+            <video autoplay loop muted playsinline class="hero-background-video">
+                <source src="https://assets.mixkit.co/videos/preview/mixkit-bright-city-at-night-4475-large.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class="hero-overlay"></div>
+
+            <div class="hero-content">
+                <h1 class="hero-headline">
+                    Collaborate. <span class="brain-icon" role="img" aria-label="brain emoji">🧠</span> Create. Innovate.
+                </h1>
+                <p class="hero-subheadline">
+                    Nexaur provides the tools for your design team to bring <br>
+                    their most ambitious ideas to life, faster than ever <br>
+                    before.
+                </p>
+                <div class="hero-cta-buttons">
+                    <a href="#products" class="btn btn-primary">Explore Products</a>
+                    <a href="#" class="btn btn-secondary"><i class="fas fa-play-circle"></i> See it in Action</a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <img src="https://via.placeholder.com/600x400/8a2be2/ffffff?text=Design+Team+Collaboration" alt="Illustration of a design team collaborating" class="hero-character-image">
+                <div class="floating-element icon-1"><i class="fas fa-sliders-h"></i></div>
+                <div class="floating-element icon-2"><i class="fas fa-compass-drafting"></i></div>
+                <div class="floating-element icon-3"><i class="fas fa-layer-group"></i></div>
+            </div>
+        </section>
+
+        <section class="marquee-section animate-on-scroll">
+            <div class="container"><h2>🚀Now Trending</h2></div>
+            <div class="marquee-container" title="Hover to pause scrolling">
+                <div class="marquee-track">
+                    <a href="#" class="marquee-item"><i class="fas fa-bolt"></i> Modern E-Commerce Platform</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-palette"></i> Creative Portfolio Website</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-brain"></i> AI Customer Service Chatbot</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-building"></i> Corporate Business Portal</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-camera-retro"></i> Image Recognition API</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-feather-pointed"></i> Minimalist Blog & News</a>
+                    <!-- Duplicates for seamless looping -->
+                    <a href="#" class="marquee-item"><i class="fas fa-bolt"></i> Modern E-Commerce Platform</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-palette"></i> Creative Portfolio Website</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-brain"></i> AI Customer Service Chatbot</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-building"></i> Corporate Business Portal</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-camera-retro"></i> Image Recognition API</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-feather-pointed"></i> Minimalist Blog & News</a>
+                </div>
+            </div>
+            <div class="marquee-container reverse" title="Hover to pause scrolling">
+                <div class="marquee-track">
+                    <a href="#" class="marquee-item"><i class="fas fa-tasks"></i> Project Management Suite</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-chart-line"></i> Predictive Analytics Dashboard</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-rocket"></i> SaaS Starter Kit</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-pen-nib"></i> Content Generation Engine</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-users"></i> Social Media Manager</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-headset"></i> CRM Platform</a>
+                    <!-- Duplicates for seamless looping -->
+                    <a href="#" class="marquee-item"><i class="fas fa-tasks"></i> Project Management Suite</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-chart-line"></i> Predictive Analytics Dashboard</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-rocket"></i> SaaS Starter Kit</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-pen-nib"></i> Content Generation Engine</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-users"></i> Social Media Manager</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-headset"></i> CRM Platform</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="products" class="product-grid-section">
+            <div class="container">
+                <h2 id="websites" class="animate-on-scroll">🛒Featured Websites</h2>
+                <div class="horizontal-scroll-wrapper">
+                    <button class="scroll-button scroll-button-prev" aria-label="Scroll left"><i class="fas fa-chevron-left"></i></button>
+                    <div class="product-grid horizontal-scroll" id="websites-scroll-container">
+                        <!-- Dummy Product Data for Websites -->
+                        <div class="product-card-outer animate-on-scroll">
+                            <a href="#" class="product-card-content-link" aria-label="View details for eCommerce Pro">
+                                <div class="product-card" data-product-id="website-1">
+                                    <div class="product-card-header" style="background-color: #3498db;" aria-label="Category: eCommerce">
+                                        <span class="category-text">eCommerce</span>
+                                    </div>
+                                    <img src="https://via.placeholder.com/300x200/3498db/ffffff?text=eCommerce+Pro" alt="eCommerce Pro" class="product-image" loading="lazy">
+                                    <div class="card-body">
+                                        <h3 class="product-name-heading">eCommerce Pro</h3>
+                                        <p class="long-description-summary">A robust and scalable e-commerce platform for businesses of all sizes, with advanced features...</p>
+                                        <div class="price">$199.99</div>
+                                    </div>
+                                </div>
+                            </a>
+                            <div class="card-actions">
+                                <button class="add-to-cart-btn" data-product-id="website-1">Add to Cart</button>
+                            </div>
+                            <div class="share-container">
+                                <button class="universal-share-btn" data-title="eCommerce Pro" data-text="Check out eCommerce Pro on Nexaur!" data-url="https://www.nexaur.com/products/website-1">
+                                    <i class="fas fa-share-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="product-card-outer animate-on-scroll">
+                            <a href="#" class="product-card-content-link" aria-label="View details for Portfolio Pro">
+                                <div class="product-card" data-product-id="website-2">
+                                    <div class="product-card-header" style="background-color: #2ecc71;" aria-label="Category: Portfolio">
+                                        <span class="category-text">Portfolio</span>
+                                    </div>
+                                    <img src="https://via.placeholder.com/300x200/2ecc71/ffffff?text=Portfolio+Pro" alt="Portfolio Pro" class="product-image" loading="lazy">
+                                    <div class="card-body">
+                                        <h3 class="product-name-heading">Portfolio Pro</h3>
+                                        <p class="long-description-summary">Showcase your work with this elegant and responsive portfolio website template...</p>
+                                        <div class="price">$79.00</div>
+                                    </div>
+                                </div>
+                            </a>
+                            <div class="card-actions">
+                                <button class="add-to-cart-btn" data-product-id="website-2">Add to Cart</button>
+                            </div>
+                            <div class="share-container">
+                                <button class="universal-share-btn" data-title="Portfolio Pro" data-text="Check out Portfolio Pro on Nexaur!" data-url="https://www.nexaur.com/products/website-2">
+                                    <i class="fas fa-share-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="product-card-outer animate-on-scroll">
+                            <a href="#" class="product-card-content-link" aria-label="View details for Blog Master">
+                                <div class="product-card" data-product-id="website-3">
+                                    <div class="product-card-header" style="background-color: #e67e22;" aria-label="Category: Blog">
+                                        <span class="category-text">Blog</span>
+                                    </div>
+                                    <img src="https://via.placeholder.com/300x200/e67e22/ffffff?text=Blog+Master" alt="Blog Master" class="product-image" loading="lazy">
+                                    <div class="card-body">
+                                        <h3 class="product-name-heading">Blog Master</h3>
+                                        <p class="long-description-summary">A versatile blog template with multiple layouts and social media integration...</p>
+                                        <div class="price">$59.50</div>
+                                    </div>
+                                </div>
+                            </a>
+                            <div class="card-actions">
+                                <button class="add-to-cart-btn" data-product-id="website-3">Add to Cart</button>
+                            </div>
+                            <div class="share-container">
+                                <button class="universal-share-btn" data-title="Blog Master" data-text="Check out Blog Master on Nexaur!" data-url="https://www.nexaur.com/products/website-3">
+                                    <i class="fas fa-share-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="product-card-outer animate-on-scroll">
+                            <a href="#" class="product-card-content-link" aria-label="View details for Corporate Hub">
+                                <div class="product-card" data-product-id="website-4">
+                                    <div class="product-card-header" style="background-color: #9b59b6;" aria-label="Category: Corporate">
+                                        <span class="category-text">Corporate</span>
+                                    </div>
+                                    <img src="https://via.placeholder.com/300x200/9b59b6/ffffff?text=Corporate+Hub" alt="Corporate Hub" class="product-image" loading="lazy">
+                                    <div class="card-body">
+                                        <h3 class="product-name-heading">Corporate Hub</h3>
+                                        <p class="long-description-summary">Professional website template perfect for corporate businesses and agencies...</p>
+                                        <div class="price">$149.00</div>
+                                    </div>
+                                </div>
+                            </a>
+                            <div class="card-actions">
+                                <button class="add-to-cart-btn" data-product-id="website-4">Add to Cart</button>
+                            </div>
+                            <div class="share-container">
+                                <button class="universal-share-btn" data-title="Corporate Hub" data-text="Check out Corporate Hub on Nexaur!" data-url="https://www.nexaur.com/products/website-4">
+                                    <i class="fas fa-share-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="scroll-button scroll-button-next" aria-label="Scroll right"><i class="fas fa-chevron-right"></i></button>
+                </div>
+
+                <h2 id="ai" class="animate-on-scroll">✨Top AI Solutions</h2>
+                <div class="product-grid">
+                    <!-- Dummy Product Data for AI -->
+                    <div class="product-card-outer animate-on-scroll">
+                        <a href="#" class="product-card-content-link" aria-label="View details for AI Chatbot Pro">
+                            <div class="product-card" data-product-id="ai-1">
+                                <div class="product-card-header" style="background-color: #e74c3c;" aria-label="Category: AI Chatbot">
+                                    <span class="category-text">AI Chatbot</span>
+                                </div>
+                                <img src="https://via.placeholder.com/300x200/e74c3c/ffffff?text=AI+Chatbot+Pro" alt="AI Chatbot Pro" class="product-image" loading="lazy">
+                                <div class="card-body">
+                                    <h3 class="product-name-heading">AI Chatbot Pro</h3>
+                                    <p class="long-description-summary">An advanced AI-powered chatbot for customer service and support automation...</p>
+                                    <div class="price">$299.00</div>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="card-actions">
+                            <button class="add-to-cart-btn" data-product-id="ai-1">Add to Cart</button>
+                        </div>
+                        <div class="share-container">
+                            <button class="universal-share-btn" data-title="AI Chatbot Pro" data-text="Check out AI Chatbot Pro on Nexaur!" data-url="https://www.nexaur.com/products/ai-1">
+                                <i class="fas fa-share-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="product-card-outer animate-on-scroll">
+                        <a href="#" class="product-card-content-link" aria-label="View details for Image Recognition API">
+                            <div class="product-card" data-product-id="ai-2">
+                                <div class="product-card-header" style="background-color: #f1c40f;" aria-label="Category: AI Vision">
+                                    <span class="category-text">AI Vision</span>
+                                </div>
+                                <img src="https://via.placeholder.com/300x200/f1c40f/ffffff?text=Image+Recognition+API" alt="Image Recognition API" class="product-image" loading="lazy">
+                                <div class="card-body">
+                                    <h3 class="product-name-heading">Image Recognition API</h3>
+                                    <p class="long-description-summary">Integrate powerful image recognition capabilities into your applications...</p>
+                                    <div class="price">$149.99</div>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="card-actions">
+                            <button class="add-to-cart-btn" data-product-id="ai-2">Add to Cart</button>
+                        </div>
+                        <div class="share-container">
+                            <button class="universal-share-btn" data-title="Image Recognition API" data-text="Check out Image Recognition API on Nexaur!" data-url="https://www.nexaur.com/products/ai-2">
+                                <i class="fas fa-share-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="product-card-outer animate-on-scroll">
+                        <a href="#" class="product-card-content-link" aria-label="View details for Sentiment Analyzer">
+                            <div class="product-card" data-product-id="ai-3">
+                                <div class="product-card-header" style="background-color: #34495e;" aria-label="Category: NLP">
+                                    <span class="category-text">NLP</span>
+                                </div>
+                                <img src="https://via.placeholder.com/300x200/34495e/ffffff?text=Sentiment+Analyzer" alt="Sentiment Analyzer" class="product-image" loading="lazy">
+                                <div class="card-body">
+                                    <h3 class="product-name-heading">Sentiment Analyzer</h3>
+                                    <p class="long-description-summary">Analyze text for sentiment (positive, negative, neutral) with high accuracy...</p>
+                                    <div class="price">$99.00</div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="card-actions">
+                            <button class="add-to-cart-btn" data-product-id="ai-3">Add to Cart</button>
+                        </div>
+                        <div class="share-container">
+                            <button class="universal-share-btn" data-title="Sentiment Analyzer" data-text="Check out Sentiment Analyzer on Nexaur!" data-url="https://www.nexaur.com/products/ai-3">
+                                <i class="fas fa-share-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <h2 id="apps" class="animate-on-scroll">📱Featured Applications</h2>
+                <div class="product-grid animate-on-scroll">
+                    <!-- Dummy Product Data for Apps -->
+                    <div class="product-card-outer">
+                        <a href="#" class="product-card-content-link" aria-label="View details for Project Manager App">
+                            <div class="product-card" data-product-id="app-1">
+                                <div class="product-card-header" style="background-color: #1abc9c;" aria-label="Category: Productivity">
+                                    <span class="category-text">Productivity</span>
+                                </div>
+                                <img src="https://via.placeholder.com/300x200/1abc9c/ffffff?text=Project+Manager+App" alt="Project Manager App" class="product-image" loading="lazy">
+                                <div class="card-body">
+                                    <h3 class="product-name-heading">Project Manager App</h3>
+                                    <p class="long-description-summary">A comprehensive application to manage your projects, tasks, and teams efficiently...</p>
+                                    <div class="price">$89.00</div>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="card-actions">
+                            <button class="add-to-cart-btn" data-product-id="app-1">Add to Cart</button>
+                        </div>
+                        <div class="share-container">
+                            <button class="universal-share-btn" data-title="Project Manager App" data-text="Check out Project Manager App on Nexaur!" data-url="https://www.nexaur.com/products/app-1">
+                                <i class="fas fa-share-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="product-card-outer">
+                        <a href="#" class="product-card-content-link" aria-label="View details for CRM Solution">
+                            <div class="product-card" data-product-id="app-2">
+                                <div class="product-card-header" style="background-color: #3498db;" aria-label="Category: CRM">
+                                    <span class="category-text">CRM</span>
+                                </div>
+                                <img src="https://via.placeholder.com/300x200/3498db/ffffff?text=CRM+Solution" alt="CRM Solution" class="product-image" loading="lazy">
+                                <div class="card-body">
+                                    <h3 class="product-name-heading">CRM Solution</h3>
+                                    <p class="long-description-summary">Manage customer relationships, sales pipelines, and support tickets seamlessly...</p>
+                                    <div class="price">$199.00</div>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="card-actions">
+                            <button class="add-to-cart-btn" data-product-id="app-2">Add to Cart</button>
+                        </div>
+                        <div class="share-container">
+                            <button class="universal-share-btn" data-title="CRM Solution" data-text="Check out CRM Solution on Nexaur!" data-url="https://www.nexaur.com/products/app-2">
+                                <i class="fas fa-share-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="product-card-outer">
+                        <a href="#" class="product-card-content-link" aria-label="View details for Task Tracker">
+                            <div class="product-card" data-product-id="app-3">
+                                <div class="product-card-header" style="background-color: #8e44ad;" aria-label="Category: Management">
+                                    <span class="category-text">Management</span>
+                                </div>
+                                <img src="https://via.placeholder.com/300x200/8e44ad/ffffff?text=Task+Tracker" alt="Task Tracker" class="product-image" loading="lazy">
+                                <div class="card-body">
+                                    <h3 class="product-name-heading">Task Tracker</h3>
+                                    <p class="long-description-summary">A simple yet powerful application to keep track of your daily tasks and to-dos...</p>
+                                    <div class="price">$49.99</div>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="card-actions">
+                            <button class="add-to-cart-btn" data-product-id="app-3">Add to Cart</button>
+                        </div>
+                        <div class="share-container">
+                            <button class="universal-share-btn" data-title="Task Tracker" data-text="Check out Task Tracker on Nexaur!" data-url="https://www.nexaur.com/products/app-3">
+                                <i class="fas fa-share-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
 
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-col">
+                    <h3>Nexaur 🚀</h3>
+                    <p>The marketplace for next-generation digital products. Built for creators and innovators.</p>
+                </div>
+                <div class="footer-col">
+                    <h3>Quick Links 🔗</h3>
+                    <nav aria-label="Quick links">
+                        <ul>
+                            <li><a href="#"><i class="fas fa-chevron-right"></i> About Us</a></li>
+                            <li><a href="#"><i class="fas fa-chevron-right"></i> Contact</a></li>
+                            <li><a href="#"><i class="fas fa-chevron-right"></i> Blog</a></li>
+                            <li><a href="#"><i class="fas fa-chevron-right"></i> Careers</a></li>
+                            <li><a href="#"><i class="fas fa-chevron-right"></i> Privacy Policy</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="footer-col">
+                    <h3>Contact Us 📬</h3>
+                    <address>
+                        <ul>
+                            <li><i class="fas fa-map-marker-alt"></i> 123 Digital Way, Tech City, TX 78701</li>
+                            <li><a href="tel:+15551234567"><i class="fas fa-phone"></i> +1 (555) 123-4567</a></li>
+                            <li><a href="mailto:hello@nexaur.com"><i class="fas fa-envelope"></i> hello@nexaur.com</a></li>
+                        </ul>
+                    </address>
+                </div>
+                <div class="footer-col">
+                    <h3>Follow & Subscribe 👋</h3>
+                    <div class="social-links">
+                        <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" target="_blank" rel="noopener noreferrer" aria-label="View our GitHub profile"><i class="fab fa-github"></i></a>
+                        <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Connect with us on LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Subscribe to our YouTube channel"><i class="fab fa-youtube"></i></a>
+                        <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Like us on Facebook"><i class="fab fa-facebook-f"></i></a>
+                    </div>
+                    <p style="margin-top: 20px;">Get the latest news and updates.</p>
+                    <form class="newsletter-form">
+                        <label for="newsletter-email" class="visually-hidden">Enter your email for newsletter</label>
+                        <input type="email" id="newsletter-email" placeholder="Enter your email" required aria-required="true">
+                        <button type="submit" aria-label="Subscribe to newsletter">Go</button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                &copy; 2024 Nexaur. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- All JavaScript for the page -->
     <script>
-        // This script is currently empty as the provided image doesn't show any interactive JavaScript elements.
-        // However, it's good practice to include it for future dynamic features.
+        // --- General Page Load & On-Scroll Animation Scripts ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const logoContainer = document.querySelector('.logo');
+            const heroSection = document.querySelector('.hero-section');
+            if (logoContainer) { setTimeout(() => { logoContainer.classList.add('animate'); }, 200); }
+            if (heroSection) { setTimeout(() => { heroSection.classList.add('animate-in'); }, 200); }
+
+            const scrollElements = document.querySelectorAll('.animate-on-scroll');
+            const elementObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            scrollElements.forEach(el => { elementObserver.observe(el); });
+
+            // --- Mobile Menu Toggle ---
+            const menuToggle = document.querySelector('.menu-toggle');
+            const headerMainContent = document.querySelector('.header-main-content');
+            if (menuToggle && headerMainContent) {
+                menuToggle.addEventListener('click', () => {
+                    menuToggle.classList.toggle('active');
+                    headerMainContent.classList.toggle('active'); // Add/remove active class for responsive menu
+                });
+            }
+        });
+
+        // --- Horizontal Scroll Buttons Logic ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = ['websites', 'ai', 'apps']; // IDs of your product sections
+            sections.forEach(sectionId => {
+                const section = document.getElementById(sectionId);
+                if (section) {
+                    const wrapper = section.nextElementSibling; // Get the horizontal-scroll-wrapper
+                    if (wrapper && wrapper.classList.contains('horizontal-scroll-wrapper')) {
+                        const scrollContainer = wrapper.querySelector('.product-grid.horizontal-scroll');
+                        const prevButton = wrapper.querySelector('.scroll-button-prev');
+                        const nextButton = wrapper.querySelector('.scroll-button-next');
+
+                        if (scrollContainer && prevButton && nextButton) {
+                            const firstCard = scrollContainer.querySelector('.product-card-outer');
+                            if (firstCard) {
+                                const scrollAmount = firstCard.offsetWidth + 24; // Card width + 1.5rem gap
+
+                                nextButton.addEventListener('click', () => {
+                                    scrollContainer.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+                                });
+                                prevButton.addEventListener('click', () => {
+                                    scrollContainer.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+                                });
+                            }
+                        }
+                    }
+                }
+            });
+        });
+
+        // --- ADD TO CART SCRIPT (MOCKED) ---
+        // In a real application, this would involve server-side communication.
+        // For this static HTML, it's a visual-only demonstration.
+        let cartItemCount = 0; // Initialize cart count
+        const headerCartCount = document.getElementById('headerCartCount');
+
+        const updateCartCount = (count) => {
+            headerCartCount.textContent = count;
+            headerCartCount.style.display = count > 0 ? 'flex' : 'none';
+        };
 
         document.addEventListener('DOMContentLoaded', () => {
-            console.log("Nexaur website loaded successfully!");
+            // Simulate initial cart count
+            updateCartCount(cartItemCount);
 
-            // Example of potential future JS (uncomment and modify as needed):
+            const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
+            addToCartButtons.forEach(button => {
+                let originalText = button.textContent;
 
-            // Handle button clicks
-            // const exploreButton = document.querySelector('.btn-primary');
-            // if (exploreButton) {
-            //     exploreButton.addEventListener('click', (e) => {
-            //         e.preventDefault(); // Prevent default link behavior
-            //         alert('You clicked Explore Products!');
-            //         // Here you might navigate to a products page, open a modal, etc.
-            //     });
-            // }
+                button.addEventListener('click', (event) => {
+                    const productId = button.dataset.productId;
 
-            // const seeInActionButton = document.querySelector('.btn-secondary');
-            // if (seeInActionButton) {
-            //     seeInActionButton.addEventListener('click', (e) => {
-            //         e.preventDefault(); // Prevent default link behavior
-            //         alert('You clicked See it in Action!');
-            //         // Here you might open a video player, scroll to a demo section, etc.
-            //     });
-            // }
+                    // Simulate API call delay
+                    button.disabled = true;
+                    button.textContent = 'Adding...';
+                    button.classList.add('adding');
 
-            // If you add a video background and need specific controls:
-            // const backgroundVideo = document.querySelector('.background-video');
-            // if (backgroundVideo) {
-            //     // Ensure video plays on page load and loops
-            //     backgroundVideo.play();
-            //     backgroundVideo.loop = true;
-            // }
+                    setTimeout(() => {
+                        // In a real app: check if user is logged in
+                        // if (!isLoggedIn) {
+                        //     showFlashMessage('Please log in to add items to cart.', 'danger');
+                        //     button.classList.remove('adding');
+                        //     button.textContent = originalText;
+                        //     button.disabled = false;
+                        //     return;
+                        // }
+
+                        // Simulate successful addition
+                        cartItemCount++;
+                        updateCartCount(cartItemCount);
+
+                        button.classList.remove('adding');
+                        button.classList.add('added');
+                        button.textContent = 'Added!';
+
+                        showFlashMessage(`Item ${productId} added to cart!`, 'success');
+
+                        setTimeout(() => {
+                            button.classList.remove('added');
+                            button.textContent = originalText;
+                            button.disabled = false;
+                        }, 1500); // Reset after 1.5 seconds
+
+                    }, 800); // Simulate network delay
+                });
+            });
         });
+
+        // --- Flash Message Display Function (Client-side) ---
+        function showFlashMessage(message, category = 'info') {
+            const container = document.getElementById('flashMessagesContainer');
+            if (!container) return;
+
+            const flashMessageDiv = document.createElement('div');
+            flashMessageDiv.classList.add('flash-message', category);
+
+            let iconHtml = '';
+            if (category === 'success') iconHtml = '<i class="fas fa-check-circle"></i>';
+            else if (category === 'danger') iconHtml = '<i class="fas fa-times-circle"></i>';
+            else if (category === 'warning') iconHtml = '<i class="fas fa-exclamation-triangle"></i>';
+            else if (category === 'info') iconHtml = '<i class="fas fa-info-circle"></i>';
+
+            flashMessageDiv.innerHTML = `${iconHtml} ${message}`;
+            container.appendChild(flashMessageDiv);
+
+            // The CSS animation will handle fading out and removal
+            // For older browsers or immediate removal, you might use:
+            // setTimeout(() => {
+            //     flashMessageDiv.remove();
+            // }, 5000);
+        }
+
+        // --- Universal Share Button Logic ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const shareButtons = document.querySelectorAll('.universal-share-btn');
+
+            shareButtons.forEach(button => {
+                button.addEventListener('click', async (event) => {
+                    const title = button.dataset.title;
+                    const text = button.dataset.text;
+                    const url = button.dataset.url; // Use the URL provided in data-url
+
+                    if (navigator.share) {
+                        try {
+                            await navigator.share({
+                                title: title,
+                                text: text,
+                                url: url
+                            });
+                            console.log('Content shared successfully');
+                            showFlashMessage('Content shared!', 'success');
+                        } catch (error) {
+                            if (error.name !== 'AbortError') {
+                                console.error('Error sharing content:', error);
+                                showFlashMessage('Could not share. Please try again.', 'danger');
+                            }
+                        }
+                    } else {
+                        // Fallback for browsers that do not support the Web Share API
+                        try {
+                            await navigator.clipboard.writeText(url);
+                            showFlashMessage('Link copied to clipboard!', 'info');
+                            console.log('URL copied to clipboard:', url);
+                        } catch (err) {
+                            console.error('Failed to copy to clipboard: ', err);
+                            showFlashMessage('Could not copy link to clipboard. Please copy it manually.', 'danger');
+                        }
+                    }
+                });
+            });
+        });
+
+        // --- AI Character and Chatbox Logic (MOCKED) ---
+        // This is a simplified version. A real implementation would involve Web Speech API,
+        // AI backend integration, and more complex chatbox UI/UX.
+
+        const chatBox = document.getElementById('chatBox');
+        const startButton = document.querySelector('.start-button');
+        const aiCharacter = document.getElementById('ai-character');
+        const shivayChatInput = document.getElementById('shivayChatInput');
+        const sendChatMsgBtn = document.getElementById('sendChatMsgBtn');
+        const chatBody = document.getElementById('chatBody');
+        const headerMicIcon = document.getElementById('headerMicIcon');
+        const inputAreaMicIcon = document.getElementById('inputAreaMicIcon');
+
+        window.handleStartButtonClick = function() {
+            chatBox.classList.toggle('open');
+            aiCharacter.style.display = chatBox.classList.contains('open') ? 'none' : 'block';
+            // Play sound if applicable
+            // document.getElementById('chatOpenSound').play();
+            if (chatBox.classList.contains('open')) {
+                shivayChatInput.focus();
+            }
+        };
+
+        window.closeChat = function() {
+            chatBox.classList.remove('open');
+            aiCharacter.style.display = 'block';
+            // Stop mic if active (in a real app)
+            // if (isListening) toggleChatMic(inputAreaMicIcon);
+        };
+
+        let isListening = false;
+        window.toggleChatMic = function(iconElement) {
+            isListening = !isListening;
+            if (isListening) {
+                iconElement.classList.add('active');
+                iconElement.style.color = 'red'; // Indicate listening
+                headerMicIcon.classList.add('active'); // Sync header mic icon
+                headerMicIcon.style.color = 'red';
+                showFlashMessage('Voice input started...', 'info');
+            } else {
+                iconElement.classList.remove('active');
+                iconElement.style.color = '';
+                headerMicIcon.classList.remove('active');
+                headerMicIcon.style.color = '';
+                showFlashMessage('Voice input stopped.', 'info');
+            }
+            // In a real app, integrate Web Speech API here
+            // document.getElementById('micToggleSound').play();
+        };
+
+        sendChatMsgBtn.addEventListener('click', sendMessage);
+        shivayChatInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        function sendMessage() {
+            const message = shivayChatInput.value.trim();
+            if (message) {
+                appendMessage(message, 'user');
+                shivayChatInput.value = '';
+                // document.getElementById('messageSendSound').play();
+                // Simulate AI response
+                setTimeout(() => {
+                    appendMessage("Thank you for your message! This is a static demo. In a live system, I'd process your query.", 'ai');
+                }, 1000);
+            }
+        }
+
+        function appendMessage(text, sender) {
+            const msgDiv = document.createElement('div');
+            msgDiv.classList.add('chat-message', sender); // You would need CSS for .chat-message.user and .chat-message.ai
+            msgDiv.textContent = text;
+            chatBody.appendChild(msgDiv);
+            chatBody.scrollTop = chatBody.scrollHeight; // Scroll to bottom
+        }
+
+        // Initially show the AI character
+        document.addEventListener('DOMContentLoaded', () => {
+            aiCharacter.style.display = 'block';
+            // Also ensure the header is aligned correctly if it contains the nav-actions
+             const headerMainContent = document.querySelector('.header-main-content');
+            if (window.innerWidth <= 992 && headerMainContent) { // Adjust breakpoint as needed
+                headerMainContent.classList.remove('active');
+            }
+        });
+
+        // Basic chat message styling (add to your CSS for better appearance)
+        const style = document.createElement('style');
+        style.textContent = `
+            .chat-message {
+                padding: 8px 12px;
+                margin-bottom: 10px;
+                border-radius: 12px;
+                max-width: 80%;
+                word-wrap: break-word;
+            }
+            .chat-message.user {
+                background-color: #007bff;
+                color: white;
+                margin-left: auto;
+                border-bottom-right-radius: 2px;
+            }
+            .chat-message.ai {
+                background-color: #4a5a7f;
+                color: white;
+                margin-right: auto;
+                border-bottom-left-radius: 2px;
+            }
+        `;
+        document.head.appendChild(style);
+
+
+        // --- Voice Search Logic (MOCKED) ---
+        // This is a conceptual placeholder. Real voice search uses Web Speech API (SpeechRecognition).
+        const mainVoiceSearchBtn = document.getElementById('mainVoiceSearchBtn');
+        const mainSearchInput = document.getElementById('main-search-input');
+        const voiceStatus = document.getElementById('voiceStatus');
+
+        let isVoiceSearchActive = false;
+
+        if (mainVoiceSearchBtn && mainSearchInput && voiceStatus) {
+            mainVoiceSearchBtn.addEventListener('click', () => {
+                isVoiceSearchActive = !isVoiceSearchActive;
+                if (isVoiceSearchActive) {
+                    mainVoiceSearchBtn.style.color = 'red';
+                    voiceStatus.textContent = 'Listening...';
+                    showFlashMessage('Voice search active. Speak your query.', 'info');
+                    // Simulate voice input for 3 seconds
+                    setTimeout(() => {
+                        mainSearchInput.value = 'AI solutions for business';
+                        voiceStatus.textContent = 'Processing...';
+                        isVoiceSearchActive = false;
+                        mainVoiceSearchBtn.style.color = '';
+                        setTimeout(() => {
+                            voiceStatus.textContent = '';
+                            showFlashMessage('Voice search complete!', 'success');
+                            // In a real app, you'd submit the form here
+                            document.getElementById('mainSearchForm').submit();
+                        }, 500);
+                    }, 3000);
+                } else {
+                    mainVoiceSearchBtn.style.color = '';
+                    voiceStatus.textContent = '';
+                    showFlashMessage('Voice search stopped.', 'info');
+                    // In a real app, stop the speech recognition service
+                }
+            });
+
+            // Clear button functionality for main search bar
+            const clearButton = document.querySelector('.main-search-bar .clear-button');
+            if (clearButton) {
+                clearButton.addEventListener('click', () => {
+                    mainSearchInput.value = '';
+                    mainSearchInput.focus();
+                });
+            }
+        }
+
     </script>
 </body>
 </html>
