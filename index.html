@@ -215,6 +215,8 @@
             font-family: 'Poppins', sans-serif;
             width: 100%;
             color: #202124;
+            /* Ensure text input aligns correctly with icon */
+            padding-left: 0.5rem;
         }
 
         #main-search-input::placeholder {
@@ -228,32 +230,25 @@
             padding: 0 4px;
             color: #5f6368;
             font-size: 1.1rem;
-            margin-left: 8px;
+            margin-right: 8px; /* Margin after the microphone icon */
             transition: color 0.2s ease;
+            flex-shrink: 0; /* Prevent icon from shrinking */
         }
 
         .main-search-bar .icon-button:hover {
             color: var(--logo-accent-color);
         }
 
-        .search-submit-button {
-            margin-left: 0;
-            margin-right: 12px;
-            padding-left: 0;
-            padding-right: 0;
-        }
-
-        .main-search-bar .clear-button {
-            visibility: hidden;
-            opacity: 0;
-            transition: opacity 0.2s ease;
-        }
-        .main-search-bar input:not(:placeholder-shown) ~ .clear-button {
-            visibility: visible;
-            opacity: 1;
-        }
-        .main-search-bar input:not(:placeholder-shown) + #mainVoiceSearchBtn {
-             margin-left: 0; /* Adjust margin if clear button is shown */
+        /* Hide the browser's native clear button for consistency, if desired, 
+           but it's fine to leave it for user experience. */
+        input[type="search"]::-webkit-search-cancel-button {
+            -webkit-appearance: none;
+            height: 16px;
+            width: 16px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23999"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z"/></svg>') no-repeat center center;
+            cursor: pointer;
+            opacity: 0.7;
+            margin-right: 5px;
         }
 
 
@@ -315,30 +310,10 @@
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
         }
 
-        /* Mobile Menu Toggle */
+        /* Mobile Menu Toggle (hidden as per image) */
         .menu-toggle {
-            display: none; /* Hidden on desktop */
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 0.5rem;
-            flex-shrink: 0;
-            position: relative; /* For accessibility */
-            z-index: 1001; /* Ensure it's above other elements for click */
+            display: none;
         }
-
-        .hamburger-bar {
-            display: block;
-            width: 25px;
-            height: 3px;
-            background-color: var(--text-dark);
-            margin: 5px 0;
-            transition: all 0.3s ease-in-out;
-        }
-
-        .menu-toggle.active .hamburger-bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
-        .menu-toggle.active .hamburger-bar:nth-child(2) { opacity: 0; }
-        .menu-toggle.active .hamburger-bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
 
         /* --- Hero Section Styling --- */
         .hero-section {
@@ -1123,41 +1098,56 @@
 
         /* Large Tablets (up to 992px) */
         @media (max-width: 992px) {
+            header {
+                padding: 0.8rem 0; /* Adjust padding for the header itself */
+            }
             header .container {
-                flex-wrap: wrap; /* Allow wrapping */
-                justify-content: center;
-                gap: var(--space-2);
+                flex-direction: column; /* Stack children vertically */
+                align-items: center; /* Center horizontally */
+                gap: 1rem; /* Gap between stacked items */
             }
+
             .logo {
-                width: 100%;
-                justify-content: center;
-                margin-bottom: var(--space-2);
+                width: 100%; /* Take full width */
+                justify-content: center; /* Center logo text/symbol */
+                margin-bottom: 0.5rem; /* Space below logo */
+                order: 1;
             }
+            .logo .logo-text { font-size: 2rem; } /* Slightly smaller on tablet/mobile */
+
             .header-main-content {
-                width: 100%;
-                margin: 0;
-                justify-content: center;
-                order: 3; /* Move search and nav to bottom */
+                width: 100%; /* Take full width */
+                margin: 0; /* Remove desktop margin */
+                flex-direction: column; /* Stack its children (search, nav) vertically */
+                align-items: center; /* Center search and nav horizontally */
+                gap: 1rem; /* Gap between search and nav */
+                order: 2; /* This is the key: search+nav block comes after logo */
             }
+
             .header-search {
-                order: 1; /* Search first in the main content row */
-                max-width: 600px;
+                width: 90%; /* Occupy most of the width */
+                max-width: 400px; /* Limit search bar width even if 90% is too much */
+                margin-bottom: 0; /* Remove any specific margin from desktop */
             }
+
             .header-nav-actions {
-                order: 2; /* Nav actions second in the main content row */
-                width: 100%;
-                justify-content: center;
-                gap: var(--space-1);
-                padding-top: var(--space-2);
-                border-top: 1px solid rgba(0,0,0,0.05);
-                margin-top: var(--space-2);
+                width: 100%; /* Take full width to center its icons */
+                justify-content: center; /* Center the icons */
+                gap: 1.5rem; /* Space between icons */
+                padding-top: 0; /* No special padding */
             }
+
             .header-option .option-text {
-                display: none; /* Hide text for nav items on smaller screens */
+                display: none; /* Hide text, only show icons */
             }
             .header-option i {
-                font-size: 1.4rem; /* Make icons larger */
+                font-size: 1.5rem; /* Larger icons for tap targets */
             }
+
+            .menu-toggle {
+                display: none; /* No hamburger menu as per image */
+            }
+
             .hero-section {
                 flex-direction: column;
                 text-align: center;
@@ -1213,6 +1203,28 @@
                 gap: var(--space-3);
             }
             .footer-col:first-child { grid-column: span 2; } /* Make description span two columns */
+
+            /* Adjust AI Character and button for smaller screens */
+            .start-button {
+                bottom: 15px;
+                right: 15px;
+                padding: 10px 18px;
+                font-size: 0.9rem;
+                gap: 8px;
+            }
+            #ai-character {
+                bottom: 55px; /* Adjust to be above the button */
+                right: 10px;
+                width: 180px;
+                height: 180px;
+            }
+            .chatbox {
+                width: 90vw;
+                height: 70vh;
+                right: 5vw;
+                bottom: 75px; /* Above the start button */
+                border-radius: 10px;
+            }
         }
 
         /* Mobile Devices (up to 768px) */
@@ -1269,51 +1281,54 @@
             .footer-col:first-child { grid-column: span 1; }
             .footer-col ul { display: flex; flex-direction: column; align-items: center; }
             .newsletter-form { justify-content: center; }
-
-            .start-button {
-                bottom: 15px;
-                right: 15px;
-                padding: 10px 18px;
-                font-size: 0.9rem;
-            }
-            #ai-character {
-                bottom: 50px;
-                right: 10px;
-                width: 200px;
-                height: 200px;
-            }
-            .chatbox {
-                width: 90vw;
-                height: 70vh;
-                right: 5vw;
-                bottom: calc(15px + 10px + 45px); /* Button bottom + its padding/margin + its height */
-                border-radius: 10px;
-            }
         }
 
         /* Small Mobile Devices (up to 480px) */
         @media (max-width: 480px) {
-            .logo .logo-text { font-size: 1.8rem; }
+            .logo .logo-text { font-size: 1.6rem; } /* Even smaller */
+            .logo .logo-symbol { width: 40px; }
+
+            .header-search {
+                width: 95%; /* Slightly wider on very small screens */
+                padding: 5px 10px;
+            }
+            #main-search-input { font-size: 0.85rem; }
+            .main-search-bar .icon-button { font-size: 0.9rem; }
+
+            .header-nav-actions {
+                gap: 1rem; /* Smaller gap between icons */
+            }
+            .header-option i {
+                font-size: 1.3rem; /* Slightly smaller icons */
+            }
+
+            .start-button {
+                padding: 8px 15px;
+                font-size: 0.85rem;
+                gap: 5px;
+            }
+            #ai-character {
+                bottom: 50px;
+                width: 150px;
+                height: 150px;
+            }
+            .chatbox {
+                bottom: 65px; /* Adjusted again for smaller button */
+            }
+
+            /* Hero section font sizes for very small screens */
             .hero-headline { font-size: clamp(1.6rem, 9vw, 2.5rem); }
             .hero-subheadline { font-size: clamp(0.8rem, 4vw, 1rem); }
-            .hero-cta-buttons {
-                flex-direction: column;
-                gap: 1rem;
-            }
             .btn {
                 width: 90%;
-                max-width: 250px;
-                font-size: 0.9rem;
-                padding: 0.7rem 1.5rem;
+                max-width: 200px; /* Limit button width */
+                font-size: 0.85rem;
+                padding: 0.6rem 1rem;
             }
             .floating-element {
-                width: 2.5rem;
-                height: 2.5rem;
-                font-size: 1.1rem;
-                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            }
-            .product-card-outer {
-                width: 100%; /* Full width */
+                width: 2.2rem;
+                height: 2.2rem;
+                font-size: 1rem;
             }
         }
     </style>
@@ -1401,11 +1416,10 @@
             <div class="header-main-content">
                 <div class="header-search">
                     <form id="mainSearchForm" class="main-search-bar" action="#" method="get">
-                        <button type="submit" class="icon-button search-submit-button" aria-label="Submit search"><i class="fas fa-search" aria-hidden="true"></i></button>
+                        <button type="button" class="icon-button search-microphone-button" aria-label="Search by voice"><i class="fas fa-microphone" aria-hidden="true"></i></button>
                         <label for="main-search-input" class="visually-hidden">Search for anything</label>
                         <input type="search" id="main-search-input" name="q" placeholder="Search for anything...">
-                        <button type="button" class="icon-button clear-button" aria-label="Clear search"><i class="fas fa-times" aria-hidden="true"></i></button>
-                        <button type="button" id="mainVoiceSearchBtn" class="icon-button" aria-label="Search by voice"><i class="fas fa-microphone" aria-hidden="true"></i></button>
+                        <!-- Browser's native clear button for type="search" is usually sufficient -->
                     </form>
                     <div id="voiceStatus" style="position: absolute; top: 100%; left: 0; font-size: 0.8em; color: #777; padding-top: 4px;"></div>
                 </div>
@@ -1681,8 +1695,8 @@
                                     <p class="long-description-summary">Analyze text for sentiment (positive, negative, neutral) with high accuracy...</p>
                                     <div class="price">$99.00</div>
                                 </div>
-                            </a>
-                        </div>
+                            </div>
+                        </a>
                         <div class="card-actions">
                             <button class="add-to-cart-btn" data-product-id="ai-3">Add to Cart</button>
                         </div>
@@ -1845,12 +1859,15 @@
             scrollElements.forEach(el => { elementObserver.observe(el); });
 
             // --- Mobile Menu Toggle ---
+            // The menu-toggle button is hidden on mobile as per the image,
+            // so this functionality is not active for this specific design,
+            // but kept for reference if a hamburger menu were to be added.
             const menuToggle = document.querySelector('.menu-toggle');
             const headerMainContent = document.querySelector('.header-main-content');
             if (menuToggle && headerMainContent) {
                 menuToggle.addEventListener('click', () => {
                     menuToggle.classList.toggle('active');
-                    headerMainContent.classList.toggle('active'); // Add/remove active class for responsive menu
+                    headerMainContent.classList.toggle('active');
                 });
             }
         });
@@ -2096,8 +2113,8 @@
         });
 
         // Basic chat message styling (add to your CSS for better appearance)
-        const style = document.createElement('style');
-        style.textContent = `
+        const chatMessageStyle = document.createElement('style');
+        chatMessageStyle.textContent = `
             .chat-message {
                 padding: 8px 12px;
                 margin-bottom: 10px;
@@ -2118,22 +2135,22 @@
                 border-bottom-left-radius: 2px;
             }
         `;
-        document.head.appendChild(style);
+        document.head.appendChild(chatMessageStyle);
 
 
         // --- Voice Search Logic (MOCKED) ---
         // This is a conceptual placeholder. Real voice search uses Web Speech API (SpeechRecognition).
-        const mainVoiceSearchBtn = document.getElementById('mainVoiceSearchBtn');
+        const searchMicrophoneButton = document.querySelector('.search-microphone-button');
         const mainSearchInput = document.getElementById('main-search-input');
         const voiceStatus = document.getElementById('voiceStatus');
 
         let isVoiceSearchActive = false;
 
-        if (mainVoiceSearchBtn && mainSearchInput && voiceStatus) {
-            mainVoiceSearchBtn.addEventListener('click', () => {
+        if (searchMicrophoneButton && mainSearchInput && voiceStatus) {
+            searchMicrophoneButton.addEventListener('click', () => {
                 isVoiceSearchActive = !isVoiceSearchActive;
                 if (isVoiceSearchActive) {
-                    mainVoiceSearchBtn.style.color = 'red';
+                    searchMicrophoneButton.style.color = 'red';
                     voiceStatus.textContent = 'Listening...';
                     showFlashMessage('Voice search active. Speak your query.', 'info');
                     // Simulate voice input for 3 seconds
@@ -2141,7 +2158,7 @@
                         mainSearchInput.value = 'AI solutions for business';
                         voiceStatus.textContent = 'Processing...';
                         isVoiceSearchActive = false;
-                        mainVoiceSearchBtn.style.color = '';
+                        searchMicrophoneButton.style.color = '';
                         setTimeout(() => {
                             voiceStatus.textContent = '';
                             showFlashMessage('Voice search complete!', 'success');
@@ -2150,21 +2167,12 @@
                         }, 500);
                     }, 3000);
                 } else {
-                    mainVoiceSearchBtn.style.color = '';
+                    searchMicrophoneButton.style.color = '';
                     voiceStatus.textContent = '';
                     showFlashMessage('Voice search stopped.', 'info');
                     // In a real app, stop the speech recognition service
                 }
             });
-
-            // Clear button functionality for main search bar
-            const clearButton = document.querySelector('.main-search-bar .clear-button');
-            if (clearButton) {
-                clearButton.addEventListener('click', () => {
-                    mainSearchInput.value = '';
-                    mainSearchInput.focus();
-                });
-            }
         }
 
     </script>
