@@ -3,32 +3,428 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nexaur - Collaborate. Create. Innovate.</title>
-    <!-- Font Awesome for icons (ensure you have internet connectivity for this) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Google Fonts - Poppins for general text (ensure you have internet connectivity for this) -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>Nexaur - Your Digital Marketplace</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Explore and purchase thousands of cutting-edge websites, AI models, and applications. Nexaur is the premier marketplace for top-tier digital solutions.">
+    <meta name="keywords" content="digital marketplace, websites, ai models, applications, templates, code, developer tools">
+
+    <!-- Open Graph / Facebook Meta Tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.nexaur.com/">
+    <meta property="og:title" content="Nexaur - Your Digital Marketplace">
+    <meta property="og:description" content="Explore and purchase cutting-edge websites, AI models, and applications from top developers.">
+    <meta property="og:image" content="{{ url_for('static', filename='images/social-preview.jpg') }}">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.nexaur.com/">
+    <meta property="twitter:title" content="Nexaur - Your Digital Marketplace">
+    <meta property="twitter:description" content="Explore and purchase cutting-edge websites, AI models, and applications from top developers.">
+    <meta property="twitter:image" content="{{ url_for('static', filename='images/social-preview.jpg') }}">
+
+     <!-- Stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='nex.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='chat.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='profile.css') }}">
+
+    <!-- Fonts and icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
 
     <style>
+        /* --- Merged Root variables --- */
+        :root {
+            --logo-primary-color: #041765; /* Original */
+            --logo-accent-color: #ea6a21; /* Original */
+            --btn-buy-now-green: #2ecc71; /* Original */
+            --btn-buy-now-green-dark: #27ae60; /* Original */
+            --bg-footer: rgba(0,0,0,0.1); /* Original */
+            --border-color: rgba(255, 255, 255, 0.25); /* Original */
+            --color-text-muted: rgba(255, 255, 255, 0.7); /* Original */
+            --color-white: #ffffff; /* Original */
+            --fw-bold: 700; /* Original */
+            --space-1: 0.5rem; /* Original */
+            --space-2: 1rem; /* Original */
+            --space-3: 1.5rem; /* Original */
+            --space-4: 2.5rem; /* Original */
+            --space-5: 4rem; /* Original */
+            --radius-md: 16px; /* Original */
+            --fs-sm: 0.9rem; /* Original */
+            --transition-fast: all 0.2s ease-in-out; /* Original */
+            --transition-medium: all 0.3s ease-in-out; /* Original */
+
+            /* New variables from the second code block for responsive header/hero */
+            --primary-color: #f77f76; /* Pink from "Explore Products" button in new hero */
+            --secondary-color: #555; /* Default text color for some elements */
+            --text-dark: #333; /* For new header/hero text */
+            --text-light: #f0f0f0; /* For new hero text */
+            --navbar-bg: #e0e7ff; /* Light purple from the new header */
+            --search-bg: #fff; /* For new search bar */
+            --icon-bg-light: rgba(255, 255, 255, 0.2); /* Transparent white for floating icons */
+            --icon-bg-dark: rgba(0, 0, 0, 0.2); /* Transparent black for the right-top icon */
+            --icon-color: #fff; /* For new floating icons */
+            --navbar-desktop-height: 4.5rem; /* Fixed height for desktop navbar */
+        }
+
+        /* --- Global & Shared Styles (Original) --- */
+        /* FIX: Ensure .start-button is correctly positioned and layered */
+        .start-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 950;
+            padding: 15px 25px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            border: none;
+            outline: none;
+            background: linear-gradient(90deg, #8a2be2, #4169e1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            animation: pulseGlow 2.5s infinite ease-in-out;
+        }
+        .start-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(90deg, #9932cc, #5a7bd7);
+        }
+
+        .marquee-section { padding: 4rem 0; background: linear-gradient(to bottom, #c5c4e0, #e9e8f5); overflow: hidden; }
+        .marquee-section .container h2 { text-align: center; margin-bottom: 0.5rem; position: relative; display: inline-block; left: 50%; transform: translateX(-50%); color: #343a40; }
+        .marquee-section h2::after { content: ''; position: absolute; bottom: -15px; left: 50%; transform: translateX(-50%); width: 60px; height: 4px; background: linear-gradient(90deg, var(--logo-accent-color), #f78c4a); border-radius: 2px; }
+        .marquee-container { width: 100%; overflow: hidden; padding: 1.5rem 0; margin-top: 2rem; position: relative; -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent); mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent); }
+        .marquee-container:hover .marquee-track { animation-play-state: paused; }
+        .marquee-track { display: flex; width: fit-content; animation: scroll-left 40s linear infinite; }
+        .marquee-container.reverse .marquee-track { animation-name: scroll-right; animation-duration: 45s; }
+        .marquee-item { flex-shrink: 0; padding: 0.75rem 2rem; margin: 0 1rem; font-size: 1.1rem; font-weight: 600; color: #3f3c56; display: flex; align-items: center; gap: 0.75rem; white-space: nowrap; text-decoration: none; border-radius: 50px; background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.2); box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); transition: transform 0.3s ease, background-color 0.3s ease; }
+        .marquee-item:hover { transform: translateY(-5px) scale(1.05); background: rgba(255, 255, 255, 0.65); color: var(--logo-primary-color); }
+        .marquee-item i { color: var(--logo-accent-color); }
+
+        footer { background: var(--bg-footer); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); padding: var(--space-4); margin: var(--space-5) 0 var(--space-2); border-radius: var(--radius-md); border-top: 1px solid var(--border-color); color: var(--color-text-muted); }
+        footer h3 { color: var(--color-white); font-weight: var(--fw-bold); margin-bottom: var(--space-2); }
+        footer a { color: var(--color-text-muted); transition: var(--transition-fast); }
+        footer a:hover { color: var(--color-white); transform: translateY(-2px); }
+        .footer-content { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: var(--space-4); }
+        .footer-col ul { list-style: none; padding: 0; }
+        .footer-col ul li { margin-bottom: var(--space-1); }
+        .social-links a { font-size: 1.5rem; margin-right: var(--space-2); }
+        .footer-bottom { text-align: center; padding-top: var(--space-3); border-top: 1px solid var(--border-color); font-size: var(--fs-sm); }
+
+        @keyframes pulseGlow { 0% { box-shadow: 0 0 5px #ea6a21, 0 0 10px #ea6a21; } 50% { box-shadow: 0 0 20px #ea6a21, 0 0 30px #ea6a21; } 100% { box-shadow: 0 0 5px #ea6a21, 0 0 10px #ea6a21; } }
+        @keyframes scroll-left { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+        @keyframes scroll-right { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+
+        .product-grid.horizontal-scroll { display: flex; flex-wrap: nowrap; overflow-x: auto; gap: 1.5rem; padding: 1.5rem 0.5rem; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+        .product-grid.horizontal-scroll .product-card-outer { flex-shrink: 0; width: 300px; scroll-snap-align: start; }
+        .product-grid.horizontal-scroll::-webkit-scrollbar { height: 0; width: 0; }
+        .horizontal-scroll-wrapper { position: relative; margin-top: 1rem; }
+        .scroll-button { position: absolute; top: 50%; transform: translateY(-50%); z-index: 10; background-color: rgba(255, 255, 255, 0.95); border: 1px solid rgba(0, 0, 0, 0.1); border-radius: 50%; width: 45px; height: 45px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: #333; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15); transition: all 0.2s ease-in-out; }
+        .scroll-button:hover { background-color: white; transform: translateY(-50%) scale(1.1); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); }
+        .scroll-button-prev { left: -22px; }
+        .scroll-button-next { right: -22px; }
+
+        /* FIX: Ensure ai-character is correctly positioned relative to the button if needed, and has a higher z-index if it's visually above */
+        #ai-character {
+            position: fixed;
+            bottom: 60px;
+            right: 20px;
+            width: 300px;
+            height: 300px;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        /* Flash message styling */
+        .flash-messages {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            width: 90%;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .flash-message {
+            padding: 15px 20px;
+            border-radius: 8px;
+            color: #fff;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            animation: fadeInOut 5s forwards;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .flash-message.success { background-color: #28a745; }
+        .flash-message.danger { background-color: #dc3545; }
+        .flash-message.warning { background-color: #ffc107; color: #333; }
+        .flash-message.info { background-color: #17a2b8; }
+
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: translateY(-20px); }
+            10% { opacity: 1; transform: translateY(0); }
+            90% { opacity: 1; transform: translateY(0); }
+            100% { opacity: 0; transform: translateY(-20px); display: none; }
+        }
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #fff;
+            box-shadow: 0 0 5px rgba(0,0,0,0.2);
+        }
+        /* Style for the cart count bubble */
+        .cart-icon-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -5px;
+            right: -10px;
+            background-color: var(--logo-accent-color);
+            color: white;
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 0.7em;
+            font-weight: bold;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            min-width: 18px;
+            height: 18px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+
+        /* --- NEW & MODIFIED STYLES FOR PRODUCT CARDS AND BUTTONS (Original, retained) --- */
+        .product-card-outer {
+            display: flex;
+            flex-direction: column;
+            background-color: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            height: 100%;
+            position: relative;
+            z-index: 1;
+        }
+
+        .product-card-content-link {
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            cursor: pointer;
+        }
+
+        .product-card-outer:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+        .product-card-outer:hover .product-name-heading {
+            color: var(--logo-accent-color);
+        }
+
+        .product-card {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+        
+        .product-card-header {
+            height: 40px;
+            border-top-left-radius: 11px;
+            border-top-right-radius: 11px;
+            display: flex;
+            align-items: center;
+            padding: 0 1rem;
+            font-weight: 600;
+            color: white;
+            text-transform: capitalize;
+            font-size: 0.9em;
+            letter-spacing: 0.5px;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 1px solid #eee;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
+
+        .card-body {
+            padding: 1.2rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .product-name-heading {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+            line-height: 1.3;
+        }
+
+        .product-category {
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 5px;
+            display: inline-block;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .long-description-summary {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 0.5rem;
+            flex-grow: 1;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            min-height: 3em;
+            line-height: 1.5em;
+        }
+
+        .product-price {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #007bff;
+            margin-top: 10px;
+            margin-bottom: 0;
+        }
+
+        .card-actions {
+            padding: 15px;
+            border-top: 1px solid #eee;
+            background-color: #f8f9fa;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card-actions .add-to-cart-btn {
+            width: 100%;
+            padding: 12px 5px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            transition: var(--transition-medium);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--color-white);
+            color: var(--logo-primary-color);
+        }
+
+        .card-actions .add-to-cart-btn:hover {
+            background-color: var(--logo-primary-color);
+            color: var(--color-white);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+            border-color: var(--logo-primary-color);
+        }
+
+        .card-actions .add-to-cart-btn.added {
+            background-color: #28a745;
+            color: white;
+            pointer-events: none;
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(40, 167, 69, 0.4);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.277);
+            animation: buttonAdded 0.6s ease-out forwards;
+        }
+
+        .card-actions .add-to-cart-btn.adding {
+            background-color: #3498db;
+            color: white;
+            box-shadow: 0 4px 8px rgba(52, 152, 219, 0.4);
+            transform: scale(1.02);
+        }
+
+        @keyframes buttonAdded {
+            0% { transform: scale(1); background-color: var(--color-white); color: var(--logo-primary-color); }
+            50% { transform: scale(1.05); background-color: #28a745; color: white; box-shadow: 0 4px 8px rgba(40, 167, 69, 0.4); }
+            100% { transform: scale(1); background-color: #28a745; color: white; box-shadow: 0 4px 8px rgba(40, 167, 69, 0.4); }
+        }
+
+        /* Universal Share Button Styles */
+        .share-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+            padding-bottom: 15px;
+            background-color: #f8f9fa;
+            border-top: 1px solid #eee;
+        }
+
+        .universal-share-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background-color: #4A90E2;
+            color: white;
+            font-size: 1.5rem;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.25);
+            outline: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .universal-share-btn:hover {
+            background-color: #357ABD;
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.35);
+        }
+
+        .universal-share-btn i {
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.8), 0 0 15px rgba(255, 255, 255, 0.4);
+        }
+
+        /* --- NEW STYLES FROM WORKING CODE (Header & Hero specific) --- */
         /* Basic Reset & Base Styles */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box; /* Essential for responsive layouts */
-        }
-
-        :root {
-            /* Define CSS variables for easier color management */
-            --primary-color: #f77f76; /* Pink from "Explore Products" button */
-            --secondary-color: #555; /* Default text color for some elements */
-            --text-dark: #333;
-            --text-light: #f0f0f0;
-            --navbar-bg: #e0e7ff; /* Light purple from the header */
-            --search-bg: #fff;
-            --icon-bg-light: rgba(255, 255, 255, 0.2); /* Transparent white for floating icons */
-            --icon-bg-dark: rgba(0, 0, 0, 0.2); /* Transparent black for the right-top icon */
-            --icon-color: #fff;
-            --navbar-desktop-height: 4.5rem; /* Fixed height for desktop navbar */
         }
 
         html {
@@ -156,16 +552,13 @@
             filter: brightness(0.7); /* Darken the image slightly for text readability */
         }
 
-        /* If using a video, uncomment this: */
-        /*
-        .background-video {
+        .background-video { /* For the actual video */
             width: 100%;
             height: 100%;
             object-fit: cover;
             object-position: center;
             filter: brightness(0.7);
         }
-        */
 
         .hero-overlay {
             position: absolute;
@@ -306,7 +699,7 @@
         }
 
 
-        /* --- Responsive Design using Media Queries --- */
+        /* --- Responsive Design using Media Queries (New, from working code) --- */
 
         /* For Tablets and smaller Desktops (e.g., screens up to 1024px) */
         @media (max-width: 1024px) {
@@ -351,6 +744,21 @@
             .floating-icon.left-top { top: 15%; left: 4%; }
             .floating-icon.right-top { top: 15%; right: 4%; }
             .floating-icon.bottom-right { bottom: 5%; right: 4%; }
+
+            /* Also adjust existing mobile-specific overrides */
+            .start-button {
+                bottom: 15px;
+                right: 15px;
+                padding: 10px 18px;
+                font-size: 0.9rem;
+            }
+            #ai-character {
+                bottom: 50px;
+                right: 10px;
+                width: 200px;
+                height: 200px;
+            }
+            .footer-content { grid-template-columns: 1fr; text-align: center; } /* Example, already present */
         }
 
         /* For Mobile Devices (e.g., screens up to 768px) */
@@ -365,7 +773,7 @@
 
             .hero-section {
                  padding-top: 0; /* No fixed navbar offset when navbar is relative */
-                 min-height: calc(100vh - var(--navbar-mobile-dynamic-height, 0px)); /* Adjust based on actual navbar height if needed */
+                 /* min-height will be adjusted by JS, if needed */
             }
 
             .navbar-logo {
@@ -492,43 +900,96 @@
             .floating-icon.bottom-right { bottom: 2%; right: 2%; }
         }
     </style>
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
 </head>
 <body>
+</model-viewer>
+
+    <!-- Fixed AI Start Button -->
+    <button class="start-button animated-button" onclick="window.handleStartButtonClick()">
+        <i class="fas fa-robot"></i>
+        Get Started with AI
+    </button>
+
+    <!-- Chat Box -->
+    <div id="chatBox" class="chatbox">
+        <div class="border-star"></div>
+        <div class="chatbox-background-effects"><div class="aurora-blob pink"></div><div class="aurora-blob green"></div><div class="depth-circle c1"></div><div class="depth-circle c2"></div><div class="depth-circle c3"></div><div class="energy-particle p1"></div><div class="energy-particle p2"></div><div class="energy-particle p3"></div><div class="energy-particle p4"></div></div>
+        <div class="chatbox-header"><span>Shivay AI Assistant</span><div class="chatbox-icons"><i id="headerMicIcon" class="fas fa-microphone mic-icon" onclick="window.toggleChatMic(this)" title="Speak Command (Header)"></i><i class="fas fa-cog settings-icon" onclick="window.openSettings()" title="Settings"></i><i class="fas fa-times close-icon" onclick="window.closeChat()" title="Close Chat"></i></div></div>
+        <div class="chatbox-body" id="chatBody"></div>
+        <div class="chatbox-input-area"><i id="inputAreaMicIcon" class="fas fa-microphone mic-icon input-mic" onclick="window.toggleChatMic(this)" title="Speak Command (Input)" aria-label="Toggle Voice Input"></i><input type="text" id="shivayChatInput" placeholder="Type or speak..." aria-label="Type your command"><button id="sendChatMsgBtn" aria-label="Send Command"><i class="fas fa-paper-plane"></i></button></div>
+    </div>
+
+    <!-- Audio elements (Using url_for for correct paths) -->
+    <audio id="chatOpenSound" src="{{ url_for('static', filename='sounds/notification.mp3') }}" preload="auto"></audio>
+    <audio id="micToggleSound" src="{{ url_for('static', filename='sounds/notification.mp3') }}" preload="auto"></audio>
+    <audio id="messageSendSound" src="{{ url_for('static', filename='sounds/notification.mp3') }}" preload="auto"></audio>
+
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- NEW HEADER FROM YOUR WORKING CODE -->
     <header class="navbar">
         <div class="navbar-logo">
-            <!-- IMPORTANT: Replace this placeholder image URL with your actual logo path! -->
-            <img src="https://via.placeholder.com/150x50/3498db/ffffff?text=nexaur" alt="Nexaur Logo">
+            <!-- Replace 'nexaur-logo.png' with your actual logo image file in the static/images/ directory -->
+            <img src="{{ url_for('static', filename='images/nexaur-logo.png') }}" alt="Nexaur Logo">
         </div>
-        <div class="search-bar">
-            <i class="fas fa-search"></i>
-            <input type="text" placeholder="Search for anything...">
-            <i class="fas fa-microphone"></i>
-        </div>
+        <form class="search-bar" action="{{ url_for('home_app.search') }}" method="get">
+            <button type="submit" style="background: none; border: none; padding: 0; margin: 0 0.5rem; cursor: pointer;"><i class="fas fa-search"></i></button>
+            <label for="main-search-input-navbar" class="visually-hidden">Search for anything</label>
+            <input type="text" id="main-search-input-navbar" name="q" placeholder="Search for anything...">
+            <button type="button" id="mainVoiceSearchBtnNavbar" style="background: none; border: none; padding: 0; margin: 0 0.5rem; cursor: pointer;"><i class="fas fa-microphone"></i></button>
+        </form>
         <nav class="navbar-nav">
             <ul>
-                <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
-                <li><a href="#"><i class="fas fa-user"></i> Login</a></li>
-                <li><a href="#"><i class="fas fa-shopping-cart"></i> Cart</a></li>
+                <li><a href="{{ url_for('home_app.home') }}"><i class="fas fa-home"></i> Home</a></li>
+                {% if 'user_id' in session %}
+                    <li>
+                        <a href="{{ url_for('home_app.profile') }}">
+                            <img src="https://www.gravatar.com/avatar/{{ session.user_email | md5 }}?d=mp&s=40" alt="User Profile" class="user-avatar" style="width: 28px; height: 28px;">
+                            {{ session.user_name.split()[0] }}
+                        </a>
+                    </li>
+                    {% if is_admin %}
+                    <li><a href="{{ url_for('home_app.admin_dashboard') }}"><i class="fa-solid fa-gauge-high"></i> Admin</a></li>
+                    {% endif %}
+                {% else %}
+                    <li><a href="{{ url_for('home_app.login') }}"><i class="fas fa-user"></i> Login</a></li>
+                {% endif %}
+                <li>
+                    <a href="{{ url_for('home_app.cart') }}">
+                        <div class="cart-icon-wrapper">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="cart-count">0</span>
+                        </div>
+                        Cart
+                    </a>
+                </li>
             </ul>
         </nav>
     </header>
 
-    <main class="hero-section">
+    <!-- Flash Messages Container -->
+    <div class="flash-messages">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash-message {{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <!-- NEW HERO SECTION FROM YOUR WORKING CODE -->
+    <main id="main-content" class="hero-section">
         <div class="hero-background">
-            <!-- IMPORTANT: Choose ONE of the options below for your background! -->
-            <!-- Option 1: Placeholder Image (currently active) -->
-            <img src="https://via.placeholder.com/1920x1080/0d0d0d/ffffff?text=Dynamic+Background" alt="Dynamic Background Mockup">
-
-            <!-- Option 2: Actual Video Background (uncomment and replace 'your-video.mp4') -->
-            <!-- <video autoplay muted loop playsinline class="background-video">
-                <source src="your-video.mp4" type="video/mp4">
+            <video autoplay loop muted playsinline class="background-video">
+                <source src="{{ url_for('static', filename='up.mp4') }}" type="video/mp4">
                 Your browser does not support the video tag.
-            </video> -->
-
-            <!-- Option 3: Actual Static Background Image (uncomment and replace 'your-image.jpg') -->
-            <!-- <img src="your-image.jpg" alt="Dynamic Background Image"> -->
+            </video>
         </div>
-        <div class="hero-overlay"></div> <!-- Dark overlay for text readability -->
+        <div class="hero-overlay"></div>
 
         <div class="hero-content">
             <h1 class="hero-title">
@@ -540,7 +1001,7 @@
                 before.
             </p>
             <div class="hero-buttons">
-                <a href="#" class="btn btn-primary">Explore Products</a>
+                <a href="#products" class="btn btn-primary">Explore Products</a>
                 <a href="#" class="btn btn-secondary"><i class="fas fa-play-circle"></i> See it in Action</a>
             </div>
         </div>
@@ -548,36 +1009,177 @@
         <!-- Floating Icons -->
         <div class="floating-icons">
             <div class="floating-icon left-top"><i class="fas fa-sliders-h"></i></div>
-            <div class="floating-icon right-top"><i class="fas fa-font"></i></div> <!-- Using fa-font for 'A' -->
+            <div class="floating-icon right-top"><i class="fas fa-font"></i></div>
             <div class="floating-icon bottom-right"><i class="fas fa-layer-group"></i></div>
         </div>
     </main>
 
+    <section class="marquee-section animate-on-scroll">
+            <div class="container"><h2>🚀Now Trending</h2></div>
+            <div class="marquee-container" title="Hover to pause scrolling"><div class="marquee-track"><a href="#" class="marquee-item"><i class="fas fa-bolt"></i> Modern E-Commerce Platform</a><a href="#" class="marquee-item"><i class="fas fa-palette"></i> Creative Portfolio Website</a><a href="#" class="marquee-item"><i class="fas fa-brain"></i> AI Customer Service Chatbot</a><a href="#" class="marquee-item"><i class="fas fa-building"></i> Corporate Business Portal</a><a href="#" class="marquee-item"><i class="fas fa-camera-retro"></i> Image Recognition API</a><a href="#" class="marquee-item"><i class="fas fa-feather-pointed"></i> Minimalist Blog & News</a><a href="#" class="marquee-item"><i class="fas fa-bolt"></i> Modern E-Commerce Platform</a><a href="#" class="marquee-item"><i class="fas fa-palette"></i> Creative Portfolio Website</a><a href="#" class="marquee-item"><i class="fas fa-brain"></i> AI Customer Service Chatbot</a><a href="#" class="marquee-item"><i class="fas fa-building"></i> Corporate Business Portal</a><a href="#" class="marquee-item"><i class="fas fa-camera-retro"></i> Image Recognition API</a><a href="#" class="marquee-item"><i class="fas fa-feather-pointed"></i> Minimalist Blog & News</a></div></div>
+            <div class="marquee-container reverse" title="Hover to pause scrolling"><div class="marquee-track"><a href="#" class="marquee-item"><i class="fas fa-tasks"></i> Project Management Suite</a><a href="#" class="marquee-item"><i class="fas fa-chart-line"></i> Predictive Analytics Dashboard</a><a href="#" class="marquee-item"><i class="fas fa-rocket"></i> SaaS Starter Kit</a><a href="#" class="marquee-item"><i class="fas fa-pen-nib"></i> Content Generation Engine</a><a href="#" class="marquee-item"><i class="fas fa-users"></i> Social Media Manager</a><a href="#" class="marquee-item"><i class="fas fa-headset"></i> CRM Platform</a><a href="#" class="marquee-item"><i class="fas fa-tasks"></i> Project Management Suite</a><a href="#" class="marquee-item"><i class="fas fa-chart-line"></i> Predictive Analytics Dashboard</a><a href="#" class="marquee-item"><i class="fas fa-rocket"></i> SaaS Starter Kit</a><a href="#" class="marquee-item"><i class="fas fa-pen-nib"></i> Content Generation Engine</a><a href="#" class="marquee-item"><i class="fas fa-users"></i> Social Media Manager</a><a href="#" class="marquee-item"><i class="fas fa-headset"></i> CRM Platform</a></div></div>
+        </section>
+
+        <section id="products" class="product-grid-section">
+            <div class="container">
+                <h2 id="websites" class="animate-on-scroll">🛒Featured Websites</h2>
+                <div class="horizontal-scroll-wrapper">
+                    <button class="scroll-button scroll-button-prev" aria-label="Scroll left"><i class="fas fa-chevron-left"></i></button>
+                    <div class="product-grid horizontal-scroll">
+                        {% for product in websites %}
+                        <div class="product-card-outer animate-on-scroll">
+                            <a href="{{ url_for('home_app.product_detail', product_db_key=product.product_db_key) }}" class="product-card-content-link" aria-label="View details for {{ product.name }}">
+                                <div class="product-card" data-product-id="{{ product.product_db_key }}">
+                                    <div class="product-card-header" style="background-color: {{ product.category_color }};" aria-label="Category: {{ product.category }}">
+                                        <span class="category-text">{{ product.category.replace('-', ' ').title() }}</span>
+                                    </div>
+                                    <img src="{{ product.image }}" alt="{{ product.name }}" class="product-image" loading="lazy">
+                                    <div class="card-body">
+                                        <h3 class="product-name-heading">{{ product.name }}</h3>
+                                        <p class="long-description-summary">{{ product.long_description[:100] }}...</p>
+                                        <div class="price">
+                                            {{ product.price | format_local_currency(product.currency_iso, user_country_code) }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                            <div class="card-actions">
+                                <button class="add-to-cart-btn" data-product-id="{{ product.product_db_key }}">Add to Cart</button>
+                            </div>
+                            <div class="share-container">
+                                <button class="universal-share-btn"
+                                        data-title="{{ product.name }}"
+                                        data-text="{{ product.name }} - A great template from Nexaur!"
+                                        data-url="{{ url_for('home_app.product_detail', product_db_key=product.product_db_key, _external=True) }}">
+                                    <i class="fas fa-share-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <button class="scroll-button scroll-button-next" aria-label="Scroll right"><i class="fas fa-chevron-right"></i></button>
+                </div>
+
+                <h2 id="ai" class="animate-on-scroll">✨Top AI Solutions</h2>
+                <div class="product-grid">
+                    {% for product in ai %}
+                    <div class="product-card-outer animate-on-scroll">
+                        <a href="{{ url_for('home_app.product_detail', product_db_key=product.product_db_key) }}" class="product-card-content-link" aria-label="View details for {{ product.name }}">
+                            <div class="product-card" data-product-id="{{ product.product_db_key }}">
+                                <div class="product-card-header" style="background-color: {{ product.category_color }};" aria-label="Category: {{ product.category }}">
+                                    <span class="category-text">{{ product.category.replace('-', ' ').title() }}</span>
+                                </div>
+                                <img src="{{ product.image }}" alt="{{ product.name }}" class="product-image" loading="lazy">
+                                <div class="card-body">
+                                    <h3 class="product-name-heading">{{ product.name }}</h3>
+                                    <p class="long-description-summary">{{ product.long_description[:100] }}...</p>
+                                    <div class="price">
+                                        {{ product.price | format_local_currency(product.currency_iso, user_country_code) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="card-actions">
+                            <button class="add-to-cart-btn" data-product-id="{{ product.product_db_key }}">Add to Cart</button>
+                        </div>
+                        <div class="share-container">
+                            <button class="universal-share-btn"
+                                    data-title="{{ product.name }}"
+                                    data-text="{{ product.name }} - A powerful AI solution from Nexaur!"
+                                    data-url="{{ url_for('home_app.product_detail', product_db_key=product.product_db_key, _external=True) }}">
+                                <i class="fas fa-share-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <h2 id="apps" class="animate-on-scroll">📱Featured Applications</h2>
+                <div class="product-grid animate-on-scroll">
+                    {% for product in apps %}
+                    <div class="product-card-outer">
+                        <a href="{{ url_for('home_app.product_detail', product_db_key=product.product_db_key) }}" class="product-card-content-link" aria-label="View details for {{ product.name }}">
+                            <div class="product-card" data-product-id="{{ product.product_db_key }}">
+                                <div class="product-card-header" style="background-color: {{ product.category_color }};" aria-label="Category: {{ product.category }}">
+                                    <span class="category-text">{{ product.category.replace('-', ' ').title() }}</span>
+                                    </div>
+                                <img src="{{ product.image }}" alt="{{ product.name }}" class="product-image" loading="lazy">
+                                <div class="card-body">
+                                    <h3 class="product-name-heading">{{ product.name }}</h3>
+                                    <p class="long-description-summary">{{ product.long_description[:100] }}...</p>
+                                    <div class="price">
+                                        {{ product.price | format_local_currency(product.currency_iso, user_country_code) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="card-actions">
+                            <button class="add-to-cart-btn" data-product-id="{{ product.product_db_key }}">Add to Cart</button>
+                        </div>
+                        <div class="share-container">
+                            <button class="universal-share-btn"
+                                    data-title="{{ product.name }}"
+                                    data-text="{{ product.name }} - A feature-rich application from Nexaur!"
+                                    data-url="{{ url_for('home_app.product_detail', product_db_key=product.product_db_key, _external=True) }}">
+                                <i class="fas fa-share-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-col"><h3>Nexaur 🚀</h3><p>The marketplace for next-generation digital products. Built for creators and innovators.</p></div>
+                <div class="footer-col"><h3>Quick Links 🔗</h3><nav><ul><li><a href="#">About Us</a></li><li><a href="#">Contact</a></li><li><a href="#">Blog</a></li><li><a href="#">Careers</a></li><li><a href="#">Privacy Policy</a></li></ul></nav></div>
+                <div class="footer-col"><h3>Contact Us 📬</h3><ul><li><i class="fas fa-map-marker-alt"></i> 123 Digital Way, Tech City</li><li><a href="tel:+15551234567"><i class="fas fa-phone"></i> +1 (555) 123-4567</a></li><li><a href="mailto:hello@nexaur.com"><i class="fas fa-envelope"></i> hello@nexaur.com</a></li></ul></nav></div>
+                <div class="footer-col">
+                    <h3>Follow & Subscribe 👋</h3>
+                    <div class="social-links">
+                        <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" target="_blank" rel="noopener noreferrer" aria-label="View our GitHub profile"><i class="fab fa-github"></i></a>
+                        <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Connect with us on LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Subscribe to our YouTube channel"><i class="fab fa-youtube"></i></a>
+                        <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Like us on Facebook"><i class="fab fa-facebook-f"></i></a>
+                    </div>
+                    <p style="margin-top: 20px;">Get the latest news and updates.</p>
+                    <form class="newsletter-form"><input type="email" placeholder="Enter your email" required><button type="submit" aria-label="Subscribe to newsletter">Go</button></form>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='chat.js') }}"></script>
+    <script src="{{ url_for('static', filename='voice-search.js') }}"></script>
+
+    <!-- Page Load & On-Scroll Animation Scripts -->
     <script>
-        // This script is currently empty as the provided image doesn't show any interactive JavaScript elements.
-        // It's a placeholder for any future dynamic features.
-
         document.addEventListener('DOMContentLoaded', () => {
-            console.log("Nexaur website loaded successfully!");
+            const scrollElements = document.querySelectorAll('.animate-on-scroll');
+            const elementObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            scrollElements.forEach(el => { elementObserver.observe(el); });
 
-            // Example of potential future JS:
-            // If you add a video background and need specific controls, you might add them here.
-            // const backgroundVideo = document.querySelector('.background-video');
-            // if (backgroundVideo) {
-            //     backgroundVideo.play();
-            //     backgroundVideo.loop = true;
-            // }
-
-            // To dynamically adjust the hero-section's padding-top if the navbar wraps and becomes dynamic:
+            // --- New JS for Header/Hero responsiveness ---
             const navbar = document.querySelector('.navbar');
             const heroSection = document.querySelector('.hero-section');
             const navbarDesktopHeight = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--navbar-desktop-height'));
 
             const adjustHeroPadding = () => {
                 // If the navbar has wrapped (e.g., on mobile), its height will be dynamic.
-                // We check if it's no longer fixed, or if its actual height is greater than desktop fixed height
-                // This is a robust way to check for 'mobile' layout for the navbar
-                if (window.innerWidth <= 768) { // Our mobile breakpoint for navbar wrapping
+                // We check if its actual height is greater than the fixed desktop height or if it's explicitly set to relative.
+                if (window.innerWidth <= 768) { // Assuming 768px is your mobile breakpoint where navbar changes behavior
                     heroSection.style.paddingTop = navbar.offsetHeight + 'px';
                 } else {
                     heroSection.style.paddingTop = navbarDesktopHeight + 'px';
@@ -590,21 +1192,229 @@
             // Also, observe navbar for height changes, just in case (e.g., if content changes)
             new ResizeObserver(adjustHeroPadding).observe(navbar);
 
-            // Example of button click handlers (uncomment and modify as needed):
-            // const exploreButton = document.querySelector('.btn-primary');
-            // if (exploreButton) {
-            //     exploreButton.addEventListener('click', (e) => {
-            //         e.preventDefault();
-            //         console.log('Explore Products clicked!');
-            //     });
-            // }
-            // const seeInActionButton = document.querySelector('.btn-secondary');
-            // if (seeInActionButton) {
-            //     seeInActionButton.addEventListener('click', (e) => {
-            //         e.preventDefault();
-            //         console.log('See it in Action clicked!');
-            //     });
-            // }
+            // --- Voice Search for new Navbar Search Bar ---
+            const mainVoiceSearchBtnNavbar = document.getElementById('mainVoiceSearchBtnNavbar');
+            const mainSearchInputNavbar = document.getElementById('main-search-input-navbar');
+
+            if (mainVoiceSearchBtnNavbar && mainSearchInputNavbar) {
+                if ('webkitSpeechRecognition' in window) {
+                    const recognition = new webkitSpeechRecognition();
+                    recognition.continuous = false;
+                    recognition.interimResults = false;
+                    recognition.lang = 'en-US';
+
+                    mainVoiceSearchBtnNavbar.addEventListener('click', () => {
+                        recognition.start();
+                        mainSearchInputNavbar.placeholder = 'Speak now...';
+                        mainVoiceSearchBtnNavbar.classList.add('active'); // Add a class for visual feedback
+                    });
+
+                    recognition.onresult = (event) => {
+                        const transcript = event.results[0][0].transcript;
+                        mainSearchInputNavbar.value = transcript;
+                        mainSearchInputNavbar.form.submit(); // Submit the form after voice input
+                        mainSearchInputNavbar.placeholder = 'Search for anything...';
+                        mainVoiceSearchBtnNavbar.classList.remove('active');
+                    };
+
+                    recognition.onerror = (event) => {
+                        console.error('Speech recognition error:', event.error);
+                        mainSearchInputNavbar.placeholder = 'Try again.';
+                        mainVoiceSearchBtnNavbar.classList.remove('active');
+                    };
+
+                    recognition.onend = () => {
+                        mainSearchInputNavbar.placeholder = 'Search for anything...';
+                        mainVoiceSearchBtnNavbar.classList.remove('active');
+                    };
+                } else {
+                    mainVoiceSearchBtnNavbar.style.display = 'none'; // Hide button if not supported
+                }
+            }
+
+            // --- Clear button for new Navbar Search Bar ---
+            const clearButtonNavbar = document.querySelector('.search-bar .fa-times'); // Assuming you'd add a clear icon to the new search bar if desired
+            if (clearButtonNavbar) {
+                clearButtonNavbar.addEventListener('click', () => {
+                    mainSearchInputNavbar.value = '';
+                    mainSearchInputNavbar.focus();
+                });
+                mainSearchInputNavbar.addEventListener('input', () => {
+                    clearButtonNavbar.style.visibility = mainSearchInputNavbar.value ? 'visible' : 'hidden';
+                    clearButtonNavbar.style.opacity = mainSearchInputNavbar.value ? '1' : '0';
+                });
+            }
+        });
+    </script>
+
+    <!-- Horizontal Scroll Buttons Logic -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = ['websites', 'ai', 'apps'];
+            sections.forEach(sectionId => {
+                const section = document.getElementById(sectionId);
+                if (section) {
+                    const wrapper = section.nextElementSibling;
+                    if (wrapper && wrapper.classList.contains('horizontal-scroll-wrapper')) {
+                        const scrollContainer = wrapper.querySelector('.product-grid.horizontal-scroll');
+                        const prevButton = wrapper.querySelector('.scroll-button-prev');
+                        const nextButton = wrapper.querySelector('.scroll-button-next');
+
+                        if (scrollContainer && prevButton && nextButton) {
+                            const firstCard = scrollContainer.querySelector('.product-card-outer');
+                            if (firstCard) {
+                                const scrollAmount = firstCard.offsetWidth + 24; // Add 24px for the gap (1.5rem * 16px/rem = 24px)
+
+                                nextButton.addEventListener('click', () => { 
+                                    scrollContainer.scrollBy({ left: scrollAmount, behavior: 'smooth' }); 
+                                });
+                                prevButton.addEventListener('click', () => { 
+                                    scrollContainer.scrollBy({ left: -scrollAmount, behavior: 'smooth' }); 
+                                });
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+
+    <!-- ADD TO CART SCRIPT -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const updateCartCount = (count) => {
+                const cartCountElement = document.querySelector('.cart-count');
+                if (cartCountElement) {
+                    cartCountElement.textContent = count;
+                    cartCountElement.style.display = count > 0 ? 'flex' : 'none';
+                }
+            };
+
+            const fetchInitialCartCount = () => {
+                fetch("{{ url_for('home_app.get_cart_count') }}")
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.total_items !== undefined) {
+                            updateCartCount(data.total_items);
+                        }
+                    })
+                    .catch(error => console.error('Error fetching cart count:', error));
+            };
+
+            fetchInitialCartCount();
+
+            const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
+            addToCartButtons.forEach(button => {
+                let originalText = button.textContent;
+
+                button.addEventListener('click', (event) => {
+                    const productDbKey = button.dataset.productId;
+                    const addUrl = "{{ url_for('home_app.add_to_cart', product_db_key='_PLACEHOLDER_') }}".replace('_PLACEHOLDER_', productDbKey);
+
+                    if (!productDbKey) {
+                        console.error('Product DB Key not found on add-to-cart button.');
+                        return;
+                    }
+
+                    button.disabled = true;
+                    button.textContent = 'Adding...';
+                    button.classList.add('adding');
+
+                    fetch(addUrl, { method: 'POST' })
+                    .then(response => {
+                        if (response.status === 401) {
+                            return response.json().then(data => {
+                                if (data.redirect_url) {
+                                    window.location.href = data.redirect_url;
+                                } else {
+                                    alert('Please log in to add items to cart.');
+                                }
+                            });
+                        }
+                        if (!response.ok) {
+                            return response.json().then(errorData => Promise.reject(errorData.message || 'Unknown error'));
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        button.classList.remove('adding');
+                        if (data && data.status === 'success') {
+                            updateCartCount(data.total_items);
+                            button.classList.add('added');
+                            button.textContent = 'Added!';
+                            
+                            setTimeout(() => {
+                                button.classList.remove('added');
+                                button.textContent = originalText;
+                                button.disabled = false;
+                            }, 1500);
+
+                        } else if (data && data.message) {
+                            alert('Error: ' + data.message);
+                            button.textContent = originalText;
+                            button.disabled = false;
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Fetch error:', error);
+                        alert('An error occurred: ' + (error.message || 'Please try again.'));
+                        button.classList.remove('adding');
+                        button.textContent = originalText;
+                        button.disabled = false;
+                    });
+                });
+            });
+        });
+    </script>
+
+    <!-- Universal Share Button Logic -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const shareButtons = document.querySelectorAll('.universal-share-btn');
+
+            shareButtons.forEach(button => {
+                button.addEventListener('click', async (event) => {
+                    const title = button.dataset.title;
+                    const text = button.dataset.text;
+                    const url = button.dataset.url;
+
+                    if (navigator.share) {
+                        try {
+                            await navigator.share({
+                                title: title,
+                                text: text,
+                                url: url
+                            });
+                            console.log('Content shared successfully');
+                        } catch (error) {
+                            if (error.name !== 'AbortError') {
+                                console.error('Error sharing content:', error);
+                                alert('Could not share. Please try again.');
+                            }
+                        }
+                    } else {
+                        try {
+                            await navigator.clipboard.writeText(url);
+                            const flashContainer = document.querySelector('.flash-messages');
+                            if (flashContainer) {
+                                const copiedMessage = document.createElement('div');
+                                copiedMessage.classList.add('flash-message', 'info');
+                                copiedMessage.textContent = 'Link copied to clipboard!';
+                                flashContainer.appendChild(copiedMessage);
+                                setTimeout(() => {
+                                    copiedMessage.remove();
+                                }, 5000);
+                            } else {
+                                alert('Link copied to clipboard! You can paste it to share.');
+                            }
+                            console.log('URL copied to clipboard:', url);
+                        } catch (err) {
+                            console.error('Failed to copy to clipboard: ', err);
+                            alert('Could not copy link to clipboard. Please copy it manually: ' + url);
+                        }
+                    }
+                });
+            });
         });
     </script>
 </body>
