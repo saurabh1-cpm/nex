@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nexaur - Collaborate. Create. Innovate.</title>
-    <!-- Font Awesome for icons -->
+    <!-- Font Awesome for icons (ensure you have internet connectivity for this) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Google Fonts - Poppins for general text -->
+    <!-- Google Fonts - Poppins for general text (ensure you have internet connectivity for this) -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 
     <style>
@@ -28,10 +28,12 @@
             --icon-bg-light: rgba(255, 255, 255, 0.2); /* Transparent white for floating icons */
             --icon-bg-dark: rgba(0, 0, 0, 0.2); /* Transparent black for the right-top icon */
             --icon-color: #fff;
+            --navbar-desktop-height: 4.5rem; /* Fixed height for desktop navbar */
         }
 
         html {
             font-size: 16px; /* Base font size, 'rem' units will scale relative to this */
+            scroll-behavior: smooth; /* Smooth scrolling for potential anchor links */
         }
 
         body {
@@ -39,6 +41,7 @@
             line-height: 1.6;
             color: var(--text-dark);
             overflow-x: hidden; /* Prevent horizontal scroll on small screens */
+            background-color: #f8f8f8; /* A light background for general page */
         }
 
         a {
@@ -59,13 +62,16 @@
             background-color: var(--navbar-bg);
             position: fixed; /* Keep navbar visible at the top */
             width: 100%;
+            height: var(--navbar-desktop-height); /* Set a fixed height for desktop */
             z-index: 1000; /* Ensure navbar is above other content */
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease; /* Smooth transitions for responsive changes */
         }
 
         .navbar-logo img {
             height: 2.5rem; /* Adjust logo size */
             max-width: 100%;
+            display: block; /* Remove extra space below image */
         }
 
         .search-bar {
@@ -77,6 +83,7 @@
             flex-grow: 0.5; /* Allow search bar to expand */
             max-width: 600px; /* Limit search bar width on large screens */
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease; /* Smooth transition for search bar changes */
         }
 
         .search-bar i {
@@ -92,6 +99,7 @@
             padding: 0.3rem 0;
             font-size: 1rem;
             color: var(--text-dark);
+            background: transparent; /* Ensure input background is transparent */
         }
 
         .search-bar input::placeholder {
@@ -124,12 +132,11 @@
         .hero-section {
             position: relative;
             width: 100%;
-            height: 100vh; /* Full viewport height */
+            min-height: 100vh; /* Use min-height to ensure it's at least viewport height */
             display: flex;
             align-items: center; /* Vertically center content */
-            justify-content: center;
             overflow: hidden; /* Crucial for background video/image */
-            padding-top: 5rem; /* Offset for fixed navbar */
+            padding-top: var(--navbar-desktop-height); /* Offset for fixed navbar */
         }
 
         .hero-background {
@@ -145,6 +152,7 @@
             width: 100%;
             height: 100%;
             object-fit: cover; /* Ensures image covers the area, like `background-size: cover` */
+            object-position: center; /* Center the image within its frame */
             filter: brightness(0.7); /* Darken the image slightly for text readability */
         }
 
@@ -154,6 +162,7 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+            object-position: center;
             filter: brightness(0.7);
         }
         */
@@ -174,14 +183,13 @@
             text-align: left; /* Align text to the left as per image */
             color: var(--text-light);
             max-width: 80%; /* Limit content width */
-            margin-right: auto; /* Push content to the left */
             margin-left: 10%; /* Specific margin from left edge */
-            padding-bottom: 5rem; /* Adjust for better vertical centering */
+            padding: 2rem 0; /* Add some vertical padding within the content block */
         }
 
         .hero-title {
             /* Fluid font size using clamp(): min, preferred(vw), max */
-            font-size: clamp(2.5rem, 5vw, 4.5rem); 
+            font-size: clamp(2.8rem, 6.5vw, 5.5rem); /* Fine-tuned for better fluidity and max size */
             font-weight: 700;
             margin-bottom: 1.5rem;
             line-height: 1.2;
@@ -189,10 +197,13 @@
 
         .brain-icon {
             font-size: 1em; /* Keep brain icon size relative to text */
+            display: inline-block; /* Ensure it respects line-height */
+            vertical-align: middle; /* Align nicely with text */
+            margin: 0 0.5rem; /* Small horizontal spacing */
         }
 
         .hero-description {
-            font-size: clamp(1rem, 1.8vw, 1.4rem); /* Fluid font size for description */
+            font-size: clamp(1.1rem, 2.2vw, 1.6rem); /* Fine-tuned for better fluidity and max size */
             font-weight: 400;
             margin-bottom: 2.5rem;
             line-height: 1.5;
@@ -207,6 +218,7 @@
         .btn {
             display: inline-flex;
             align-items: center;
+            justify-content: center; /* Center text/icon within button */
             padding: 1rem 2.5rem;
             border-radius: 50px;
             font-weight: 600;
@@ -215,6 +227,7 @@
             transition: all 0.3s ease;
             border: none;
             white-space: nowrap; /* Prevent text wrapping inside buttons */
+            min-width: 10rem; /* Ensure buttons have a minimum width */
         }
 
         .btn-primary {
@@ -225,7 +238,8 @@
 
         .btn-primary:hover {
             background-color: #e66b62; /* Slightly darker pink on hover */
-            transform: translateY(-2px);
+            transform: translateY(-3px); /* More pronounced hover effect */
+            box-shadow: 0 6px 20px rgba(247, 127, 118, 0.6);
         }
 
         .btn-secondary {
@@ -242,7 +256,8 @@
         .btn-secondary:hover {
             background-color: rgba(255, 255, 255, 0.3);
             border-color: rgba(255, 255, 255, 0.6);
-            transform: translateY(-2px);
+            transform: translateY(-3px); /* More pronounced hover effect */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
         }
 
         /* Floating Icons */
@@ -260,33 +275,34 @@
             position: absolute;
             background-color: var(--icon-bg-light);
             color: var(--icon-color);
-            width: 4rem;
-            height: 4rem;
+            width: 4.5rem; /* Slightly larger base size */
+            height: 4.5rem; /* Slightly larger base size */
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.8rem;
+            font-size: 2rem; /* Adjusted icon size */
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            backdrop-filter: blur(5px); /* Frosted glass effect */
-            -webkit-backdrop-filter: blur(5px); /* For Safari */
+            backdrop-filter: blur(8px); /* More pronounced frosted glass effect */
+            -webkit-backdrop-filter: blur(8px); /* For Safari */
             pointer-events: auto; /* Make the icon itself clickable */
+            transition: all 0.4s ease; /* Smooth transition for icon positioning/sizing */
         }
 
         .floating-icon.left-top {
-            top: 25%; /* Adjust as per image */
-            left: 5%;
+            top: 20%; /* Adjusted */
+            left: 6%; /* Adjusted */
         }
 
         .floating-icon.right-top {
-            top: 25%; /* Adjust as per image */
-            right: 5%;
+            top: 20%; /* Adjusted */
+            right: 6%; /* Adjusted */
             background-color: var(--icon-bg-dark); /* Darker background for the 'A' icon */
         }
 
         .floating-icon.bottom-right {
-            bottom: 10%;
-            right: 5%;
+            bottom: 8%; /* Adjusted */
+            right: 6%; /* Adjusted */
         }
 
 
@@ -296,6 +312,7 @@
         @media (max-width: 1024px) {
             .navbar {
                 padding: 0.8rem 1.5rem;
+                height: 4rem; /* Slightly smaller fixed height */
             }
 
             .navbar-logo img {
@@ -304,7 +321,7 @@
 
             .search-bar {
                 padding: 0.4rem 1rem;
-                max-width: 450px;
+                max-width: 400px; /* Slightly smaller max-width */
             }
 
             .navbar-nav ul {
@@ -318,6 +335,7 @@
             .hero-content {
                 max-width: 90%; /* Allow content to take more width */
                 margin-left: 8%; /* Adjust left margin */
+                padding: 1.5rem 0;
             }
 
             .btn {
@@ -326,13 +344,13 @@
             }
 
             .floating-icon {
-                width: 3.5rem;
-                height: 3.5rem;
-                font-size: 1.5rem;
+                width: 4rem;
+                height: 4rem;
+                font-size: 1.8rem;
             }
-            .floating-icon.left-top { top: 20%; left: 3%; }
-            .floating-icon.right-top { top: 20%; right: 3%; }
-            .floating-icon.bottom-right { bottom: 8%; right: 3%; }
+            .floating-icon.left-top { top: 15%; left: 4%; }
+            .floating-icon.right-top { top: 15%; right: 4%; }
+            .floating-icon.bottom-right { bottom: 5%; right: 4%; }
         }
 
         /* For Mobile Devices (e.g., screens up to 768px) */
@@ -341,6 +359,13 @@
                 flex-wrap: wrap; /* Allow navbar items to stack */
                 justify-content: center; /* Center items when wrapped */
                 padding: 0.8rem 1rem;
+                position: relative; /* Navbar becomes relative on mobile so content flows below it naturally */
+                height: auto; /* Allow height to adjust based on content */
+            }
+
+            .hero-section {
+                 padding-top: 0; /* No fixed navbar offset when navbar is relative */
+                 min-height: calc(100vh - var(--navbar-mobile-dynamic-height, 0px)); /* Adjust based on actual navbar height if needed */
             }
 
             .navbar-logo {
@@ -379,16 +404,16 @@
                 text-align: center; /* Center text on mobile */
                 margin: 0 auto; /* Center horizontally */
                 max-width: 90%;
-                padding-bottom: 2rem;
+                padding: 1rem 0;
             }
 
             .hero-title {
-                font-size: clamp(2rem, 8vw, 3.5rem); /* Adjust fluid font size for mobile */
+                font-size: clamp(2.2rem, 8vw, 4rem); /* Adjust fluid font size for mobile */
                 margin-bottom: 1rem;
             }
 
             .hero-description {
-                font-size: clamp(0.9rem, 3vw, 1.2rem); /* Adjust fluid font size for mobile */
+                font-size: clamp(1rem, 3.5vw, 1.3rem); /* Adjust fluid font size for mobile */
                 margin-bottom: 1.5rem;
             }
 
@@ -403,16 +428,17 @@
                 max-width: 300px; /* Limit max width of buttons */
                 font-size: 1rem;
                 padding: 0.8rem 1.5rem;
+                min-width: unset; /* Remove min-width on mobile */
             }
 
             .floating-icon {
-                width: 3rem;
-                height: 3rem;
-                font-size: 1.3rem;
+                width: 3.5rem;
+                height: 3.5rem;
+                font-size: 1.5rem;
             }
-            .floating-icon.left-top { top: 15%; left: 2%; }
-            .floating-icon.right-top { top: 15%; right: 2%; }
-            .floating-icon.bottom-right { bottom: 5%; right: 2%; }
+            .floating-icon.left-top { top: 10%; left: 3%; }
+            .floating-icon.right-top { top: 10%; right: 3%; }
+            .floating-icon.bottom-right { bottom: 3%; right: 3%; }
         }
 
         /* For Small Mobile Devices (e.g., screens up to 480px) */
@@ -444,10 +470,10 @@
             }
 
             .hero-title {
-                font-size: clamp(1.8rem, 9vw, 2.8rem);
+                font-size: clamp(1.8rem, 9.5vw, 3rem); /* Fine-tuned for small mobile */
             }
             .hero-description {
-                font-size: clamp(0.85rem, 3.5vw, 1.1rem);
+                font-size: clamp(0.9rem, 4.5vw, 1.2rem); /* Fine-tuned for small mobile */
             }
             .btn {
                 width: 90%;
@@ -456,21 +482,21 @@
             }
 
             .floating-icon {
-                width: 2.5rem;
-                height: 2.5rem;
-                font-size: 1.1rem;
+                width: 3rem;
+                height: 3rem;
+                font-size: 1.3rem;
                 box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
             }
-            .floating-icon.left-top { top: 10%; left: 1%; }
-            .floating-icon.right-top { top: 10%; right: 1%; }
-            .floating-icon.bottom-right { bottom: 3%; right: 1%; }
+            .floating-icon.left-top { top: 8%; left: 2%; }
+            .floating-icon.right-top { top: 8%; right: 2%; }
+            .floating-icon.bottom-right { bottom: 2%; right: 2%; }
         }
     </style>
 </head>
 <body>
     <header class="navbar">
         <div class="navbar-logo">
-            <!-- Using a placeholder image URL for the logo. Replace with your actual logo path. -->
+            <!-- IMPORTANT: Replace this placeholder image URL with your actual logo path! -->
             <img src="https://via.placeholder.com/150x50/3498db/ffffff?text=nexaur" alt="Nexaur Logo">
         </div>
         <div class="search-bar">
@@ -489,20 +515,24 @@
 
     <main class="hero-section">
         <div class="hero-background">
-            <!-- This is a placeholder for the background video/image. -->
-            <!-- For a video, uncomment the video tag and provide your source. -->
+            <!-- IMPORTANT: Choose ONE of the options below for your background! -->
+            <!-- Option 1: Placeholder Image (currently active) -->
+            <img src="https://via.placeholder.com/1920x1080/0d0d0d/ffffff?text=Dynamic+Background" alt="Dynamic Background Mockup">
+
+            <!-- Option 2: Actual Video Background (uncomment and replace 'your-video.mp4') -->
             <!-- <video autoplay muted loop playsinline class="background-video">
                 <source src="your-video.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video> -->
-            <!-- For now, using an image that mimics the appearance of the video frame. -->
-            <img src="https://via.placeholder.com/1920x1080/0d0d0d/ffffff?text=Dynamic+Background" alt="Dynamic Background Mockup">
+
+            <!-- Option 3: Actual Static Background Image (uncomment and replace 'your-image.jpg') -->
+            <!-- <img src="your-image.jpg" alt="Dynamic Background Image"> -->
         </div>
         <div class="hero-overlay"></div> <!-- Dark overlay for text readability -->
 
         <div class="hero-content">
             <h1 class="hero-title">
-                Collaborate. <span class="brain-icon" role="img" aria-label="brain emoji">🧠</span> Create. Innovate.
+                Collaborate.<span class="brain-icon" role="img" aria-label="brain emoji">🧠</span>Create. Innovate.
             </h1>
             <p class="hero-description">
                 Nexaur provides the tools for your design team to bring <br>
@@ -525,38 +555,55 @@
 
     <script>
         // This script is currently empty as the provided image doesn't show any interactive JavaScript elements.
-        // However, it's good practice to include it for future dynamic features.
+        // It's a placeholder for any future dynamic features.
 
         document.addEventListener('DOMContentLoaded', () => {
             console.log("Nexaur website loaded successfully!");
 
-            // Example of potential future JS (uncomment and modify as needed):
+            // Example of potential future JS:
+            // If you add a video background and need specific controls, you might add them here.
+            // const backgroundVideo = document.querySelector('.background-video');
+            // if (backgroundVideo) {
+            //     backgroundVideo.play();
+            //     backgroundVideo.loop = true;
+            // }
 
-            // Handle button clicks
+            // To dynamically adjust the hero-section's padding-top if the navbar wraps and becomes dynamic:
+            const navbar = document.querySelector('.navbar');
+            const heroSection = document.querySelector('.hero-section');
+            const navbarDesktopHeight = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--navbar-desktop-height'));
+
+            const adjustHeroPadding = () => {
+                // If the navbar has wrapped (e.g., on mobile), its height will be dynamic.
+                // We check if it's no longer fixed, or if its actual height is greater than desktop fixed height
+                // This is a robust way to check for 'mobile' layout for the navbar
+                if (window.innerWidth <= 768) { // Our mobile breakpoint for navbar wrapping
+                    heroSection.style.paddingTop = navbar.offsetHeight + 'px';
+                } else {
+                    heroSection.style.paddingTop = navbarDesktopHeight + 'px';
+                }
+            };
+
+            // Run on initial load and whenever the window is resized
+            window.addEventListener('load', adjustHeroPadding);
+            window.addEventListener('resize', adjustHeroPadding);
+            // Also, observe navbar for height changes, just in case (e.g., if content changes)
+            new ResizeObserver(adjustHeroPadding).observe(navbar);
+
+            // Example of button click handlers (uncomment and modify as needed):
             // const exploreButton = document.querySelector('.btn-primary');
             // if (exploreButton) {
             //     exploreButton.addEventListener('click', (e) => {
-            //         e.preventDefault(); // Prevent default link behavior
-            //         alert('You clicked Explore Products!');
-            //         // Here you might navigate to a products page, open a modal, etc.
+            //         e.preventDefault();
+            //         console.log('Explore Products clicked!');
             //     });
             // }
-
             // const seeInActionButton = document.querySelector('.btn-secondary');
             // if (seeInActionButton) {
             //     seeInActionButton.addEventListener('click', (e) => {
-            //         e.preventDefault(); // Prevent default link behavior
-            //         alert('You clicked See it in Action!');
-            //         // Here you might open a video player, scroll to a demo section, etc.
+            //         e.preventDefault();
+            //         console.log('See it in Action clicked!');
             //     });
-            // }
-
-            // If you add a video background and need specific controls:
-            // const backgroundVideo = document.querySelector('.background-video');
-            // if (backgroundVideo) {
-            //     // Ensure video plays on page load and loops
-            //     backgroundVideo.play();
-            //     backgroundVideo.loop = true;
             // }
         });
     </script>
