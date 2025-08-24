@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Animated Electricity Button</title>
+    <title>Intense Animated Electricity Button</title>
     <style>
         /* Define custom CSS properties for animation (modern CSS feature) */
-        /* These allow us to animate SVG filter parameters directly in CSS */
         @property --angle {
             syntax: "<angle>";
             initial-value: 0deg;
@@ -14,17 +13,17 @@
         }
         @property --thunder-freq-x {
             syntax: "<number>";
-            initial-value: 0.05;
+            initial-value: 0.1; /* Slightly higher base frequency for more details */
             inherits: false;
         }
         @property --thunder-freq-y {
             syntax: "<number>";
-            initial-value: 0.1;
+            initial-value: 0.15; /* Slightly higher base frequency for more details */
             inherits: false;
         }
         @property --thunder-scale {
             syntax: "<number>";
-            initial-value: 15;
+            initial-value: 20; /* Increased default displacement scale */
             inherits: false;
         }
 
@@ -51,164 +50,168 @@
 
         #thunderEffect {
             /* feTurbulence generates noise (fractal noise looks more organic) */
-            /* baseFrequency: higher values mean more jaggedness, smaller details */
+            /* baseFrequency: higher values mean more jaggedness, smaller details.
+               Animated to create the "moving worms" effect. */
             /* numOctaves: adds more detail/complexity (more "flicker") */
             <feTurbulence type="fractalNoise"
                           baseFrequency="var(--thunder-freq-x) var(--thunder-freq-y)"
-                          numOctaves="3" /* Increased octaves for more complex noise */
+                          numOctaves="4" /* Increased octaves for even more complex, fine-grained noise */
                           seed="0"
                           result="noise" />
             
             /* feDisplacementMap uses the noise to displace (move) the pixels of the source graphic */
-            /* scale: controls the intensity/magnitude of the displacement (how jagged it is) */
+            /* scale: controls the intensity/magnitude of the displacement (how jagged it is).
+               Animated to make the "worms" appear to pulse and shift. */
             <feDisplacementMap in="SourceGraphic"
                                in2="noise"
                                scale="var(--thunder-scale)"
                                xChannelSelector="R"
                                yChannelSelector="G" />
-        }
+            </filter>
+        </svg>
+    </div>
 
-        /* The Button Styling */
-        .animated-button {
-            background-color: #101030; /* Very dark blue for the button body */
-            color: white;
-            font-size: 2em;
-            padding: 1em 2em;
-            border: none;
-            border-radius: 3em; /* Rounded corners */
-            cursor: pointer;
-            position: relative; /* For pseudo-elements positioning */
-            overflow: hidden; /* Crucial to contain the glow within the button */
-            outline: none; /* Remove default focus outline */
-            display: flex; /* For aligning text and indicator */
-            align-items: center;
-            justify-content: center;
-            gap: 0.5em; /* Space between text and indicator */
-            transition: transform 0.2s ease, box-shadow 0.3s ease;
-            z-index: 10; /* Ensure text and indicator are on top of effects */
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.9), 0 0 20px rgba(0, 200, 255, 0.5); /* Stronger text glow */
-        }
+    /* The Button Styling */
+    .animated-button {
+        background-color: #0A0A20; /* Very dark blue for the button body */
+        color: white;
+        font-size: 2em;
+        padding: 1em 2em;
+        border: none;
+        border-radius: 3em; /* Rounded corners */
+        cursor: pointer;
+        position: relative; /* For pseudo-elements positioning */
+        overflow: hidden; /* Crucial to contain the glow within the button */
+        outline: none; /* Remove default focus outline */
+        display: flex; /* For aligning text and indicator */
+        align-items: center;
+        justify-content: center;
+        gap: 0.5em; /* Space between text and indicator */
+        transition: transform 0.2s ease, box-shadow 0.3s ease;
+        z-index: 10; /* Ensure text and indicator are on top of effects */
+        text-shadow: 0 0 12px rgba(255, 255, 255, 0.9), 0 0 25px rgba(0, 200, 255, 0.6); /* Stronger text glow */
+    }
 
-        .animated-button:hover {
-            transform: scale(1.03); /* Slight zoom on hover */
-            box-shadow: 0 0 30px rgba(0, 220, 255, 0.8); /* Intense cyan glow on hover */
-        }
+    .animated-button:hover {
+        transform: scale(1.03); /* Slight zoom on hover */
+        box-shadow: 0 0 40px rgba(0, 220, 255, 0.9); /* Intense cyan glow on hover */
+    }
 
-        .animated-button .indicator {
-            width: 1.5em;
-            height: 1.5em;
-            background-color: #666; /* Grey from image */
-            border-radius: 50%;
-            border: 2px solid rgba(255, 255, 255, 0.9); /* White outline */
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.7); /* Subtle glow for indicator */
-            transition: background-color 0.3s ease, box-shadow 0.3s ease;
-        }
-        .animated-button:hover .indicator {
-            background-color: #aaa;
-            box-shadow: 0 0 15px rgba(255, 255, 255, 1);
-        }
+    .animated-button .indicator {
+        width: 1.5em;
+        height: 1.5em;
+        background-color: #555; /* Darker grey */
+        border-radius: 50%;
+        border: 2px solid rgba(255, 255, 255, 0.9); /* White outline */
+        box-shadow: 0 0 12px rgba(255, 255, 255, 0.8); /* Subtle glow for indicator */
+        transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .animated-button:hover .indicator {
+        background-color: #888;
+        box-shadow: 0 0 18px rgba(255, 255, 255, 1);
+    }
 
-        /* Animated Electricity Glow (::before) - The main, blurry, multi-color thunder effect */
-        .animated-button::before {
-            content: "";
-            position: absolute;
-            inset: -20px; /* Extend far beyond the button for the broad glow */
-            border-radius: inherit;
-            
-            /* Conic gradient for the multi-color rotating effect (electricity colors) */
-            background: conic-gradient(
-                from var(--angle) at 50% 50%,
-                #00f 0%,         /* Deep Blue */
-                #8a2be2 15%,     /* Blue-violet */
-                #e0ffff 30%,     /* Azure (bright white-blue) */
-                #add8e6 45%,     /* Light Blue */
-                #8a2be2 60%,     /* Blue-violet */
-                #00f 75%,        /* Deep Blue */
-                #e0ffff 100%     /* Azure to loop seamlessly */
-            );
-            background-size: 200% 200%;
+    /* Animated Electricity Glow (::before) - The main, blurry, multi-color thunder effect */
+    .animated-button::before {
+        content: "";
+        position: absolute;
+        inset: -25px; /* Extend even further for a broader, more impactful glow */
+        border-radius: inherit;
+        
+        /* Conic gradient for the multi-color rotating effect (electricity colors) */
+        background: conic-gradient(
+            from var(--angle) at 50% 50%,
+            #00f 0%,         /* Deep Blue */
+            #8a2be2 15%,     /* Blue-violet */
+            #e0ffff 30%,     /* Azure (bright white-blue) - Core color */
+            #add8e6 45%,     /* Light Blue */
+            #8a2be2 60%,     /* Blue-violet */
+            #00f 75%,        /* Deep Blue */
+            #e0ffff 100%     /* Azure to loop seamlessly */
+        );
+        background-size: 200% 200%;
 
-            /* Apply strong blur for glow and SVG filter for jagged distortion */
-            filter: blur(20px) url(#thunderEffect); /* More blur for wider glow */
-            
-            animation: 
-                rotateGradient 8s linear infinite,      /* Rotate the colors slowly */
-                animateThunder 2s linear infinite;     /* Animate the noise for flickering worms */
-            
-            z-index: -2; /* Behind the button content and inner electricity */
-            pointer-events: none; /* Ensure it doesn't interfere with clicks */
-            opacity: 0.9; /* Slightly transparent for a more ethereal glow */
-        }
+        /* Apply strong blur for glow and SVG filter for jagged distortion */
+        filter: blur(25px) url(#thunderEffect); /* Even more blur for a wider, more diffuse glow */
+        
+        animation: 
+            rotateGradient 6s linear infinite,      /* Rotate the colors */
+            animateThunder 1.5s linear infinite;    /* Faster animation for more intense flicker/movement */
+        
+        z-index: -2; /* Behind the button content and inner electricity */
+        pointer-events: none; /* Ensure it doesn't interfere with clicks */
+        opacity: 0.95; /* Almost opaque for intense glow */
+    }
 
-        /* Sharper Inner Electricity (::after) - A brighter, less blurred core */
-        .animated-button::after {
-            content: "";
-            position: absolute;
-            inset: -8px; /* Closer to the button than ::before */
-            border-radius: inherit;
-            
-            /* Use a simpler, brighter gradient or solid color for the core */
-            background: conic-gradient(
-                from var(--angle) at 50% 50%,
-                transparent 0%,
-                rgba(0, 200, 255, 0.8) 5%, /* Bright Cyan */
-                rgba(173, 216, 230, 0.6) 15%, /* Light Blue */
-                transparent 30%
-            );
-            background-size: 200% 200%;
-            
-            /* Apply less blur than ::before, but still the same SVG filter */
-            filter: blur(5px) url(#thunderEffect);
-            
-            animation: 
-                rotateGradient 8s linear infinite,
-                animateThunder 2s linear infinite reverse; /* Reverse to create independent motion */
-            
-            z-index: -1; /* Between the main glow and the button content */
-            pointer-events: none;
-            opacity: 0.7; /* Slightly transparent */
-        }
+    /* Sharper Inner Electricity (::after) - A brighter, less blurred core */
+    .animated-button::after {
+        content: "";
+        position: absolute;
+        inset: -10px; /* Closer to the button than ::before */
+        border-radius: inherit;
+        
+        /* Use a simpler, brighter gradient or solid color for the core */
+        background: conic-gradient(
+            from var(--angle) at 50% 50%,
+            transparent 0%,
+            rgba(0, 255, 255, 0.9) 5%, /* Brightest Cyan */
+            rgba(173, 216, 230, 0.7) 15%, /* Light Blue */
+            transparent 30%
+        );
+        background-size: 200% 200%;
+        
+        /* Apply less blur than ::before, but still the same SVG filter */
+        filter: blur(7px) url(#thunderEffect); /* Slightly more blur than before for a "plasma" feel */
+        
+        animation: 
+            rotateGradient 6s linear infinite,
+            animateThunder 1.5s linear infinite reverse; /* Reverse to create independent motion */
+        
+        z-index: -1; /* Between the main glow and the button content */
+        pointer-events: none;
+        opacity: 0.8; /* Slightly transparent */
+    }
 
-        /* Keyframes for rotating the conic gradient */
-        @keyframes rotateGradient {
-            from {
-                --angle: 0deg;
-            }
-            to {
-                --angle: 360deg;
-            }
+    /* Keyframes for rotating the conic gradient */
+    @keyframes rotateGradient {
+        from {
+            --angle: 0deg;
         }
+        to {
+            --angle: 360deg;
+        }
+    }
 
-        /* Keyframes for animating the SVG filter's parameters */
-        /* This creates the "moving worms" and flickering effect */
-        @keyframes animateThunder {
-            0% {
-                --thunder-freq-x: 0.05;
-                --thunder-freq-y: 0.1;
-                --thunder-scale: 15;
-            }
-            25% {
-                --thunder-freq-x: 0.08;
-                --thunder-freq-y: 0.12;
-                --thunder-scale: 18; /* Slight change in scale for more flicker */
-            }
-            50% {
-                --thunder-freq-x: 0.04;
-                --thunder-freq-y: 0.09;
-                --thunder-scale: 16;
-            }
-            75% {
-                --thunder-freq-x: 0.07;
-                --thunder-freq-y: 0.11;
-                --thunder-scale: 19;
-            }
-            100% {
-                --thunder-freq-x: 0.05;
-                --thunder-freq-y: 0.1;
-                --thunder-scale: 15;
-            }
+    /* Keyframes for animating the SVG filter's parameters */
+    /* This creates the "moving worms" and flickering effect */
+    @keyframes animateThunder {
+        0% {
+            --thunder-freq-x: 0.1;
+            --thunder-freq-y: 0.15;
+            --thunder-scale: 20;
         }
-    </style>
+        25% {
+            --thunder-freq-x: 0.15; /* More jagged */
+            --thunder-freq-y: 0.18;
+            --thunder-scale: 25; /* More intense displacement */
+        }
+        50% {
+            --thunder-freq-x: 0.08; /* Slightly smoother in some parts */
+            --thunder-freq-y: 0.12;
+            --thunder-scale: 22;
+        }
+        75% {
+            --thunder-freq-x: 0.13;
+            --thunder-freq-y: 0.16;
+            --thunder-scale: 28; /* Peak intensity */
+        }
+        100% {
+            --thunder-freq-x: 0.1;
+            --thunder-freq-y: 0.15;
+            --thunder-scale: 20;
+        }
+    }
+</style>
 </head>
 <body>
 
@@ -218,7 +221,7 @@
             <filter id="thunderEffect">
                 <feTurbulence type="fractalNoise"
                               baseFrequency="var(--thunder-freq-x) var(--thunder-freq-y)"
-                              numOctaves="3"
+                              numOctaves="4"
                               seed="0"
                               result="noise" />
                 <feDisplacementMap in="SourceGraphic"
