@@ -3,22 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Animated Waveform Button</title>
+    <title>Animated Electricity Button</title>
     <style>
-        /* Define custom CSS property for angle animation (modern CSS feature) */
+        /* Define custom CSS properties for animation (modern CSS feature) */
+        /* These allow us to animate SVG filter parameters directly in CSS */
         @property --angle {
             syntax: "<angle>";
             initial-value: 0deg;
             inherits: false;
         }
-        @property --wave-freq-x {
+        @property --thunder-freq-x {
             syntax: "<number>";
-            initial-value: 0.01;
+            initial-value: 0.05;
             inherits: false;
         }
-        @property --wave-freq-y {
+        @property --thunder-freq-y {
             syntax: "<number>";
-            initial-value: 0.2;
+            initial-value: 0.1;
+            inherits: false;
+        }
+        @property --thunder-scale {
+            syntax: "<number>";
+            initial-value: 15;
             inherits: false;
         }
 
@@ -27,54 +33,49 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background-color: #000; /* Dark background to make the glow stand out */
+            background-color: #000; /* Dark background is essential for glow effects */
             margin: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             overflow: hidden; /* Prevent filter blur from extending beyond viewport */
         }
 
-        /* SVG Filter for the Wavy Effect */
-        /* Hidden SVG for the filter definition */
+        /* SVG Filter for the Jagged Electricity Effect */
+        /* This entire div is hidden as it only defines the filter */
         .svg-filters {
             position: absolute;
             width: 0;
             height: 0;
             pointer-events: none;
-            overflow: hidden; /* Ensure it's truly hidden */
+            overflow: hidden;
         }
 
-        #wavyBorder {
-            /* feTurbulence generates noise (perlin noise or fractal noise) */
-            /* baseFrequency controls the "scale" of the waves.
-               Adjusting X and Y independently can create horizontal or vertical patterns. */
-            /* numOctaves adds more detail/complexity to the noise */
+        #thunderEffect {
+            /* feTurbulence generates noise (fractal noise looks more organic) */
+            /* baseFrequency: higher values mean more jaggedness, smaller details */
+            /* numOctaves: adds more detail/complexity (more "flicker") */
             <feTurbulence type="fractalNoise"
-                          baseFrequency="var(--wave-freq-x) var(--wave-freq-y)"
-                          numOctaves="1"
+                          baseFrequency="var(--thunder-freq-x) var(--thunder-freq-y)"
+                          numOctaves="3" /* Increased octaves for more complex noise */
                           seed="0"
                           result="noise" />
             
             /* feDisplacementMap uses the noise to displace (move) the pixels of the source graphic */
-            /* in="SourceGraphic" refers to the element the filter is applied to (our button's ::before) */
-            /* in2="noise" refers to the generated noise pattern */
-            /* scale controls the intensity/magnitude of the displacement (how wavy it is) */
-            /* xChannelSelector and yChannelSelector pick which color channel from the noise
-               should control the X and Y displacement. 'R' and 'G' are common. */
+            /* scale: controls the intensity/magnitude of the displacement (how jagged it is) */
             <feDisplacementMap in="SourceGraphic"
                                in2="noise"
-                               scale="10"
+                               scale="var(--thunder-scale)"
                                xChannelSelector="R"
                                yChannelSelector="G" />
         }
 
         /* The Button Styling */
         .animated-button {
-            background-color: #202050; /* Dark blue from image */
+            background-color: #101030; /* Very dark blue for the button body */
             color: white;
             font-size: 2em;
             padding: 1em 2em;
             border: none;
-            border-radius: 3em; /* More rounded to match the image */
+            border-radius: 3em; /* Rounded corners */
             cursor: pointer;
             position: relative; /* For pseudo-elements positioning */
             overflow: hidden; /* Crucial to contain the glow within the button */
@@ -84,63 +85,88 @@
             justify-content: center;
             gap: 0.5em; /* Space between text and indicator */
             transition: transform 0.2s ease, box-shadow 0.3s ease;
-            z-index: 1; /* Ensure text and indicator are on top */
-            text-shadow: 0 0 8px rgba(255, 255, 255, 0.7); /* Subtle text glow */
+            z-index: 10; /* Ensure text and indicator are on top of effects */
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.9), 0 0 20px rgba(0, 200, 255, 0.5); /* Stronger text glow */
         }
 
         .animated-button:hover {
             transform: scale(1.03); /* Slight zoom on hover */
-            box-shadow: 0 0 20px rgba(0, 220, 255, 0.6); /* Cyan glow on hover */
+            box-shadow: 0 0 30px rgba(0, 220, 255, 0.8); /* Intense cyan glow on hover */
         }
 
         .animated-button .indicator {
             width: 1.5em;
             height: 1.5em;
-            background-color: #888; /* Grey from image */
+            background-color: #666; /* Grey from image */
             border-radius: 50%;
-            border: 2px solid rgba(255, 255, 255, 0.8); /* White outline */
-            box-shadow: 0 0 8px rgba(255, 255, 255, 0.6); /* Subtle glow for indicator */
+            border: 2px solid rgba(255, 255, 255, 0.9); /* White outline */
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.7); /* Subtle glow for indicator */
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .animated-button:hover .indicator {
+            background-color: #aaa;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 1);
         }
 
-        /* Animated Border (::before) - The glowing, wavy, colorful part */
+        /* Animated Electricity Glow (::before) - The main, blurry, multi-color thunder effect */
         .animated-button::before {
             content: "";
             position: absolute;
-            inset: -8px; /* Extend beyond the button for the glow */
-            border-radius: inherit; /* Match button's rounded corners */
+            inset: -20px; /* Extend far beyond the button for the broad glow */
+            border-radius: inherit;
             
-            /* Conic gradient for the multi-color rotating effect */
+            /* Conic gradient for the multi-color rotating effect (electricity colors) */
             background: conic-gradient(
                 from var(--angle) at 50% 50%,
-                #00f 0%,       /* Blue */
-                #8a2be2 20%,   /* Blue-violet */
-                #ff1493 40%,   /* Deep pink */
-                #ff4500 60%,   /* Orange-red */
-                #ffd700 80%,   /* Gold */
-                #00f 100%      /* Blue to loop seamlessly */
+                #00f 0%,         /* Deep Blue */
+                #8a2be2 15%,     /* Blue-violet */
+                #e0ffff 30%,     /* Azure (bright white-blue) */
+                #add8e6 45%,     /* Light Blue */
+                #8a2be2 60%,     /* Blue-violet */
+                #00f 75%,        /* Deep Blue */
+                #e0ffff 100%     /* Azure to loop seamlessly */
             );
-            background-size: 200% 200%; /* Important for background-position animation if used */
+            background-size: 200% 200%;
 
-            /* Apply blur for glow and SVG filter for waves */
-            /* The url(#wavyBorder) references our SVG filter defined above */
-            filter: blur(10px) url(#wavyBorder); 
+            /* Apply strong blur for glow and SVG filter for jagged distortion */
+            filter: blur(20px) url(#thunderEffect); /* More blur for wider glow */
             
             animation: 
-                rotateGradient 6s linear infinite, /* Rotate the colors */
-                animateWaves 4s ease-in-out infinite alternate; /* Animate the wave distortion */
-            z-index: -2; /* Behind the button content and inner border */
+                rotateGradient 8s linear infinite,      /* Rotate the colors slowly */
+                animateThunder 2s linear infinite;     /* Animate the noise for flickering worms */
+            
+            z-index: -2; /* Behind the button content and inner electricity */
             pointer-events: none; /* Ensure it doesn't interfere with clicks */
+            opacity: 0.9; /* Slightly transparent for a more ethereal glow */
         }
 
-        /* Inner Blue Border (::after) - To mimic the distinct blue line in the image */
+        /* Sharper Inner Electricity (::after) - A brighter, less blurred core */
         .animated-button::after {
             content: "";
             position: absolute;
-            inset: -2px; /* Slightly outside the main button to act as a border */
+            inset: -8px; /* Closer to the button than ::before */
             border-radius: inherit;
-            border: 2px solid rgba(0, 191, 255, 0.8); /* Cyan-blue border, slightly transparent */
-            z-index: -1; /* Between the glow and the button content */
-            pointer-events: none; /* Make sure it doesn't interfere with clicks */
+            
+            /* Use a simpler, brighter gradient or solid color for the core */
+            background: conic-gradient(
+                from var(--angle) at 50% 50%,
+                transparent 0%,
+                rgba(0, 200, 255, 0.8) 5%, /* Bright Cyan */
+                rgba(173, 216, 230, 0.6) 15%, /* Light Blue */
+                transparent 30%
+            );
+            background-size: 200% 200%;
+            
+            /* Apply less blur than ::before, but still the same SVG filter */
+            filter: blur(5px) url(#thunderEffect);
+            
+            animation: 
+                rotateGradient 8s linear infinite,
+                animateThunder 2s linear infinite reverse; /* Reverse to create independent motion */
+            
+            z-index: -1; /* Between the main glow and the button content */
+            pointer-events: none;
+            opacity: 0.7; /* Slightly transparent */
         }
 
         /* Keyframes for rotating the conic gradient */
@@ -153,20 +179,33 @@
             }
         }
 
-        /* Keyframes for animating the SVG filter's baseFrequency */
-        /* This makes the waves appear to move and shift */
-        @keyframes animateWaves {
+        /* Keyframes for animating the SVG filter's parameters */
+        /* This creates the "moving worms" and flickering effect */
+        @keyframes animateThunder {
             0% {
-                --wave-freq-x: 0.01;
-                --wave-freq-y: 0.2;
+                --thunder-freq-x: 0.05;
+                --thunder-freq-y: 0.1;
+                --thunder-scale: 15;
+            }
+            25% {
+                --thunder-freq-x: 0.08;
+                --thunder-freq-y: 0.12;
+                --thunder-scale: 18; /* Slight change in scale for more flicker */
             }
             50% {
-                --wave-freq-x: 0.02;
-                --wave-freq-y: 0.1;
+                --thunder-freq-x: 0.04;
+                --thunder-freq-y: 0.09;
+                --thunder-scale: 16;
+            }
+            75% {
+                --thunder-freq-x: 0.07;
+                --thunder-freq-y: 0.11;
+                --thunder-scale: 19;
             }
             100% {
-                --wave-freq-x: 0.01;
-                --wave-freq-y: 0.2;
+                --thunder-freq-x: 0.05;
+                --thunder-freq-y: 0.1;
+                --thunder-scale: 15;
             }
         }
     </style>
@@ -176,15 +215,15 @@
     <!-- Hidden SVG for the filter definition -->
     <div class="svg-filters">
         <svg>
-            <filter id="wavyBorder">
+            <filter id="thunderEffect">
                 <feTurbulence type="fractalNoise"
-                              baseFrequency="var(--wave-freq-x) var(--wave-freq-y)"
-                              numOctaves="1"
+                              baseFrequency="var(--thunder-freq-x) var(--thunder-freq-y)"
+                              numOctaves="3"
                               seed="0"
                               result="noise" />
                 <feDisplacementMap in="SourceGraphic"
                                    in2="noise"
-                                   scale="10"
+                                   scale="var(--thunder-scale)"
                                    xChannelSelector="R"
                                    yChannelSelector="G" />
             </filter>
