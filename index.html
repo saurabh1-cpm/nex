@@ -6,6 +6,7 @@
     <title>Pulsating Neon Thunder Wave Button</title>
     <style>
         /* Define custom CSS properties for animation (modern CSS feature) */
+        /* These allow us to animate SVG filter parameters directly in CSS */
         @property --angle {
             syntax: "<angle>";
             initial-value: 0deg;
@@ -27,6 +28,7 @@
             inherits: false;
         }
 
+        /* Basic body styling for centering and dark background */
         body {
             display: flex;
             justify-content: center;
@@ -38,7 +40,8 @@
             overflow: hidden; /* Prevent filter blur from extending beyond viewport */
         }
 
-        /* Hidden SVG for the filter definition */
+        /* Hidden SVG container for the filter definition */
+        /* This div makes sure the SVG itself is not visible on the page */
         .svg-filters {
             position: absolute;
             width: 0;
@@ -47,173 +50,168 @@
             overflow: hidden;
         }
 
-        #pulsatingNeonWaveFilter {
-            /* feTurbulence generates noise for the wave pattern */
-            /* type="turbulence" for smoother, flowing noise, but still dynamic */
-            /* baseFrequency: animated to make the waves 'move' and shift intensity */
-            /* numOctaves: slightly increased for a bit more detail, without jaggedness */
-            <feTurbulence type="turbulence"
-                          baseFrequency="var(--wave-freq-x) var(--wave-freq-y)"
-                          numOctaves="2" /* Slightly more octaves for richer waves, not jagged */
-                          seed="0"
-                          stitchTiles="noStitch"
-                          result="noise" />
+        /* The main button styling */
+        .animated-button {
+            /* Subtle gradient background for the button body */
+            background: linear-gradient(145deg, #1A1A40, #2A2A60); 
+            color: white;
+            font-size: 2em;
+            padding: 1em 2em;
+            border: none;
+            border-radius: 3em; /* Rounded corners to match image */
+            cursor: pointer;
+            position: relative; /* Essential for positioning pseudo-elements */
+            overflow: hidden; /* Crucial to contain the glow within the button's bounds */
+            outline: none; /* Remove default browser focus outline */
+            display: flex; /* For aligning text and indicator horizontally */
+            align-items: center;
+            justify-content: center;
+            gap: 0.5em; /* Space between "Button" text and the indicator */
+            transition: transform 0.2s ease, box-shadow 0.3s ease; /* Smooth hover transitions */
+            z-index: 10; /* Ensures text and indicator are on top of the border effects */
+            text-shadow: 0 0 12px rgba(255, 255, 255, 0.9), 0 0 25px rgba(0, 200, 255, 0.6); /* Text glow */
+        }
+
+        /* Button hover effects */
+        .animated-button:hover {
+            transform: scale(1.03); /* Slight zoom on hover */
+            box-shadow: 0 0 40px rgba(0, 220, 255, 0.9); /* More intense cyan glow on hover */
+        }
+
+        /* Styling for the circular indicator next to the button text */
+        .animated-button .indicator {
+            width: 1.5em;
+            height: 1.5em;
+            background-color: #888; /* Grey color from the original image */
+            border-radius: 50%; /* Makes it a perfect circle */
+            border: 2px solid rgba(255, 255, 255, 0.8); /* White outline for the indicator */
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.6); /* Subtle glow for the indicator */
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        /* Indicator hover effects */
+        .animated-button:hover .indicator {
+            background-color: #aaa;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 1);
+        }
+
+        /* ::before pseudo-element for the Outer Neon Pulsating Glow */
+        .animated-button::before {
+            content: "";
+            position: absolute;
+            inset: -20px; /* Extends far beyond the button to create a broad glow area */
+            border-radius: inherit; /* Inherits the button's rounded corners */
             
-            /* feDisplacementMap uses the noise to displace (move) pixels */
-            /* scale: animated, controls the amplitude/intensity of the waves (the "pulsating" part) */
-            <feDisplacementMap in="SourceGraphic"
-                               in2="noise"
-                               scale="var(--wave-scale)"
-                               xChannelSelector="R"
-                               yChannelSelector="G" />
-            </filter>
-        </svg>
-    </div>
+            /* Conic gradient for the multi-color, rotating neon effect */
+            background: conic-gradient(
+                from var(--angle) at 50% 50%,
+                #00bfff 0%,    /* Deep Sky Blue */
+                #8a2be2 20%,   /* Blue-violet */
+                #ff007f 40%,   /* Neon Pink */
+                #ffa500 60%,   /* Orange */
+                #00e0ff 80%,   /* Bright Cyan */
+                #00bfff 100%   /* Deep Sky Blue to loop seamlessly */
+            );
+            background-size: 200% 200%; /* Important for smooth rotation and gradient coverage */
 
-    /* The Button Styling */
-    .animated-button {
-        /* Subtle gradient background for the button body */
-        background: linear-gradient(145deg, #1A1A40, #2A2A60); 
-        color: white;
-        font-size: 2em;
-        padding: 1em 2em;
-        border: none;
-        border-radius: 3em; /* Rounded corners to match image */
-        cursor: pointer;
-        position: relative; /* For pseudo-elements positioning */
-        overflow: hidden; /* Crucial to contain the glow within the button */
-        outline: none; /* Remove default focus outline */
-        display: flex; /* For aligning text and indicator */
-        align-items: center;
-        justify-content: center;
-        gap: 0.5em; /* Space between text and indicator */
-        transition: transform 0.2s ease, box-shadow 0.3s ease;
-        z-index: 10; /* Ensure text and indicator are on top of effects */
-        text-shadow: 0 0 12px rgba(255, 255, 255, 0.9), 0 0 25px rgba(0, 200, 255, 0.6); /* Text glow */
-    }
-
-    .animated-button:hover {
-        transform: scale(1.03); /* Slight zoom on hover */
-        box-shadow: 0 0 40px rgba(0, 220, 255, 0.9); /* More intense cyan glow on hover */
-    }
-
-    .animated-button .indicator {
-        width: 1.5em;
-        height: 1.5em;
-        background-color: #888; /* Grey from image */
-        border-radius: 50%;
-        border: 2px solid rgba(255, 255, 255, 0.8); /* White outline */
-        box-shadow: 0 0 8px rgba(255, 255, 255, 0.6); /* Subtle glow for indicator */
-        transition: background-color 0.3s ease, box-shadow 0.3s ease;
-    }
-    .animated-button:hover .indicator {
-        background-color: #aaa;
-        box-shadow: 0 0 15px rgba(255, 255, 255, 1);
-    }
-
-    /* Outer Neon Pulsating Glow (::before) */
-    .animated-button::before {
-        content: "";
-        position: absolute;
-        inset: -20px; /* Extend further for a broader, more impactful glow */
-        border-radius: inherit;
-        
-        /* Conic gradient for the multi-color rotating neon effect */
-        background: conic-gradient(
-            from var(--angle) at 50% 50%,
-            #00bfff 0%,    /* Deep Sky Blue */
-            #8a2be2 20%,   /* Blue-violet */
-            #ff007f 40%,   /* Neon Pink */
-            #ffa500 60%,   /* Orange */
-            #00e0ff 80%,   /* Bright Cyan */
-            #00bfff 100%   /* Deep Sky Blue to loop seamlessly */
-        );
-        background-size: 200% 200%;
-
-        /* Apply strong blur for neon glow and SVG filter for wave distortion */
-        filter: blur(20px) url(#pulsatingNeonWaveFilter); /* Stronger blur for more glow */
-        
-        animation: 
-            rotateGradient 6s linear infinite,      /* Faster rotation for more energy */
-            animatePulsatingWaves 2.5s ease-in-out infinite alternate; /* Faster, more intense wave animation */
-        
-        z-index: -2; /* Behind the button content and inner border */
-        pointer-events: none; /* Ensure it doesn't interfere with clicks */
-        opacity: 0.95; /* Almost opaque for intense glow */
-    }
-
-    /* Inner Neon Pulsating Border (::after) - The distinct, sharp line with active waves */
-    .animated-button::after {
-        content: "";
-        position: absolute;
-        inset: -6px; /* Closer to the button than ::before */
-        border-radius: inherit;
-        border: 3px solid rgba(0, 220, 255, 0.9); /* Brighter, thicker cyan border */
-        
-        /* Apply less blur than ::before, but still the same SVG filter for waves */
-        filter: blur(4px) url(#pulsatingNeonWaveFilter); /* Slight blur for softer edge */
-        
-        animation: 
-            rotateGradient 6s linear infinite reverse, /* Reverse for slightly different motion */
-            animatePulsatingWaves 2.5s ease-in-out infinite alternate reverse; /* Reverse for independent wave motion */
-        
-        z-index: -1; /* Between the glow and the button content */
-        pointer-events: none; /* Make sure it doesn't interfere with clicks */
-        opacity: 0.9;
-    }
-
-    /* Keyframes for rotating the conic gradient */
-    @keyframes rotateGradient {
-        from {
-            --angle: 0deg;
+            /* Apply strong blur for the neon glow, then the SVG filter for wave distortion */
+            filter: blur(20px) url(#pulsatingNeonWaveFilter); /* Stronger blur for more glow */
+            
+            /* Animation for gradient rotation and the pulsating wave effect */
+            animation: 
+                rotateGradient 6s linear infinite,      /* Faster rotation for more energy */
+                animatePulsatingWaves 2.5s ease-in-out infinite alternate; /* Faster, more intense wave animation */
+            
+            z-index: -2; /* Positions this layer behind the button content and inner border */
+            pointer-events: none; /* Ensures the glow doesn't interfere with button clicks */
+            opacity: 0.95; /* Almost opaque for an intense glow effect */
         }
-        to {
-            --angle: 360deg;
-        }
-    }
 
-    /* Keyframes for animating the SVG filter's parameters for "pulsating thunder waves" */
-    @keyframes animatePulsatingWaves {
-        0% {
-            --wave-freq-x: 0.03;
-            --wave-freq-y: 0.06;
-            --wave-scale: 10; /* Starting scale */
+        /* ::after pseudo-element for the Inner Neon Pulsating Border */
+        .animated-button::after {
+            content: "";
+            position: absolute;
+            inset: -6px; /* Closer to the button than ::before, creating a distinct border layer */
+            border-radius: inherit; /* Inherits button's rounded corners */
+            border: 3px solid rgba(0, 220, 255, 0.9); /* Brighter, thicker cyan border */
+            
+            /* Apply less blur than ::before, but still use the same SVG filter for waves */
+            filter: blur(4px) url(#pulsatingNeonWaveFilter); /* Slight blur for a softer edge to the inner border */
+            
+            /* Animation for gradient rotation (reversed) and pulsating wave effect (reversed) */
+            animation: 
+                rotateGradient 6s linear infinite reverse, /* Reversed rotation for a slightly different motion */
+                animatePulsatingWaves 2.5s ease-in-out infinite alternate reverse; /* Reversed wave animation for independent movement */
+            
+            z-index: -1; /* Positions this layer between the outer glow and the button content */
+            pointer-events: none; /* Ensures it doesn't interfere with clicks */
+            opacity: 0.9;
         }
-        25% {
-            --wave-freq-x: 0.05; /* More frequent ripples */
-            --wave-freq-y: 0.08;
-            --wave-scale: 18; /* Significant pulse out */
+
+        /* Keyframes for rotating the conic gradient */
+        @keyframes rotateGradient {
+            from {
+                --angle: 0deg;
+            }
+            to {
+                --angle: 360deg;
+            }
         }
-        50% {
-            --wave-freq-x: 0.035;
-            --wave-freq-y: 0.065;
-            --wave-scale: 12; /* Settling a bit */
+
+        /* Keyframes for animating the SVG filter's parameters for "pulsating thunder waves" */
+        /* This is where the dynamic, energetic movement and pulsation come from */
+        @keyframes animatePulsatingWaves {
+            0% {
+                --wave-freq-x: 0.03;  /* Starting frequency for wave density */
+                --wave-freq-y: 0.06;
+                --wave-scale: 10;     /* Starting amplitude/intensity of waves */
+            }
+            25% {
+                --wave-freq-x: 0.05;  /* Waves become denser/more frequent */
+                --wave-freq-y: 0.08;
+                --wave-scale: 18;     /* Waves pulse significantly outwards */
+            }
+            50% {
+                --wave-freq-x: 0.035; /* Waves relax slightly */
+                --wave-freq-y: 0.065;
+                --wave-scale: 12;     /* Waves settle to a medium amplitude */
+            }
+            75% {
+                --wave-freq-x: 0.06;  /* Waves become even more active/dense */
+                --wave-freq-y: 0.09;
+                --wave-scale: 20;     /* Peak wave intensity/pulsation */
+            }
+            100% {
+                --wave-freq-x: 0.03;  /* Return to starting frequency */
+                --wave-freq-y: 0.06;
+                --wave-scale: 10;     /* Return to starting amplitude */
+            }
         }
-        75% {
-            --wave-freq-x: 0.06; /* Even more active ripples */
-            --wave-freq-y: 0.09;
-            --wave-scale: 20; /* Peak pulse intensity */
-        }
-        100% {
-            --wave-freq-x: 0.03;
-            --wave-freq-y: 0.06;
-            --wave-scale: 10; /* Return to starting scale */
-        }
-    }
-</style>
+    </style>
 </head>
 <body>
 
-    <!-- Hidden SVG for the filter definition -->
+    <!-- Hidden SVG definition for the filter -->
+    <!-- This SVG filter is crucial for creating the dynamic, pulsating wave effect.
+         It's hidden because it only defines a filter that CSS then references. -->
     <div class="svg-filters">
         <svg>
             <filter id="pulsatingNeonWaveFilter">
+                <!-- feTurbulence generates a noise pattern (like a fluid texture) -->
+                <!-- type="turbulence" creates smoother, flowing noise for waves -->
+                <!-- baseFrequency is animated by CSS variables for movement -->
+                <!-- numOctaves controls complexity (2 for rich, but not jagged, waves) -->
                 <feTurbulence type="turbulence"
                               baseFrequency="var(--wave-freq-x) var(--wave-freq-y)"
                               numOctaves="2"
                               seed="0"
                               stitchTiles="noStitch"
                               result="noise" />
+                
+                <!-- feDisplacementMap uses the noise to distort the graphic -->
+                <!-- in="SourceGraphic" refers to the element the filter is applied to -->
+                <!-- in2="noise" uses the generated noise as the displacement map -->
+                <!-- scale is animated by CSS variable for the pulsating effect -->
                 <feDisplacementMap in="SourceGraphic"
                                    in2="noise"
                                    scale="var(--wave-scale)"
@@ -223,6 +221,7 @@
         </svg>
     </div>
 
+    <!-- The actual button element -->
     <button class="animated-button">
         Button
         <span class="indicator"></span>
