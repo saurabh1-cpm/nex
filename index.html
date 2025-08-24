@@ -3,190 +3,3152 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neon Thunder Wave Button</title>
+    <title>Nexaur - Collaborate. Create. Innovate.</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Explore and purchase thousands of cutting-edge websites, AI models, and applications. Nexaur is the premier marketplace for top-tier digital solutions.">
+    <meta name="keywords" content="digital marketplace, websites, ai models, applications, templates, code, developer tools, collaboration, innovation">
+
+    <!-- Open Graph / Facebook Meta Tags (placeholders) -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.nexaur.com/">
+    <meta property="og:title" content="Nexaur - Collaborate. Create. Innovate.">
+    <meta property="og:description" content="Nexaur provides the tools for your design team to bring their most ambitious ideas to life, faster than ever before.">
+    <meta property="og:image" content="https://via.placeholder.com/1200x630/3498db/ffffff?text=Nexaur+Social+Preview">
+
+    <!-- Twitter Card Meta Tags (placeholders) -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.nexaur.com/">
+    <meta property="twitter:title" content="Nexaur - Collaborate. Create. Innovate.">
+    <meta property="twitter:description" content="Nexaur provides the tools for your design team to bring their most ambitious ideas to life, faster than ever before.">
+    <meta property="twitter:image" content="https://via.placeholder.com/1200x675/3498db/ffffff?text=Nexaur+Twitter+Preview">
+
+    <!-- Fonts and icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+
+    <!-- Model Viewer for 3D elements (AI Character) -->
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap'); /* Using Montserrat for a clean, bold look */
+        /* --- General Reset & Base Styles --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* NEW UI-UX Colors: Darker Purple, Sky Blue, Pink Combinations */
+            --primary-color: #7b2cbf; /* Deeper Purple - main brand color */
+            --secondary-color: #3b82f6; /* More vibrant Sky Blue - complementary color */
+            
+            /* Text colors */
+            --text-dark: #0f172a; /* Very deep dark blue for primary text */
+            --text-light: #f8fafc; /* Near white for light text */
+            --color-text-muted: rgba(15, 23, 42, 0.7); /* Muted dark for subtext */
+
+            /* Backgrounds & Glass Effects */
+            --navbar-bg: rgba(220, 230, 255, 0.85); /* Light blue-gray, slightly more transparent for glass */
+            --search-bg: rgba(255, 255, 255, 0.7); /* Transparent white for search bar glass */
+            --bg-glass-light: rgba(245, 243, 255, 0.65); /* Lighter transparent background for glassmorphism */
+            --bg-glass-medium: rgba(255, 255, 255, 0.75); /* Slightly less transparent */
+            --bg-glass-dark: rgba(30, 41, 59, 0.85); /* Darker transparent blue for chatbox */
+            
+            /* Footer Specific Backgrounds - matching new image */
+            --footer-bg-start: #e9d5ff; /* Soft lavender-pink */
+            --footer-bg-end: #bfdbfe;   /* Soft light blue */
+            --footer-heading-color: #2b1055; /* Deep purple for footer headings */
+            --footer-link-color: #4a4e69; /* Slightly desaturated dark blue for footer links */
+            --footer-contact-icon-color: #ef476f; /* Vibrant pink/red for contact icons */
+            --footer-social-bg: rgba(255, 255, 255, 0.7); /* Light transparent background for social buttons */
+            --footer-newsletter-input-bg: rgba(255, 255, 255, 0.6); /* Glassy background for newsletter input */
+            --gradient-newsletter-btn: linear-gradient(90deg, #f7a5bd, #e06d9a); /* Richer pink gradient for newsletter button */
+
+
+            /* Gradients */
+            --gradient-primary-body: linear-gradient(145deg, #a7c7f9 0%, #d4a5fd 25%, #f7a5bd 50%, #fcd6e4 75%, #ffe0ec 100%); /* Multi-color gradient for entire body */
+            --gradient-hero-overlay: rgba(0, 0, 0, 0.45); /* Darker hero overlay for better text contrast */
+            --gradient-marquee-section: linear-gradient(135deg, #c3dafc, #e2d2fa); /* Subtle gradient for marquee */
+            --gradient-button-main: linear-gradient(90deg, var(--primary-color), var(--secondary-color)); /* Generic purple to blue button gradient */
+            
+            /* Primary Button Specific Gradients (for Hero Section buttons) */
+            --gradient-btn-primary-default: linear-gradient(90deg, #b065f0, #f065a7); /* Pink-purple for default */
+            --gradient-btn-primary-hover: linear-gradient(90deg, #c46efc, #f7a5bd);   /* Lighter, glowing pink-purple on hover */
+
+
+            /* Borders & Shadows */
+            --border-color-light: rgba(255, 255, 255, 0.5); /* Slightly more opaque light border for glass effect */
+            --border-color-dark: rgba(0, 0, 0, 0.15); /* Darker border for contrast */
+            --shadow-sm: 0 6px 20px rgba(0,0,0,0.1);
+            --shadow-md: 0 10px 50px rgba(0, 0, 0, 0.25);
+            --shadow-button-primary: 0 6px 20px rgba(123, 44, 191, 0.5); /* Deeper purple button shadow */
+
+            /* Original Logo Colors (kept as they fit the new dark text) */
+            --logo-primary-color: #041765; /* Darker blue-purple for main logo text */
+            --logo-accent-color: #ea6a21; /* Orange for accent */
+
+            /* Header Icon Colors for specific buttons */
+            --header-option-home-color: #3b82f6; /* Sky Blue */
+            --header-option-profile-color: #7b2cbf; /* Primary Purple */
+            --header-option-cart-color: #ea6a21; /* Logo Accent Orange */
+            --header-option-admin-color: #041765; /* Logo Primary Dark Blue */
+
+
+            /* Other shared variables */
+            --color-white: #ffffff;
+            --fw-bold: 700;
+            --fw-medium: 600;
+            --space-1: 0.5rem; --space-2: 1rem; --space-3: 1.5rem; --space-4: 2.5rem; --space-5: 4rem;
+            --radius-sm: 8px; --radius-md: 16px; --radius-pill: 50px;
+            --transition-fast: all 0.2s ease-in-out;
+            --transition-medium: all 0.3s ease-in-out;
+            --container-width: 1200px;
+        }
+
+        html {
+            font-size: 16px;
+            scroll-behavior: smooth;
+            height: 100%;
+        }
 
         body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            overflow-x: hidden;
+            background-image: var(--gradient-primary-body);
+            background-size: cover;
+            background-attachment: fixed;
             display: flex;
-            justify-content: center;
-            align-items: center;
+            flex-direction: column;
             min-height: 100vh;
-            background-color: #0d0d1a; /* Dark background similar to the image */
-            margin: 0;
-            overflow: hidden; /* Prevent scroll if effects go slightly out of bounds */
-            font-family: 'Montserrat', sans-serif;
         }
 
-        /* CSS Variables for easy customization */
-        :root {
-            --button-bg: #1a1a40; /* Dark blue/purple for the button background */
-            --text-color: #ffffff;
-            --button-width: 380px; /* Slightly wider to match image */
-            --button-height: 100px; /* Taller to match image */
-            --border-radius: 50px; /* More rounded */
-
-            /* Neon Colors */
-            --neon-blue: #00f0ff;
-            --neon-pink: #ff00ff;
-            --neon-yellow: #f0ff00;
-            --neon-orange: #ff8c00;
-            --neon-red: #ff3300;
-            --neon-purple: #9900ff;
-
-            /* Animation Speeds */
-            --wave-speed: 8s; /* Speed of the colorful waves */
-            --border-pulse-speed: 5s; /* Speed of the base border gradient pulse */
-            --glow-spread: 15px; /* How far the base glow spreads */
-            --glow-blur: 25px; /* How much the base glow blurs */
-            --wave-intensity: 8px; /* Vertical thickness/amplitude of the dynamic wave lines */
-            --wave-density: 20px; /* Horizontal density of the jagged peaks in the wave */
+        a {
+            text-decoration: none;
+            color: inherit;
         }
 
-        .neon-button-container {
-            position: relative;
+        ul {
+            list-style: none;
+        }
+
+        .container {
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: 0 var(--space-2);
+        }
+
+        /* Visually Hidden Utility for Accessibility */
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            margin: -1px;
+            padding: 0;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--logo-primary-color);
+            color: var(--color-white);
+            padding: 8px;
+            z-index: 9999;
+            transition: top 0.3s;
+        }
+
+        .skip-link:focus {
+            top: 0;
+        }
+
+        /* --- Header Styling with Enhanced Glass Effect --- */
+        header {
+            background-color: var(--navbar-bg); /* Light blue-gray, slightly more transparent */
+            padding: 0.5rem 0; /* Reduced overall header padding */
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(10px); /* Increased blur for header */
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+        }
+
+        header .container {
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
-            width: var(--button-width);
-            height: var(--button-height);
-            background: var(--button-bg);
-            border-radius: var(--border-radius);
-            font-size: 3em; /* Larger font size */
-            font-weight: bold;
-            color: var(--text-color);
-            cursor: pointer;
-            overflow: hidden; /* Crucial to keep effects within bounds */
-            transition: transform 0.2s ease-in-out; /* Smooth hover effect */
-
-            /* Base blue neon glow - creates the solid blue outline */
-            box-shadow:
-                0 0 var(--glow-blur) var(--glow-spread) var(--neon-blue),
-                0 0 calc(var(--glow-blur) * 1.5) calc(var(--glow-spread) * 0.5) rgba(0, 240, 255, 0.5); /* Inner lighter glow */
+            gap: var(--space-2);
+            padding: 0.5rem var(--space-2); /* Reduced container padding */
         }
 
-        .neon-button-container:hover {
-            transform: scale(1.02); /* Slight scale on hover */
+        /* Logo Styling */
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px; /* Slightly reduced gap */
+            text-decoration: none;
+            flex-shrink: 0; /* Prevents logo from shrinking */
+        }
+        .logo .logo-symbol { width: 40px; height: auto; } /* Reduced width */
+        .logo .logo-text { 
+            font-family: 'Poppins', sans-serif; 
+            font-weight: 700; 
+            font-size: 1.8rem; /* Reduced font-size */
+            color: var(--logo-primary-color); 
+            text-transform: lowercase; 
+            letter-spacing: -1.5px; 
+            display: flex;
+            white-space: nowrap;
+        }
+        .logo .logo-text span:first-child { 
+            color: var(--logo-primary-color);
         }
 
-        /* Pseudo-elements for the border effects */
-        .neon-button-container::before,
-        .neon-button-container::after {
+        /* Logo Animation Styles */
+        .logo-symbol .pixel, .logo-symbol .cart-part, .logo-text .char { opacity: 0; }
+        .logo-symbol .pixel { transform: translateY(15px); }
+        .logo-symbol .cart-handle { transform: translateY(-15px); }
+        .logo-symbol .cart-wheel { transform: translateX(-15px) rotate(-180deg); }
+        .logo-text .char { animation-name: slideUpIn; animation-duration: 0.6s; animation-fill-mode: forwards; animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.277); animation-delay: calc(0.8s + (var(--char-index) * 0.07s)); }
+        .logo.animate .pixel, .logo.animate .cart-part { animation-duration: 0.5s; animation-fill-mode: forwards; animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.277); }
+        .logo.animate .pixel { animation-name: popIn; }
+        .logo.animate .cart-wheel { animation-name: rollIn; }
+        .logo.animate .cart-handle { animation-name: slideIn; }
+        .logo.animate .pixel-1 { animation-delay: 0.0s; } .logo.animate .pixel-2 { animation-delay: 0.05s; } .logo.animate .pixel-3 { animation-delay: 0.1s; } .logo.animate .pixel-4 { animation-delay: 0.15s; } .logo.animate .pixel-5 { animation-delay: 0.2s; }
+        .logo.animate .pixel-special { animation-delay: 0.25s; filter: drop-shadow(0 0 5px var(--logo-accent-color)); }
+        .logo.animate .cart-wheel-1 { animation-delay: 0.4s; } .logo.animate .cart-wheel-2 { animation-delay: 0.45s; } .cart-handle { animation-delay: 0.5s; }
+        @keyframes popIn { from { transform: translateY(15px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes rollIn { from { transform: translateX(-15px) rotate(-180deg); opacity: 0; } to { transform: translateX(0) rotate(0); opacity: 1; } }
+        @keyframes slideIn { from { transform: translateY(-15px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes slideUpIn { to { opacity: 1; transform: translateY(0) scale(1); } }
+        /* End Logo Animation Styles */
+
+        /* Search Bar Styling */
+        .header-search {
+            flex-grow: 1;
+            position: relative; /* Needed for pseudo-element positioning */
+            max-width: 500px;
+            margin-left: var(--space-4);
+        }
+
+        .main-search-bar {
+            display: flex;
+            align-items: center;
+            background-color: var(--search-bg); /* Transparent white for glass */
+            border-radius: var(--radius-pill);
+            padding: 6px 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08); /* Subtle shadow */
+            transition: box-shadow 0.3s ease; /* Transition for box-shadow */
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            position: relative;
+            overflow: hidden; /* Crucial to contain the animated pseudo-element */
+            isolation: isolate; /* Ensures proper stacking context for pseudo-elements with backdrop-filter */
+            /* Default border for the inner part of the search bar */
+            border: 1px solid rgba(15, 23, 42, 0.1); /* Very subtle dark transparent border */
+        }
+
+        /* Moving Border Effect - Always active and lighter */
+        .main-search-bar::before {
             content: '';
             position: absolute;
-            /* Inset makes the pseudo-element slightly larger than the parent,
-               allowing the effects to show outside the main button */
-            inset: -5px; /* Adjust this value to control how far out the border effects go */
-            border-radius: inherit; /* Inherit the parent's border-radius for matching shape */
-            pointer-events: none; /* Allows mouse events to pass through to the button */
-            z-index: -1; /* Ensures the border effects are behind the text */
-
-            /* Mask to create a hollow border effect for the pseudo-elements.
-               This allows the background gradients to only show as a line along the border. */
-            mask:
-                linear-gradient(#fff 0 0) padding-box,
-                linear-gradient(#fff 0 0) content-box;
-            mask-composite: exclude; /* Excludes the inner content area from the mask */
-            -webkit-mask-composite: xor; /* For WebKit browsers like Chrome/Safari */
+            inset: -2px; /* Creates a 2px border effect (spreads 2px on all sides) */
+            border-radius: inherit; /* Inherit pill shape */
+            /* Lighter gradient colors and always active */
+            background: linear-gradient(90deg, 
+                        rgba(123, 44, 191, 0.4) 0%, /* Lighter primary with more opacity */
+                        rgba(59, 130, 246, 0.4) 25%, /* Lighter secondary with more opacity */
+                        rgba(247, 165, 189, 0.4) 50%, /* Lighter pink with more opacity */
+                        rgba(123, 44, 191, 0.4) 75%, 
+                        rgba(59, 130, 246, 0.4) 100%);
+            background-size: 200% auto; /* Make the gradient wider than the element to allow movement */
+            z-index: -1; /* Position behind the main element */
+            opacity: 1; /* Always visible */
+            animation: border-glow 3s linear infinite; /* Always animating */
+            filter: brightness(1.2); /* Make it slightly brighter overall */
+            pointer-events: none; /* Ensure clicks pass through to the form/input */
         }
 
-        /* ::before for the pulsing gradient blue/pink border (unchanged, provides base) */
-        .neon-button-container::before {
+        /* No change needed for .main-search-bar:focus-within, .main-search-bar:hover
+           for the border property as the animated border is always on.
+           Keep the box-shadow for a subtle lift on interaction. */
+        .main-search-bar:focus-within,
+        .main-search-bar:hover {
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15); /* A slightly more prominent shadow on hover/focus */
+        }
+
+        @keyframes border-glow {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+
+        #main-search-input {
+            flex-grow: 1;
+            border: none; /* The static border is now on the .main-search-bar itself */
+            outline: none;
+            background-color: transparent;
+            font-size: 0.9rem; /* Reduced font-size */
+            font-family: 'Poppins', sans-serif;
+            width: 100%;
+            color: var(--text-dark);
+            padding-left: 0.5rem;
+        }
+
+        #main-search-input::placeholder {
+            color: #80868b;
+        }
+
+        /* Microphone icon inside search bar */
+        .main-search-bar .search-microphone-button { 
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0 4px;
+            color: var(--secondary-color); /* Use secondary color for default mic */
+            font-size: 1rem; /* Reduced font-size */
+            margin-right: 8px; /* Space between mic and input */
+            transition: color 0.2s ease, transform 0.2s ease;
+            flex-shrink: 0;
+            outline: none;
+        }
+        .main-search-bar .search-microphone-button:hover,
+        .main-search-bar .search-microphone-button:focus-visible,
+        .main-search-bar .search-microphone-button:active {
+            color: var(--primary-color); /* Purple on hover/focus */
+            transform: scale(1.1); /* Slight animation */
+            outline: none;
+        }
+        .main-search-bar .search-microphone-button.active {
+            color: red; /* Indicate listening state */
+        }
+
+        input[type="search"]::-webkit-search-cancel-button {
+            -webkit-appearance: none;
+            height: 16px;
+            width: 16px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23999"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z"/></svg>') no-repeat center center;
+            cursor: pointer;
+            opacity: 0.7;
+            margin-right: 5px;
+        }
+
+
+        /* Header Navigation/Actions Styling - Default (Large Screen: Icon + Text) */
+        .header-nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem; /* Reduced gap between nav items */
+            flex-shrink: 0;
+        }
+
+        .header-option {
+            display: flex;
+            flex-direction: row; /* Icon and text side-by-side */
+            align-items: center;
+            gap: 0.4rem; /* Reduced gap between icon and text */
+            font-weight: var(--fw-medium);
+            color: var(--text-dark);
+            transition: var(--transition-medium);
+            white-space: nowrap; /* Keep text and icon on one line */
+            padding: 0.25rem 0.5rem; /* Reduced padding for the entire button */
+            border-radius: var(--radius-sm);
+            outline: none;
+            position: relative;
+        }
+
+        .header-option:hover,
+        .header-option:focus-visible,
+        .header-option:active {
+            transform: translateY(-3px) scale(1.05);
+            background-color: rgba(255, 255, 255, 0.3); /* Clearer glassy background on hover/focus */
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15); /* Soft shadow for lift effect */
+            outline: none;
+        }
+
+        .header-option i {
+            font-size: 1.1rem; /* Reduced icon size for large screens */
+            transition: color 0.3s ease;
+        }
+        .header-option:hover i,
+        .header-option:focus-visible i,
+        .header-option:active i {
+            color: var(--primary-color); /* Default hover color for icon */
+        }
+        .header-option:hover .option-text,
+        .header-option:focus-visible .option-text,
+        .header-option:active .option-text {
+            color: var(--primary-color); /* Default hover color for text */
+        }
+
+        /* Specific Header Option Colors */
+        .header-option--home i { color: var(--header-option-home-color); }
+        .header-option--home:hover i, .header-option--home:focus-visible i { color: var(--header-option-home-color); }
+        .header-option--home:hover .option-text, .header-option--home:focus-visible .option-text { color: var(--header-option-home-color); }
+
+        .header-option--profile i { color: var(--header-option-profile-color); }
+        .header-option--profile:hover i, .header-option--profile:focus-visible i { color: var(--header-option-profile-color); }
+        .header-option--profile:hover .option-text, .header-option--profile:focus-visible .option-text { color: var(--header-option-profile-color); }
+        /* Avatar specific for profile */
+        .header-option--profile .user-avatar { border: 2px solid var(--header-option-profile-color); }
+        .header-option--profile:hover .user-avatar, .header-option--profile:focus-visible .user-avatar { border-color: var(--primary-color); }
+
+        .header-option--admin i { color: var(--header-option-admin-color); }
+        .header-option--admin:hover i, .header-option--admin:focus-visible i { color: var(--header-option-admin-color); }
+        .header-option--admin:hover .option-text, .header-option--admin:focus-visible .option-text { color: var(--header-option-admin-color); }
+
+
+        .header-option--cart i { color: var(--header-option-cart-color); }
+        .header-option--cart:hover i, .header-option--cart:focus-visible i { color: var(--header-option-cart-color); }
+        .header-option--cart:hover .option-text, .header-option--cart:focus-visible .option-text { color: var(--header-option-cart-color); }
+
+        .user-avatar {
+            width: 28px; /* Reduced size */
+            height: 28px; /* Reduced size */
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1px solid var(--secondary-color); /* Default border, will be overridden by --header-option-profile-color */
+            box-shadow: 0 0 0 1px rgba(0,0,0,0.1);
+            transition: border-color 0.3s ease;
+        }
+
+        .cart-icon-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -6px; /* Adjusted position */
+            right: -8px; /* Adjusted position */
+            background-color: var(--logo-accent-color);
+            color: var(--color-white);
+            border-radius: 50%;
+            padding: 2px 5px; /* Adjusted padding */
+            font-size: 0.65em; /* Adjusted font size */
+            font-weight: var(--fw-bold);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            min-width: 16px; /* Adjusted size */
+            height: 16px; /* Adjusted size */
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+            z-index: 1; /* Ensure it's above the icon */
+        }
+
+        /* Mobile Menu Toggle (hidden as per image) */
+        .menu-toggle {
+            display: none;
+        }
+
+        /* --- Hero Section Styling --- */
+        main { flex-grow: 1; } /* Allows main content to fill space */
+
+        /* Default padding-top for other pages if not home or cart */
+        main:not(.cart-page-main):not(.hero-section-wrapper) { /* Added a placeholder class for hero if needed */
+            padding-top: 90px; /* Adjusted from 85px for subtle extra clearance */
+        }
+        
+        .hero-section {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            /* Base 5rem visual padding + estimated header height */
+            padding-top: calc(5rem + 70px); /* Adjusted from 65px */
+            text-align: left;
+        }
+
+        .hero-background-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+            filter: brightness(0.5);
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-hero-overlay);
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            color: var(--text-light);
+            max-width: 55%;
+            margin-left: 8%;
+            padding-bottom: 5rem;
+        }
+
+        .hero-headline {
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            font-weight: var(--fw-bold);
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            color: var(--color-white);
+            text-shadow: 0 3px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .brain-icon {
+            font-size: 1em;
+        }
+
+        .hero-subheadline {
+            font-size: clamp(1rem, 1.8vw, 1.4rem);
+            font-weight: 400;
+            margin-bottom: 2.5rem;
+            line-height: 1.5;
+            color: var(--text-light);
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+        }
+
+        .hero-cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 1rem 2.5rem;
+            border-radius: var(--radius-pill);
+            font-weight: var(--fw-medium);
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            white-space: nowrap;
+            text-decoration: none;
+            outline: none;
+            position: relative; /* Crucial for pseudo-elements and ripple */
+            overflow: hidden; /* Crucial for containing the ripple effect */
+            z-index: 1; /* Ensure button content is above the pseudo-border */
+        }
+
+        .btn-primary {
+            background: var(--gradient-btn-primary-default);
+            color: var(--text-light);
+            box-shadow: var(--shadow-button-primary);
+            border: none; /* Removed explicit border, handled by pseudo-element */
+        }
+
+        /* Tender Effect Border Pseudo-element */
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            inset: -3px; /* Border thickness, adjust as needed */
+            border-radius: inherit;
             background: linear-gradient(
                 45deg,
-                var(--neon-blue) 0%,
-                var(--neon-pink) 30%,
-                var(--neon-purple) 60%,
-                var(--neon-blue) 100%
+                var(--primary-color) 0%,         /* Purple */
+                #f7a5bd 25%,                     /* Pink */
+                var(--secondary-color) 50%,      /* Sky Blue */
+                #c46efc 75%,                     /* Lighter purple */
+                var(--primary-color) 100%
             );
-            background-size: 300% 300%; /* Make gradient large for smooth animation */
-            filter: blur(2px); /* Slight blur for a softer neon glow */
-            animation: borderGradientPulse var(--border-pulse-speed) linear infinite;
+            background-size: 300% 300%; /* Make gradient larger than element for animation */
+            z-index: -1;
+            opacity: 0.7; /* Default subtle glow */
+            filter: blur(6px); /* Soften the edges for a glowing effect */
+            transition: opacity 0.3s ease, filter 0.3s ease, animation-duration 0.3s ease; /* transition for hover speed change */
+            animation: tender-border-animation 6s linear infinite; /* Continuous animation */
+            pointer-events: none; /* Allows clicks to pass through to the button */
         }
 
-        /* ::after for the dynamic, colorful THUNDER WAVE effect */
-        .neon-button-container::after {
-            /* This gradient provides the shifting colors */
-            background-image:
-                repeating-linear-gradient(
-                    90deg,
-                    var(--neon-yellow) 0%, var(--neon-yellow) 10%,
-                    transparent 10%, transparent 20%,
-                    var(--neon-orange) 20%, var(--neon-orange) 30%,
-                    transparent 30%, transparent 40%,
-                    var(--neon-pink) 40%, var(--neon-pink) 50%,
-                    transparent 50%, transparent 60%,
-                    var(--neon-blue) 60%, var(--neon-blue) 70%,
-                    transparent 70%, transparent 80%
-                );
-            background-size: calc(var(--button-width) * 3) 100%; /* Large background to scroll smoothly */
-            background-position: 0 0; /* Animated by keyframes */
-
-            /* SVG Mask for the jagged thunder wave shape */
-            /* This SVG defines a jagged path. ViewBox 0 0 20 10 means it's 20 units wide, 10 units tall.
-               The 'Q' commands create quadratic bezier curves for smooth jaggedness.
-               'fill=white' means this part will be opaque in the mask, allowing the background-image to show. */
-            mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 10'%3E%3Cpath d='M0 5 Q2.5 0 5 5 Q7.5 10 10 5 Q12.5 0 15 5 Q17.5 10 20 5 Z' fill='white'/%3E%3C/svg%3E");
-            mask-size: var(--wave-density) var(--wave-intensity); /* Control density and height of the waves */
-            mask-repeat: repeat-x; /* Repeat the jagged pattern horizontally */
-            mask-position: 0 0; /* Animated by keyframes */
-
-            /* Both background-position and mask-position are animated together */
-            animation: moveWaves var(--wave-speed) linear infinite;
-
-            /* Drop shadows for glowing effect on the waves */
-            filter:
-                drop-shadow(0 0 5px var(--neon-yellow))
-                drop-shadow(0 0 5px var(--neon-orange))
-                drop-shadow(0 0 5px var(--neon-pink))
-                drop-shadow(0 0 5px var(--neon-blue));
-            mix-blend-mode: screen; /* Blends nicely with the dark background for a luminous look */
-            opacity: 0.9;
+        @keyframes tender-border-animation {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 100% 100%; }
         }
 
-        /* Keyframes for the pulsing border gradient */
-        @keyframes borderGradientPulse {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        .btn-primary:hover,
+        .btn-primary:focus-visible,
+        .btn-primary:active {
+            background: var(--gradient-btn-primary-hover);
+            color: var(--color-white);
+            transform: translateY(-5px) scale(1.05);
+            /* Enhanced box-shadow for lift and glow */
+            box-shadow: 0 12px 40px rgba(176, 101, 240, 0.7), /* Purple shadow */
+                        0 0 0 5px rgba(255,255,255,0.2) inset; /* Inner white glow */
+            outline: none;
+        }
+        /* Hover/Focus/Active states for the pseudo-element border */
+        .btn-primary:hover::before,
+        .btn-primary:focus-visible::before,
+        .btn-primary:active::before {
+            opacity: 1; /* More intense glow */
+            filter: blur(10px) brightness(1.3); /* Brighter, more diffused */
+            animation-duration: 4s; /* Speed up border animation on hover */
         }
 
-        /* Keyframes for the moving colorful thunder waves */
-        /* This animates both the background-position (colors) and mask-position (jagged shape) in sync */
-        @keyframes moveWaves {
-            0% {
-                background-position: 0 0;
-                mask-position: 0 0;
-            }
-            100% {
-                background-position: calc(-1 * var(--button-width) * 3) 0; /* Move gradient across entire size */
-                mask-position: calc(-1 * var(--button-width) * 3) 0; /* Move mask in sync */
-            }
-        }
-
-        /* Small circle overlay */
-        .small-circle {
+        /* Ripple effect CSS for JS animation */
+        .ripple {
             position: absolute;
-            width: 40px; /* Slightly larger circle */
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.7); /* White ripple */
+            animation: ripple-animation 0.6s linear forwards;
+            transform: scale(0);
+            opacity: 1;
+            z-index: 2; /* Ensure ripple is above button content but below pseudo-border */
+            pointer-events: none;
+        }
+        @keyframes ripple-animation {
+            to {
+                transform: scale(2.5); /* Increase size for larger ripple */
+                opacity: 0;
+            }
+        }
+
+
+        .btn-secondary {
+            background-color: rgba(255, 255, 255, 0.85);
+            color: var(--text-dark);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            outline: none;
+        }
+
+        .btn-secondary i {
+            margin-right: 0.5rem;
+            font-size: 1.2rem;
+            color: var(--secondary-color);
+            transition: color 0.3s ease;
+        }
+
+        .btn-secondary:hover,
+        .btn-secondary:focus-visible,
+        .btn-secondary:active {
+            background-color: rgba(255, 255, 255, 0.98);
+            border-color: rgba(255, 255, 255, 0.9);
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 12px 40px rgba(59, 130, 246, 0.7), 0 0 0 5px rgba(255,255,255,0.2) inset;
+            color: var(--primary-color);
+            outline: none;
+        }
+        .btn-secondary:hover i,
+        .btn-secondary:focus-visible i,
+        .btn-secondary:active i {
+            color: var(--primary-color);
+        }
+
+        /* Hero Visual (Images, Floating Icons) */
+        .hero-visual {
+            position: absolute;
+            right: 8%;
+            bottom: 10%;
+            z-index: 2;
+            width: 35%;
+            max-width: 600px;
+        }
+
+        .hero-character-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.4));
+        }
+
+        .floating-element {
+            position: absolute;
+            background-color: var(--bg-glass-light);
+            color: var(--color-white);
+            width: 4rem;
+            height: 4rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(15px); /* Slightly increased blur for floating elements */
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid var(--border-color-light);
+            pointer-events: auto;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .floating-element.icon-1 { top: 15%; left: -10%; animation-delay: 0s; }
+        .floating-element.icon-2 { top: 40%; right: -15%; background-color: var(--bg-glass-dark); color: var(--color-white); animation-delay: -1s; }
+        .floating-element.icon-3 { bottom: 5%; left: 20%; animation-delay: -2.5s; }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* Hero Animation In */
+        .hero-content > *, .hero-visual > * { opacity: 0; transition: opacity 0.8s ease, transform 0.8s ease; }
+        .hero-headline { transform: translateY(20px); transition-delay: 1.0s !important; }
+        .hero-subheadline { transform: translateY(20px); transition-delay: 1.2s !important; }
+        .hero-cta-buttons { transform: translateY(20px); transition-delay: 1.4s !important; }
+        .hero-character-image { transform: scale(0.9); transition-delay: 1.6s !important; }
+        .hero-section.animate-in .hero-content > *, .hero-section.animate-in .hero-visual > * { opacity: 1; transform: translateY(0) scale(1); }
+
+
+        /* --- Marquee Section with Enhanced Glass Effect --- */
+        .marquee-section {
+            padding: var(--space-5) 0;
+            background-image: var(--gradient-marquee-section);
+            overflow: hidden;
+            position: relative;
+            z-index: 10;
+        }
+        .marquee-section .container h2 {
+            text-align: center;
+            margin-bottom: var(--space-2);
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--text-dark);
+            font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+        }
+        .marquee-section h2::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: var(--gradient-button-main);
+            border-radius: 2px;
+        }
+        .marquee-container {
+            width: 100%;
+            overflow: hidden;
+            padding: var(--space-3) 0;
+            margin-top: var(--space-4);
+            position: relative;
+            -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+            mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+        }
+        .marquee-container:hover .marquee-track { animation-play-state: paused; }
+        .marquee-track {
+            display: flex;
+            width: fit-content;
+            animation: scroll-left 40s linear infinite;
+        }
+        .marquee-container.reverse .marquee-track { animation-name: scroll-right; animation-duration: 45s; }
+        .marquee-item {
+            flex-shrink: 0;
+            padding: 0.75rem 2rem;
+            font-weight: var(--fw-medium);
+            
+            /* --- REPLICATED Add to Cart Button Style for Marquee Items (Default) --- */
+            background: linear-gradient(90deg, #e0f2fe, #f5e7ff); /* Light blue to light lavender gradient */
+            color: var(--text-dark); /* Dark text for contrast */
+            border: 1px solid rgba(123, 44, 191, 0.2); /* Subtle purple border */
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); /* Soft shadow */
+            
+            border-radius: var(--radius-pill);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            white-space: nowrap;
+            text-decoration: none;
+            transition: transform 0.3s ease, background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            outline: none; /* Remove default focus outline */
+            margin: 0 var(--space-2);
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+        }
+        /* --- REPLICATED Add to Cart Button Hover/Focus/Active Style --- */
+        .marquee-item:hover,
+        .marquee-item:focus-visible,
+        .marquee-item:active {
+            background: var(--primary-color);
+            color: var(--color-white);
+            transform: translateY(-4px) scale(1.03);
+            box-shadow: 0 10px 30px rgba(123, 44, 191, 0.6);
+            border-color: var(--primary-color);
+            outline: none;
+        }
+        .marquee-item i { 
+            color: var(--text-dark); /* Default icon color: deep dark blue */
+            transition: color 0.3s ease;
+        }
+        .marquee-item:hover i,
+        .marquee-item:focus-visible i,
+        .marquee-item:active i { 
+            color: var(--color-white); /* White icon on hover/focus/active */
+        }
+
+        @keyframes scroll-left { from { transform: translateX(0); } to { transform: translateX(-100%); } }
+        @keyframes scroll-right { from { transform: translateX(-100%); } to { transform: translateX(0); } }
+
+        /* --- Product Grid Section (Transparent Background Layer) --- */
+        .product-grid-section {
+            padding: var(--space-5) 0;
+            border-top: none;
+            border-bottom: none;
+            box-shadow: none;
+            margin-top: var(--space-5);
+            margin-bottom: var(--space-5);
+        }
+
+        .product-grid-section h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: var(--fw-bold);
+            color: var(--text-dark);
+            margin-bottom: var(--space-4);
+            text-align: center;
+            position: relative;
+        }
+
+        .product-grid-section h2::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--gradient-button-main);
+            border-radius: 2px;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: var(--space-3);
+            margin-bottom: var(--space-5);
+        }
+
+        /* Horizontal Scroll Specifics */
+        .horizontal-scroll-wrapper {
+            position: relative;
+            margin-top: var(--space-3);
+            margin-bottom: var(--space-5);
+        }
+        .product-grid.horizontal-scroll {
+            display: flex;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            gap: var(--space-3);
+            padding: var(--space-3) 0.5rem;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+        .product-grid.horizontal-scroll::-webkit-scrollbar {
+            height: 0;
+        }
+        .product-grid.horizontal-scroll .product-card-outer {
+            flex-shrink: 0;
+            width: 300px;
+            scroll-snap-align: start;
+        }
+
+        .scroll-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10;
+            background-color: rgba(255, 255, 255, 0.98);
+            border: 1px solid var(--border-color-dark);
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: var(--text-dark);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: var(--transition-fast);
+            outline: none; /* Removed default outline */
+        }
+        .scroll-button:hover,
+        .scroll-button:focus-visible {
+            background-color: var(--color-white);
+            transform: translateY(-50%) scale(1.15);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            outline: none;
+        }
+        .scroll-button-prev { left: -22px; }
+        .scroll-button-next { right: -22px; }
+
+        /* --- Product Card Styling with New Light Background and Star Effect --- */
+        .product-card-outer {
+            display: flex;
+            flex-direction: column;
+            background-color: rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            transition: var(--transition-medium);
+            height: 100%;
+            position: relative;
+            z-index: 1;
+            backdrop-filter: blur(10px); /* Glass effect for product cards */
+            -webkit-backdrop-filter: blur(10px);
+        }
+        .product-card-outer:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+        }
+        .product-card-outer:hover .product-name-heading {
+            color: var(--primary-color);
+        }
+
+        /* Star Reflection Effect for Cards */
+        .product-card-outer::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 200%;
+            height: 100%;
+            background: linear-gradient(
+                90deg, 
+                transparent 0%, 
+                rgba(255, 255, 255, 0.1) 20%,
+                rgba(255, 255, 255, 0.3) 50%,
+                rgba(255, 255, 255, 0.1) 80%, 
+                transparent 100%
+            );
+            opacity: 0;
+            pointer-events: none;
+            z-index: 2;
+            border-radius: inherit;
+            filter: brightness(1.2);
+            animation: sparkle-sweep 4s infinite linear;
+            animation-play-state: paused;
+        }
+        .product-card-outer:hover::after {
+            opacity: 1;
+            animation-play-state: running;
+        }
+        @keyframes sparkle-sweep {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(100%); }
+        }
+
+
+        .product-card-content-link {
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            cursor: pointer;
+        }
+
+        .product-card {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .product-card-header {
+            height: 40px;
+            border-top-left-radius: 11px;
+            border-top-right-radius: 11px;
+            display: flex;
+            align-items: center;
+            padding: 0 1rem;
+            font-weight: var(--fw-medium);
+            color: var(--color-white);
+            text-transform: capitalize;
+            font-size: 0.9em;
+            letter-spacing: 0.5px;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 1px solid #eee;
+        }
+
+        .card-body {
+            padding: 1.2rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .product-name-heading {
+            font-size: 1.3rem;
+            font-weight: var(--fw-medium);
+            margin-bottom: 8px;
+            color: var(--text-dark);
+            line-height: 1.3;
+        }
+
+        .long-description-summary {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 0.5rem;
+            flex-grow: 1;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            min-height: 3em;
+            line-height: 1.5em;
+        }
+
+        .price {
+            font-size: 1.4rem;
+            font-weight: var(--fw-bold);
+            color: var(--primary-color);
+            margin-top: 10px;
+        }
+
+        .card-actions {
+            padding: 15px;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+            background-color: rgba(255, 255, 255, 0.9);
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card-actions .add-to-cart-btn {
+            width: 100%;
+            padding: 12px 5px;
+            font-size: 0.9rem;
+            font-weight: var(--fw-medium);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            text-align: center;
+            transition: var(--transition-medium);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(90deg, #e0f2fe, #f5e7ff);
+            color: var(--text-dark);
+            border: 1px solid rgba(123, 44, 191, 0.2);
+            outline: none;
+        }
+
+        .card-actions .add-to-cart-btn:hover,
+        .card-actions .add-to-cart-btn:focus-visible,
+        .card-actions .add-to-cart-btn:active {
+            background-color: var(--primary-color);
+            color: var(--color-white);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(123, 44, 191, 0.6);
+            border-color: var(--primary-color);
+            outline: none;
+        }
+
+        .card-actions .add-to-cart-btn.added {
+            background-color: var(--btn-buy-now-green); /* Placeholder for green */
+            color: white;
+            pointer-events: none;
+            transform: scale(1.05);
+            box-shadow: 0 6px 15px rgba(40, 167, 69, 0.5);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.277);
+            animation: buttonAdded 0.6s ease-out forwards;
+        }
+
+        .card-actions .add-to-cart-btn.adding {
+            background-color: var(--secondary-color);
+            color: white;
+            box-shadow: 0 6px 15px rgba(59, 130, 246, 0.5);
+            transform: scale(1.02);
+        }
+
+        @keyframes buttonAdded {
+            0% { transform: scale(1); background: linear-gradient(90deg, #e0f2fe, #f5e7ff); color: var(--text-dark); }
+            50% { transform: scale(1.05); background-color: #28a745; color: white; box-shadow: 0 6px 15px rgba(40, 167, 69, 0.5); } /* Hardcoded green for button added */
+            100% { transform: scale(1); background-color: #28a745; color: white; box-shadow: 0 6px 15px rgba(40, 167, 69, 0.5); }
+        }
+
+        .share-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+            padding-bottom: 15px;
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+
+        .universal-share-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background-color: var(--secondary-color);
+            color: white;
+            font-size: 1.5rem;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+            outline: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .universal-share-btn:hover {
+            background-color: #3150b0;
+            transform: translateY(-4px) scale(1.1);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+        }
+
+        .universal-share-btn i {
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.9), 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+
+        /* --- Fixed AI Start Button & Chat Box --- */
+        .start-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 950;
+            padding: 15px 25px;
+            border-radius: var(--radius-pill);
+            font-size: 1.1rem;
+            font-weight: var(--fw-bold);
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            border: none;
+            outline: none;
+            background: var(--gradient-button-main);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            animation: pulseGlow 2.5s infinite ease-in-out;
+        }
+        .start-button:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            background: linear-gradient(90deg, #9932cc, #5a7bd7);
+        }
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 8px var(--primary-color), 0 0 15px var(--secondary-color); }
+            50% { box-shadow: 0 0 25px var(--primary-color), 0 0 40px var(--secondary-color); }
+            100% { box-shadow: 0 0 8px var(--primary-color), 0 0 15px var(--secondary-color); }
+        }
+
+        #ai-character {
+            position: fixed;
+            bottom: 60px;
+            right: 20px;
+            width: 300px;
+            height: 300px;
+            pointer-events: none;
+            z-index: 999;
+            --poster-color: transparent;
+            --controls-color: transparent;
+        }
+        #ai-character::part(fallback) { background-color: transparent; }
+
+
+        /* Basic Chatbox Styles with Enhanced Glass Effect */
+        .chatbox {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            width: 350px;
+            height: 500px;
+            background-color: var(--bg-glass-dark);
+            border-radius: var(--radius-md);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 1000;
+            transform: translateX(400px);
+            transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            backdrop-filter: blur(20px); /* Increased blur for chatbox */
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .chatbox.open { transform: translateX(0); }
+
+        .chatbox-header {
+            background-color: rgba(63, 76, 107, 0.9);
+            color: var(--color-white);
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: var(--fw-medium);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        .chatbox-header span { font-size: 1.1rem; }
+        .chatbox-icons i {
+            margin-left: 15px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.9);
+            transition: color 0.2s ease;
+        }
+        .chatbox-icons i:hover { color: var(--color-white); }
+        .chatbox-body {
+            flex-grow: 1;
+            padding: 15px;
+            overflow-y: auto;
+            color: var(--color-white);
+            font-size: 0.95rem;
+            background: linear-gradient(180deg, rgba(46, 59, 94, 0.6), rgba(26, 37, 63, 0.6));
+        }
+        .chatbox-input-area {
+            display: flex;
+            padding: 10px 15px;
+            background-color: rgba(63, 76, 107, 0.9);
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        #shivayChatInput {
+            flex-grow: 1;
+            border: none;
+            outline: none;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: var(--color-white);
+            padding: 10px 15px;
+            border-radius: var(--radius-pill);
+            font-size: 1rem;
+            margin-right: 10px;
+        }
+        #shivayChatInput::placeholder { color: rgba(255, 255, 255, 0.7); }
+        #sendChatMsgBtn {
+            background-color: var(--logo-accent-color);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--color-white);
+            font-size: 1.1rem;
+            transition: background-color 0.2s ease;
+            outline: none;
+        }
+        #sendChatMsgBtn:hover { background-color: #cc5b17; }
+        .input-mic { margin-right: 10px; color: var(--secondary-color); transition: color 0.2s ease; }
+        .input-mic.active { color: red; } /* Mic active color */
+        .chat-message {
+            padding: 8px 12px;
+            margin-bottom: 10px;
+            border-radius: 12px;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+        .chat-message.user {
+            background-color: var(--secondary-color);
+            color: white;
+            margin-left: auto;
+            border-bottom-right-radius: 2px;
+        }
+        .chat-message.ai {
+            background-color: var(--primary-color);
+            color: white;
+            margin-right: auto;
+            border-bottom-left-radius: 2px;
+        }
+
+
+        /* --- Flash Messages --- */
+        .flash-messages {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10000;
+            width: 90%;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .flash-message {
+            padding: 15px 20px;
+            border-radius: var(--radius-sm);
+            color: #fff;
+            font-weight: var(--fw-medium);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+            animation: fadeInOut 5s forwards;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        .flash-message.success { background-color: rgba(40, 167, 69, 0.85); }
+        .flash-message.danger { background-color: rgba(220, 53, 69, 0.85); }
+        .flash-message.warning { background-color: rgba(255, 193, 7, 0.9); color: var(--text-dark); }
+        .flash-message.info { background-color: rgba(23, 162, 184, 0.85); }
+
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: translateY(-20px); }
+            10% { opacity: 1; transform: translateY(0); }
+            90% { opacity: 1; transform: translateY(0); }
+            100% { opacity: 0; transform: translateY(-20px); display: none; }
+        }
+
+        /* --- Footer Styling (No Glass Background Layer, gradient background) --- */
+        footer {
+            background: linear-gradient(135deg, var(--footer-bg-start), var(--footer-bg-end));
+            padding: var(--space-4) 0;
+            margin-top: var(--space-5);
+            border-radius: var(--radius-md);
+            border-top: 1px solid rgba(255, 255, 255, 0.35);
+            color: var(--footer-link-color);
+            flex-shrink: 0;
+            box-shadow: 0 -8px 30px rgba(0,0,0,0.1);
+        }
+        footer .container {
+            padding: var(--space-4) var(--space-2);
+        }
+        footer h3 {
+            color: var(--footer-heading-color);
+            font-weight: var(--fw-bold);
+            margin-bottom: var(--space-2);
+            position: relative;
+            display: inline-block;
+            padding-right: 1.5em;
+        }
+        /* Underline style for footer headings */
+        footer h3::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: linear-gradient(90deg, #f7a5bd, #e06d9a);
+            border-radius: 1.5px;
+        }
+        footer a {
+            color: var(--footer-link-color);
+            transition: var(--transition-fast);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            outline: none;
+        }
+        footer a:hover,
+        footer a:focus-visible,
+        footer a:active {
+            color: var(--primary-color);
+            transform: translateX(5px);
+            outline: none;
+        }
+        footer .footer-col ul li a i {
+            color: var(--secondary-color);
+            font-size: 0.9em;
+            transition: color 0.2s ease;
+        }
+        footer .footer-col ul li a:hover i,
+        footer .footer-col ul li a:focus-visible i,
+        footer .footer-col ul li a:active i {
+            color: var(--primary-color);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 2fr;
+            gap: var(--space-4);
+            margin-bottom: var(--space-4);
+        }
+        .footer-col ul { list-style: none; padding: 0; }
+        .footer-col ul li { margin-bottom: var(--space-1); }
+        
+        /* Contact Us icons */
+        .footer-col address ul li i {
+            color: var(--footer-contact-icon-color);
+            font-size: 1.1em;
+        }
+
+        /* Social Links styling */
+        .social-links {
+            display: flex;
+            gap: var(--space-1);
+            margin-top: var(--space-2);
+            margin-bottom: var(--space-3);
+        }
+        .social-links a { 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
             height: 40px;
             border-radius: 50%;
-            background-color: #888; /* Grey background */
-            border: 3px solid white; /* Thicker white border */
-            right: 40px; /* Adjusted position to align over the 'n' in "Button" */
-            top: 50%;
-            transform: translateY(-50%); /* Vertically center it */
-            z-index: 1; /* Ensure it's on top of the text */
-            box-shadow: 0 0 8px rgba(255, 255, 255, 0.7); /* Subtle white glow */
+            background-color: var(--footer-social-bg);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            font-size: 1.2rem;
+            color: var(--text-dark);
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            outline: none;
+        }
+        .social-links a:hover,
+        .social-links a:focus-visible,
+        .social-links a:active { 
+            transform: translateY(-4px) scale(1.15);
+            background-color: var(--color-white);
+            color: var(--primary-color);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            outline: none;
         }
 
+        .newsletter-form {
+            display: flex;
+            margin-top: 1rem;
+            width: 100%;
+            max-width: 300px;
+        }
+        .newsletter-form input[type="email"] {
+            flex-grow: 1;
+            padding: 0.75rem 1rem;
+            border-radius: 8px 0 0 8px;
+            border: 1px solid var(--border-color-light);
+            background-color: var(--footer-newsletter-input-bg); /* Glassy background for newsletter input */
+            backdrop-filter: blur(5px); /* Added glass effect */
+            -webkit-backdrop-filter: blur(5px);
+            color: var(--text-dark);
+            outline: none;
+            font-size: 1rem;
+            box-shadow: inset 0 1px 4px rgba(0,0,0,0.15);
+        }
+        .newsletter-form input[type="email"]::placeholder {
+            color: #888;
+        }
+        .newsletter-form button {
+            padding: 0.75rem 1.2rem;
+            border-radius: 0 8px 8px 0;
+            border: none;
+            background: var(--gradient-newsletter-btn);
+            color: var(--color-white);
+            cursor: pointer;
+            font-weight: var(--fw-medium);
+            font-size: 1rem;
+            transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            outline: none;
+        }
+        .newsletter-form button:hover,
+        .newsletter-form button:focus-visible,
+        .newsletter-form button:active {
+            transform: translateY(-2px);
+            background: linear-gradient(90deg, #e66b62, #f77f76);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+            outline: none;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: var(--space-3);
+            border-top: 1px solid var(--border-color-light);
+            font-size: var(--fs-sm);
+            color: var(--color-text-muted);
+        }
+
+        /* --- Animations on Scroll --- */
+        .animate-on-scroll { opacity: 0; transform: translateY(40px); transition: opacity 0.7s ease-out, transform 0.7s ease-out; }
+        .animate-on-scroll.is-visible { opacity: 1; transform: translateY(0); }
+
+        /* --- Cart Page Specific Styles (No Glass Background Layer for main containers) --- */
+        .cart-page-main { 
+            padding-top: calc(var(--space-4) + 70px); /* Adjusted for desktop header height */
+            padding-bottom: var(--space-5); 
+        }
+        .cart-container { display: flex; gap: var(--space-4); align-items: flex-start; }
+        .cart-items-list { flex: 2; }
+        .order-summary { 
+            flex: 1; 
+            position: sticky; 
+            top: calc(70px + var(--space-3)); /* Adjusted header height + margin */
+            background: rgba(255, 255, 255, 0.75); /* Glassy background for summary */
+            border: 1px solid var(--border-color-light);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-sm);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: var(--space-3); 
+        }
+        /* Removed transparent background for cart-items-list and empty-cart-message as the individual items have glass */
+        .cart-items-list, .empty-cart-message { 
+            border: none;
+            padding: var(--space-3); 
+            border-radius: var(--radius-md); 
+            box-shadow: none;
+        }
+        .cart-header, .order-summary h2 { 
+            font-size: clamp(1.5rem, 4vw, 1.8rem); 
+            font-weight: var(--fw-bold); 
+            margin-bottom: var(--space-3); 
+            padding-bottom: var(--space-2); 
+            border-bottom: 1px solid var(--border-color-dark);
+            color: var(--text-dark); 
+            text-shadow: 0 1px 1px rgba(255, 255, 255, 0.7); 
+            margin-top: 0; 
+        }
+        .cart-item { 
+            display: flex; 
+            gap: var(--space-2); 
+            padding: var(--space-2); 
+            background: rgba(255, 255, 255, 0.75);
+            border: 1px solid var(--border-color-light); 
+            border-radius: var(--radius-md); 
+            box-shadow: var(--shadow-sm); 
+            margin-bottom: var(--space-3); 
+            align-items: center; 
+            transition: opacity 0.4s ease-out, transform 0.4s ease-out; 
+            backdrop-filter: blur(10px); /* Glass effect for cart items */
+            -webkit-backdrop-filter: blur(10px);
+        }
+        .cart-item-image { width: 120px; height: 80px; object-fit: cover; border-radius: var(--radius-sm); flex-shrink: 0; }
+        .cart-item-details { flex-grow: 1; }
+        .cart-item-details h3 { margin: 0 0 0.25rem 0; font-size: 1.1rem; font-weight: var(--fw-medium); color: var(--text-dark); }
+        .cart-item-details .item-category { font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 0.5rem; }
+        .cart-item-actions { display: flex; flex-direction: column; align-items: flex-end; gap: 0.75rem; }
+        .cart-item-price { font-size: 1.2rem; font-weight: var(--fw-bold); color: var(--primary-color); margin-bottom: 0; }
+        
+        .quantity-selector { display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
+        .quantity-selector .quantity-input { 
+            width: 50px; text-align: center; padding: 0.5rem; 
+            background-color: rgba(255, 255, 255, 0.95);
+            border: 1px solid var(--border-color-light); 
+            border-radius: var(--radius-sm); font-size: 1rem; font-weight: var(--fw-medium); 
+            color: var(--text-dark);
+            -moz-appearance: textfield; 
+            outline: none;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+        .quantity-selector .quantity-input::-webkit-outer-spin-button, .quantity-selector .quantity-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+        .quantity-btn { 
+            background-color: var(--bg-glass-medium);
+            border: 1px solid var(--border-color-light); 
+            width: 32px; height: 32px; border-radius: 50%; cursor: pointer; 
+            font-size: 1.2rem; font-weight: var(--fw-bold); 
+            color: var(--secondary-color);
+            display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            outline: none;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+        .quantity-btn:hover { background-color: var(--color-white); transform: scale(1.1); color: var(--primary-color); }
+        .quantity-btn:active { transform: scale(1); }
+        .quantity-btn:disabled { 
+            background-color: rgba(230, 230, 230, 0.6); 
+            color: rgba(0, 0, 0, 0.3); 
+            cursor: not-allowed; 
+            transform: scale(1); 
+            box-shadow: none;
+        }
+
+        .remove-btn { 
+            background: none; border: none; 
+            color: var(--color-text-muted); 
+            cursor: pointer; font-size: 0.9rem; 
+            transition: color 0.2s ease; display: inline-flex; 
+            align-items: center; gap: 0.5rem; padding: 0; 
+            outline: none; /* Remove default outline */
+        }
+        .remove-btn:hover,
+        .remove-btn:focus-visible,
+        .remove-btn:active {
+            color: var(--primary-color);
+            outline: none;
+        }
+
+        .buy-now-btn {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background-color: var(--logo-primary-color);
+            color: var(--color-white);
+            text-decoration: none;
+            border-radius: var(--radius-sm);
+            font-size: 0.9rem;
+            font-weight: var(--fw-medium);
+            transition: var(--transition-fast);
+            text-align: center;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            outline: none; /* Remove default outline */
+        }
+        .buy-now-btn:hover,
+        .buy-now-btn:focus-visible,
+        .buy-now-btn:active {
+            background-color: #06228d;
+            transform: scale(1.05);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            outline: none;
+        }
+
+        .item-action-buttons {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .summary-row { display: flex; justify-content: space-between; margin-bottom: var(--space-2); color: var(--text-dark); }
+        .summary-row.total { 
+            font-size: 1.3rem; 
+            font-weight: var(--fw-bold); 
+            margin-top: var(--space-3); 
+            padding-top: var(--space-3); 
+            border-top: 1px solid var(--border-color-dark); 
+            color: var(--primary-color);
+        }
+        .checkout-btn { 
+            display: block; width: 100%; padding: 1rem; margin-top: var(--space-3); 
+            font-size: 1.2rem; text-decoration: none; text-align: center; 
+            font-weight: var(--fw-medium); 
+            background: var(--gradient-button-main);
+            color: var(--color-white); 
+            border: none; 
+            border-radius: var(--radius-sm); cursor: pointer; 
+            transition: var(--transition-smooth); box-shadow: var(--shadow-sm); 
+            outline: none; /* Remove default outline */
+        }
+        .checkout-btn:hover,
+        .checkout-btn:focus-visible,
+        .checkout-btn:active { 
+            transform: translateY(-3px); filter: brightness(1.1); box-shadow: var(--shadow-md); 
+            outline: none;
+        }
+        .continue-shopping-link { 
+            color: var(--secondary-color);
+            text-decoration: none; font-weight: var(--fw-medium); 
+            display: inline-block; margin-top: var(--space-2); transition: var(--transition-fast); 
+            outline: none; /* Remove default outline */
+        }
+        .continue-shopping-link:hover,
+        .continue-shopping-link:focus-visible,
+        .continue-shopping-link:active { 
+            color: var(--primary-color); transform: translateX(-2px); 
+            outline: none;
+        }
+        .continue-shopping-link i { margin-right: 0.5rem; }
+        
+        /* Empty Cart State */
+        .empty-cart-message { text-align: center; padding: var(--space-5) var(--space-4); }
+        .empty-cart-message i.fa-shopping-cart { font-size: 4rem; color: rgba(4, 23, 101, 0.25); margin-bottom: 1.5rem; }
+        .empty-cart-message h2 { font-size: 1.8rem; margin-bottom: 0.5rem; color: var(--text-dark); }
+        .empty-cart-message p { color: var(--color-text-muted); margin-bottom: 2rem; }
+        .empty-cart-message .btn-primary { 
+            display: inline-block; padding: 0.8rem 1.5rem; 
+            background: var(--gradient-button-main);
+            color: var(--color-white); 
+            border-radius: var(--radius-sm); text-decoration: none; 
+            font-weight: var(--fw-medium); transition: var(--transition-smooth); 
+            box-shadow: var(--shadow-sm); 
+            outline: none; /* Remove default outline */
+        }
+        .empty-cart-message .btn-primary:hover,
+        .empty-cart-message .btn-primary:focus-visible,
+        .empty-cart-message .btn-primary:active { 
+            transform: translateY(-3px); box-shadow: var(--shadow-md); 
+            outline: none;
+        }
+        
+        /* --- Responsive Styles --- */
+
+        /* Tablets & smaller Desktops (up to 1200px) */
+        @media (max-width: 1200px) {
+            .container {
+                padding: 0 var(--space-2);
+            }
+            /* Header adjustments */
+            header .container {
+                padding: 0.6rem var(--space-2); /* Adjusted */
+                gap: var(--space-1);
+            }
+            .logo .logo-text { font-size: 1.6rem; } /* Adjusted */
+            .logo .logo-symbol { width: 35px; } /* Adjusted */
+            .header-search { max-width: 400px; }
+            .header-nav-actions { gap: 0.8rem; } /* Adjusted */
+            .header-option { padding: 0.2rem 0.4rem; } /* Adjusted */
+            .header-option i { font-size: 1rem; } /* Adjusted */
+            .header-option .option-text { font-size: 0.85rem; } /* Adjusted */
+            .user-avatar { width: 24px; height: 24px; } /* Adjusted */
+            .cart-count { top: -5px; right: -7px; min-width: 14px; height: 14px; font-size: 0.6em; } /* Adjusted */
+
+
+            .hero-content {
+                max-width: 60%;
+                margin-left: 5%;
+            }
+            .hero-visual {
+                right: 5%;
+                width: 38%;
+            }
+            .floating-element {
+                width: 3.5rem;
+                height: 3.5rem;
+                font-size: 1.5rem;
+            }
+            .floating-element.icon-1 { top: 18%; left: -8%; }
+            .floating-element.icon-2 { top: 35%; right: -12%; }
+            .floating-element.icon-3 { bottom: 8%; left: 22%; }
+
+            .cart-container {
+                gap: var(--space-3);
+            }
+
+            /* Adjust main content padding to clear header */
+            .hero-section {
+                padding-top: calc(5rem + 105px); /* Recalculated for tablet header height */
+            }
+            main:not(.cart-page-main):not(.hero-section-wrapper) {
+                padding-top: 125px; /* Recalculated for tablet header height */
+            }
+            .cart-page-main {
+                padding-top: calc(var(--space-4) + 105px); /* Recalculated */
+            }
+            .order-summary {
+                top: calc(105px + var(--space-3)); /* Recalculated */
+            }
+        }
+
+        /* Large Tablets (up to 992px) - This is the breakpoint for icon-only nav buttons */
+        @media (max-width: 992px) {
+            header {
+                padding: 0.6rem 0; /* Adjusted */
+            }
+            header .container {
+                flex-wrap: wrap; 
+                justify-content: space-between; 
+                align-items: center;
+                gap: 0.6rem; /* Adjusted */
+                padding: 0.6rem var(--space-2); /* Adjusted */
+            }
+            
+            .logo {
+                order: 1; 
+                margin-right: auto;
+                gap: 6px; /* Adjusted */
+            }
+            .logo .logo-text { font-size: 1.5rem; } /* Adjusted */
+            .logo .logo-symbol { width: 30px; } /* Adjusted */
+
+            .header-nav-actions {
+                order: 2; 
+                flex-shrink: 0;
+                gap: 0.6rem; /* Adjusted */
+            }
+            
+            /* ICON-ONLY NAVIGATION BUTTONS */
+            .header-option {
+                flex-direction: column; 
+                justify-content: center;
+                align-items: center; 
+                width: 40px; /* Adjusted */
+                height: 40px; /* Adjusted */
+                padding: 0; 
+                border-radius: 50%; 
+                gap: 0; 
+                white-space: normal; 
+            }
+            .header-option .option-text {
+                display: none; 
+            }
+            .header-option i {
+                font-size: 1.1rem; /* Adjusted */
+                line-height: 1; 
+            }
+            /* Adjust hover/focus for icon-only buttons */
+            .header-option:hover,
+            .header-option:focus-visible,
+            .header-option:active {
+                transform: scale(1.1); 
+                background-color: rgba(255, 255, 255, 0.4);
+                box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            }
+            .user-avatar { width: 28px; height: 28px; } /* Adjusted back for icon-only */
+            .cart-count { top: -6px; right: -8px; min-width: 16px; height: 16px; font-size: 0.65em; } /* Adjusted back for icon-only */
+
+
+            .header-search {
+                order: 3; 
+                flex-basis: 100%; 
+                max-width: none; 
+                margin-top: 0.5rem; /* Adjusted */
+                margin-left: 0; 
+                margin-bottom: 0.2rem; 
+            }
+
+            /* Adjust main content padding to clear header */
+            .hero-section {
+                padding-top: calc(5rem + 100px); /* Recalculated */
+            }
+            main:not(.cart-page-main):not(.hero-section-wrapper) {
+                padding-top: 120px; /* Recalculated */
+            }
+            .cart-page-main {
+                padding-top: calc(var(--space-4) + 100px); /* Recalculated */
+            }
+            .order-summary {
+                top: calc(100px + var(--space-3)); /* Recalculated */
+            }
+
+            .marquee-section { padding: var(--space-4) 0; }
+            .marquee-item { font-size: 0.95rem; padding: 0.6rem 1.4rem; }
+
+            .product-grid {
+                grid-template-columns: repeat(auto-fill, minmax(calc(50% - var(--space-2)), 1fr)); 
+                gap: var(--space-2);
+            }
+            .product-grid.horizontal-scroll .product-card-outer {
+                width: calc(50% - var(--space-2)); 
+            }
+            .product-image { height: 150px; } 
+            .product-name-heading { font-size: 1.1rem; }
+            .long-description-summary { font-size: 0.85em; }
+            .price { font-size: 1.2rem; }
+            .card-actions .add-to-cart-btn { padding: 10px 5px; font-size: 0.85rem; }
+
+
+            .scroll-button-prev { left: 5px; }
+            .scroll-button-next { right: 5px; }
+
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+                gap: var(--space-3);
+                text-align: left;
+            }
+            .footer-col:first-child { grid-column: span 2; }
+            .footer-col ul { align-items: flex-start; }
+            .newsletter-form { justify-content: flex-start; }
+
+            /* Cart Page Responsiveness */
+            .cart-container { flex-direction: column; }
+            .order-summary { width: 100%; position: static; margin-top: var(--space-3); }
+            .cart-item-image { width: 100px; height: 60px; }
+            .cart-item-details h3 { font-size: 1rem; }
+            .cart-item-details .item-category { font-size: 0.8rem; }
+            .cart-item-price { font-size: 1.1rem; }
+            .buy-now-btn { padding: 0.4rem 0.8rem; font-size: 0.85rem; }
+            .remove-btn { font-size: 0.85rem; }
+
+            /* Fixed elements */
+            .start-button {
+                bottom: 10px;
+                right: 10px;
+                padding: 12px 20px;
+                font-size: 0.95rem;
+            }
+            #ai-character {
+                bottom: 50px;
+                right: 5px;
+                width: 160px;
+                height: 160px;
+            }
+            .chatbox {
+                width: 90vw;
+                height: 60vh;
+                right: 5vw;
+                bottom: 60px;
+            }
+        }
+
+        /* Mobile Devices (up to 768px) - Further adjustments for smaller screens */
+        @media (max-width: 768px) {
+            header .container {
+                gap: 0.6rem;
+                padding-top: 0.4rem; /* Adjusted */
+                padding-bottom: 0.4rem; /* Adjusted */
+            }
+            .logo {
+                margin-bottom: 0.2rem;
+            }
+            .logo .logo-text { font-size: 1.2rem; } /* Adjusted */
+            .logo .logo-symbol { width: 25px; } /* Adjusted */
+
+            .main-search-bar {
+                padding: 5px 10px; /* Adjusted */
+            }
+            .main-search-bar .search-microphone-button {
+                font-size: 0.8rem; /* Adjusted */
+                margin-right: 4px;
+            }
+            #main-search-input {
+                font-size: 0.75rem; /* Adjusted */
+            }
+            
+            .header-nav-actions {
+                gap: 0.4rem; /* Adjusted */
+            }
+            .header-option { /* Icon only button further adjusted */
+                width: 36px; /* Adjusted */
+                height: 36px; /* Adjusted */
+            }
+            .header-option i {
+                font-size: 0.95rem; /* Adjusted */
+            }
+            .user-avatar { width: 24px; height: 24px; } /* Adjusted */
+            .cart-count { top: -5px; right: -7px; min-width: 14px; height: 14px; font-size: 0.6em; } /* Adjusted */
+
+
+            /* Adjust main content padding to clear header */
+            .hero-section {
+                padding-top: calc(5rem + 90px); /* Recalculated */
+            }
+            main:not(.cart-page-main):not(.hero-section-wrapper) {
+                padding-top: 110px; /* Recalculated */
+            }
+            .cart-page-main {
+                padding-top: calc(var(--space-4) + 90px); /* Recalculated */
+            }
+            .order-summary {
+                top: calc(90px + var(--space-3)); /* Recalculated */
+            }
+
+            .product-grid {
+                grid-template-columns: repeat(auto-fill, minmax(calc(50% - var(--space-2)), 1fr));
+            }
+            .product-grid.horizontal-scroll .product-card-outer {
+                width: calc(50% - var(--space-2));
+            }
+            .product-image { height: 120px; }
+            .product-name-heading { font-size: 0.95rem; }
+            .long-description-summary { font-size: 0.75em; }
+            .price { font-size: 1.1rem; }
+            .card-actions .add-to-cart-btn { padding: 8px 5px; font-size: 0.8rem; }
+
+
+            .scroll-button { display: none; } /* Hide scroll buttons on very small screens */
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .footer-col:first-child { grid-column: span 1; }
+            .footer-col ul { align-items: center; }
+            .newsletter-form { justify-content: center; }
+
+            /* Cart Page Responsiveness */
+            .cart-item { flex-direction: column; align-items: flex-start; }
+            .cart-item-image { width: 90px; height: 50px; }
+            .cart-item-details h3 { font-size: 0.95rem; }
+            .cart-item-details .item-category { font-size: 0.75rem; }
+            .cart-item-price { font-size: 1.1rem; }
+            .item-action-buttons {
+                width: 100%;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                margin-top: 1rem;
+            }
+            .remove-btn { 
+                position: static; 
+                font-size: 1.2rem;
+                color: var(--primary-color); 
+            }
+            .remove-btn span { display: none; } 
+            .buy-now-btn { padding: 0.4rem 0.8rem; font-size: 0.8rem; }
+
+            /* Fixed elements */
+            .start-button {
+                bottom: 10px;
+                right: 10px;
+                padding: 12px 20px;
+                font-size: 0.95rem;
+                gap: 6px;
+            }
+            #ai-character {
+                bottom: 50px;
+                right: 5px;
+                width: 160px;
+                height: 160px;
+            }
+            .chatbox {
+                width: 90vw;
+                height: 60vh;
+                right: 5vw;
+                bottom: 60px;
+            }
+        }
+
+        /* Small Mobile Devices (up to 480px) */
+        @media (max-width: 480px) {
+            header .container {
+                padding-top: 0.3rem; /* Adjusted */
+                padding-bottom: 0.3rem; /* Adjusted */
+                gap: 0.3rem;
+            }
+            .logo .logo-text { font-size: 1rem; } /* Adjusted */
+            .logo .logo-symbol { width: 20px; } /* Adjusted */
+
+            .main-search-bar {
+                padding: 3px 8px; /* Adjusted */
+            }
+            .main-search-bar .search-microphone-button {
+                font-size: 0.7rem; /* Adjusted */
+                margin-right: 4px;
+            }
+            #main-search-input { font-size: 0.65rem; } /* Adjusted */
+            
+            .header-nav-actions {
+                gap: 0.3rem; /* Adjusted */
+            }
+            .header-option { 
+                width: 32px; /* Adjusted */
+                height: 32px; /* Adjusted */
+            }
+            .header-option i {
+                font-size: 0.85rem; /* Adjusted */
+            }
+            .user-avatar { width: 20px; height: 20px; } /* Adjusted */
+            .cart-count { top: -4px; right: -6px; min-width: 12px; height: 12px; font-size: 0.55em; } /* Adjusted */
+
+
+            /* Adjust main content padding to clear header */
+            .hero-section {
+                padding-top: calc(5rem + 75px); /* Recalculated */
+            }
+            main:not(.cart-page-main):not(.hero-section-wrapper) {
+                padding-top: 95px; /* Recalculated */
+            }
+            .cart-page-main {
+                padding-top: calc(var(--space-4) + 75px); /* Recalculated */
+            }
+            .order-summary {
+                top: calc(75px + var(--space-3)); /* Recalculated */
+            }
+
+            .product-grid {
+                grid-template-columns: repeat(auto-fill, minmax(calc(50% - var(--space-1)), 1fr));
+                gap: var(--space-1);
+            }
+            .product-grid.horizontal-scroll .product-card-outer {
+                width: calc(50% - var(--space-1));
+            }
+            .product-image { height: 100px; }
+            .product-name-heading { font-size: 0.85rem; }
+            .long-description-summary { font-size: 0.65em; }
+            .price { font-size: 1rem; }
+            .card-actions .add-to-cart-btn { padding: 6px 4px; font-size: 0.7rem; }
+
+
+            /* Cart Page Responsiveness */
+            .cart-item-image { width: 60px; height: 35px; }
+            .cart-item-details h3 { font-size: 0.8rem; }
+            .cart-item-details .item-category { font-size: 0.65rem; }
+            .cart-item-price { font-size: 0.8rem; }
+            .item-action-buttons {
+                width: 100%;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                margin-top: 1rem;
+            }
+            .remove-btn { 
+                position: static; 
+                font-size: 1.2rem;
+                color: var(--primary-color); 
+            }
+            .remove-btn span { display: none; } 
+            .buy-now-btn { padding: 0.2rem 0.5rem; font-size: 0.65rem; }
+            .quantity-input { width: 35px; padding: 0.25rem; font-size: 0.7rem; }
+            .quantity-btn { width: 24px; height: 24px; font-size: 0.9rem; }
+            .remove-btn { font-size: 1rem; }
+
+
+            /* Fixed elements */
+            .start-button {
+                bottom: 5px;
+                right: 5px;
+                padding: 8px 12px;
+                font-size: 0.75rem;
+                gap: 4px;
+            }
+            #ai-character {
+                bottom: 35px;
+                right: 2px;
+                width: 100px; /* Adjusted */
+                height: 100px; /* Adjusted */
+            }
+            .chatbox {
+                width: 98vw;
+                height: 60vh;
+                right: 1vw;
+                bottom: 35px; /* Adjusted */
+            }
+        }
     </style>
 </head>
 <body>
+    <!-- AI Character (3D model placeholder) -->
+    <model-viewer id="ai-character"
+        src="https://modelviewer.dev/shared-assets/models/Astronaut.glb"
+        alt="A friendly AI assistant character"
+        shadow-intensity="1"
+        camera-controls
+        auto-rotate
+        rotation-per-second="10deg"
+        disable-zoom
+        ar-status="not-presenting"
+        exposure="1"
+        disable-tap
+        interaction-prompt="none"
+        class="animated-element"
+        style="display: none;"
+    ></model-viewer>
 
-    <div class="neon-button-container">
-        <span class="button-text">Button</span>
-        <div class="small-circle"></div>
+    <!-- Fixed AI Start Button -->
+    <button class="start-button animated-button" onclick="window.handleStartButtonClick()">
+        <i class="fas fa-robot"></i>
+        Get Started with AI
+    </button>
+
+    <!-- Chat Box (Simplified structure) -->
+    <div id="chatBox" class="chatbox">
+        <div class="chatbox-header">
+            <span>Shivay AI Assistant</span>
+            <div class="chatbox-icons">
+                <i id="headerMicIcon" class="fas fa-microphone mic-icon" title="Speak Command (Header)"></i>
+                <i class="fas fa-cog settings-icon" title="Settings"></i>
+                <i class="fas fa-times close-icon" onclick="window.closeChat()" title="Close Chat"></i>
+            </div>
+        </div>
+        <div class="chatbox-body" id="chatBody">
+            <p style="text-align: center; color: rgba(255,255,255,0.7); margin-top: 1rem;">Welcome! How can I assist you today?</p>
+            <!-- Chat messages will appear here -->
+        </div>
+        <div class="chatbox-input-area">
+            <i id="inputAreaMicIcon" class="fas fa-microphone mic-icon input-mic" title="Speak Command (Input)" aria-label="Toggle Voice Input"></i>
+            <input type="text" id="shivayChatInput" placeholder="Type or speak..." aria-label="Type your command">
+            <button id="sendChatMsgBtn" aria-label="Send Command"><i class="fas fa-paper-plane"></i></button>
+        </div>
     </div>
 
+    <!-- Audio elements (placeholders - update with actual paths in Flask) -->
+    <audio id="chatOpenSound" src="{{ url_for('static', filename='sounds/notification.mp3') }}" preload="auto"></audio>
+    <audio id="micToggleSound" src="{{ url_for('static', filename='sounds/notification.mp3') }}" preload="auto"></audio>
+    <audio id="messageSendSound" src="{{ url_for('static', filename='sounds/notification.mp3') }}" preload="auto"></audio>
+
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <header>
+        <div class="container">
+            <!-- FULL SVG LOGO WITH ANIMATION STRUCTURE -->
+            <!-- This SVG logo matches the provided image for the "nexaur" branding. -->
+            <a href="{{ url_for('home_app.home') }}" class="logo" aria-label="Nexaur homepage">
+                <svg class="logo-symbol" viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
+                    <g fill="var(--logo-primary-color)">
+                        <rect class="pixel pixel-1" x="5" y="5" width="20" height="20" rx="3"/>
+                        <rect class="pixel pixel-2" x="30" y="5" width="20" height="20" rx="3"/>
+                        <rect class="pixel pixel-3" x="55" y="5" width="20" height="20" rx="3"/>
+                        <rect class="pixel pixel-4" x="5" y="30" width="20" height="20" rx="3"/>
+                        <rect class="pixel pixel-5" x="55" y="30" width="20" height="20" rx="3"/>
+                    </g>
+                    <rect class="pixel pixel-special" fill="var(--logo-accent-color)" x="30" y="30" width="20" height="20" rx="3"/>
+                    <g fill="var(--logo-accent-color)">
+                        <rect class="cart-part cart-handle" x="80" y="5" width="10" height="45" rx="3"/>
+                        <circle class="cart-part cart-wheel cart-wheel-1" cx="15" cy="65" r="8"/>
+                        <circle class="cart-part cart-wheel cart-wheel-2" cx="65" cy="65" r="8"/>
+                    </g>
+                </svg>
+                <div class="logo-text">
+                    <span class="char" style="--char-index: 1;">n</span>
+                    <span class="char" style="--char-index: 2;">e</span>
+                    <span class="char" style="--char-index: 3;">x</span>
+                    <span class="char" style="--char-index: 4;">a</span>
+                    <span class="char" style="--char-index: 5;">u</span>
+                    <span class="char" style="--char-index: 6;">r</span>
+                </div>
+            </a>
+            
+            <!-- Header Search (now a direct child for responsive ordering) -->
+            <div class="header-search">
+                <form id="mainSearchForm" class="main-search-bar" action="{{ url_for('home_app.search') }}" method="get">
+                    <button type="button" class="icon-button search-microphone-button" id="mainVoiceSearchBtn" aria-label="Search by voice"><i class="fas fa-microphone" aria-hidden="true"></i></button>
+                    <label for="main-search-input" class="visually-hidden">Search for anything</label>
+                    <input type="search" id="main-search-input" name="q" placeholder="Search for anything...">
+                    <!-- No explicit search submit button icon or clear button visible in the image for the main search bar -->
+                </form>
+                <div id="voiceStatus" style="position: absolute; top: 100%; left: 0; font-size: 0.8em; color: #777; padding-top: 4px;"></div>
+            </div>
+
+            <!-- Header Navigation/Actions (now a direct child for responsive ordering) -->
+            <div class="header-nav-actions">
+                <a href="{{ url_for('home_app.home') }}" class="header-option header-option--home"><i class="fa-solid fa-house"></i><span class="option-text">Home</span></a>
+
+                {% if session.user_id %}
+                    <a href="{{ url_for('home_app.profile') }}" class="header-option header-option--profile">
+                        <img src="https://www.gravatar.com/avatar/{{ session.user_email | md5 }}?d=mp&s=40" alt="User Profile" class="user-avatar">
+                        <span class="option-text">{{ session.user_name.split()[0] }}</span>
+                    </a>
+                    {% if is_admin %}
+                    <a href="{{ url_for('home_app.admin_dashboard') }}" class="header-option header-option--admin">
+                        <i class="fa-solid fa-gauge-high"></i>
+                        <span class="option-text">Admin</span>
+                    </a>
+                    {% endif %}
+                {% else %}
+                    <a href="{{ url_for('home_app.login') }}" class="header-option header-option--profile"><i class="fa-solid fa-user"></i><span class="option-text">Login</span></a>
+                {% endif %}
+
+                <a href="{{ url_for('home_app.cart') }}" class="header-option header-option--cart">
+                    <div class="cart-icon-wrapper">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        <span class="cart-count" id="headerCartCount">0</span>
+                    </div>
+                    <span class="option-text">Cart</span>
+                </a>
+            </div>
+            <button class="menu-toggle" aria-label="Toggle navigation" aria-expanded="false"><span class="hamburger-bar"></span><span class="hamburger-bar"></span><span class="hamburger-bar"></span></button>
+        </div>
+    </header>
+
+    <!-- Flash Messages Container -->
+    <div class="flash-messages" id="flashMessagesContainer">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash-message {{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <main id="main-content" class="{% if request.path == url_for('home_app.cart') %}cart-page-main{% endif %}">
+        {% if request.path == url_for('home_app.home') %}
+        <section class="hero-section">
+            <video autoplay loop muted playsinline class="hero-background-video">
+                <source src="{{ url_for('static', filename='up.mp4') }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class="hero-overlay"></div>
+
+            <div class="hero-content">
+                <h1 class="hero-headline">
+                    Collaborate. <span class="brain-icon" role="img" aria-label="brain emoji">🧠</span> Create. Innovate.
+                </h1>
+                <p class="hero-subheadline">
+                    Nexaur provides the tools for your design team to bring <br>
+                    their most ambitious ideas to life, faster than ever <br>
+                    before.
+                </p>
+                <div class="hero-cta-buttons">
+                    <a href="#products" class="btn btn-primary">Explore Products</a>
+                    <a href="#" class="btn btn-secondary"><i class="fas fa-play-circle"></i> See it in Action</a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <img src="{{ url_for('static', filename='images/hero-characters.png') }}" alt="Illustration of a design team collaborating" class="hero-character-image">
+                <div class="floating-element icon-1"><i class="fas fa-sliders-h"></i></div>
+                <div class="floating-element icon-2"><i class="fas fa-compass-drafting"></i></div>
+                <div class="floating-element icon-3"><i class="fas fa-layer-group"></i></div>
+            </div>
+        </section>
+
+        <section class="marquee-section animate-on-scroll">
+            <div class="container"><h2>🚀Now Trending</h2></div>
+            <div class="marquee-container" title="Hover to pause scrolling">
+                <div class="marquee-track">
+                    <a href="#" class="marquee-item"><i class="fas fa-bolt"></i> Modern E-Commerce Platform</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-palette"></i> Creative Portfolio Website</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-brain"></i> AI Customer Service Chatbot</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-building"></i> Corporate Business Portal</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-camera-retro"></i> Image Recognition API</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-feather-pointed"></i> Minimalist Blog & News</a>
+                    <!-- Duplicates for seamless looping -->
+                    <a href="#" class="marquee-item"><i class="fas fa-bolt"></i> Modern E-Commerce Platform</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-palette"></i> Creative Portfolio Website</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-brain"></i> AI Customer Service Chatbot</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-building"></i> Corporate Business Portal</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-camera-retro"></i> Image Recognition API</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-feather-pointed"></i> Minimalist Blog & News</a>
+                </div>
+            </div>
+            <div class="marquee-container reverse" title="Hover to pause scrolling">
+                <div class="marquee-track">
+                    <a href="#" class="marquee-item"><i class="fas fa-tasks"></i> Project Management Suite</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-chart-line"></i> Predictive Analytics Dashboard</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-rocket"></i> SaaS Starter Kit</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-pen-nib"></i> Content Generation Engine</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-users"></i> Social Media Manager</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-headset"></i> CRM Platform</a>
+                    <!-- Duplicates for seamless looping -->
+                    <a href="#" class="marquee-item"><i class="fas fa-tasks"></i> Project Management Suite</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-chart-line"></i> Predictive Analytics Dashboard</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-rocket"></i> SaaS Starter Kit</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-pen-nib"></i> Content Generation Engine</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-users"></i> Social Media Manager</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-headset"></i> CRM Platform</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="products" class="product-grid-section">
+            <div class="container">
+                <h2 id="websites" class="animate-on-scroll">🛒Featured Websites</h2>
+                <div class="horizontal-scroll-wrapper">
+                    <button class="scroll-button scroll-button-prev" aria-label="Scroll left"><i class="fas fa-chevron-left"></i></button>
+                    <div class="product-grid horizontal-scroll" id="websites-scroll-container">
+                        <!-- Products from Flask's `websites` list -->
+                        {% for product in websites %}
+                        <div class="product-card-outer animate-on-scroll">
+                            <a href="{{ url_for('home_app.product_detail', product_db_key=product.product_db_key) }}" class="product-card-content-link" aria-label="View details for {{ product.name }}">
+                                <div class="product-card" data-product-id="{{ product.product_db_key }}">
+                                    <div class="product-card-header" style="background-color: {{ CATEGORY_COLORS.get(product.category.lower(), '#6c757d') }};" aria-label="Category: {{ product.category }}">
+                                        <span class="category-text">{{ product.category.replace('-', ' ').title() }}</span>
+                                    </div>
+                                    <img src="{{ product.image }}" alt="{{ product.name }}" class="product-image" loading="lazy">
+                                    <div class="card-body">
+                                        <h3 class="product-name-heading">{{ product.name }}</h3>
+                                        <p class="long-description-summary">{{ product.long_description[:100] }}...</p>
+                                        <div class="price">
+                                            {{ product.price | format_local_currency(product.currency_iso, user_country_code) }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                            <div class="card-actions">
+                                <button class="add-to-cart-btn" data-product-id="{{ product.product_db_key }}">Add to Cart</button>
+                            </div>
+                            <div class="share-container">
+                                <button class="universal-share-btn"
+                                        data-title="{{ product.name }}"
+                                        data-text="{{ product.name }} - A great template from Nexaur!"
+                                        data-url="{{ url_for('home_app.product_detail', product_db_key=product.product_db_key, _external=True) }}">
+                                    <i class="fas fa-share-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <button class="scroll-button scroll-button-next" aria-label="Scroll right"><i class="fas fa-chevron-right"></i></button>
+                </div>
+
+                <h2 id="ai" class="animate-on-scroll">✨Top AI Solutions</h2>
+                <div class="product-grid">
+                    <!-- Products from Flask's `ai` list -->
+                    {% for product in ai %}
+                    <div class="product-card-outer animate-on-scroll">
+                        <a href="{{ url_for('home_app.product_detail', product_db_key=product.product_db_key) }}" class="product-card-content-link" aria-label="View details for {{ product.name }}">
+                            <div class="product-card" data-product-id="{{ product.product_db_key }}">
+                                <div class="product-card-header" style="background-color: {{ CATEGORY_COLORS.get(product.category.lower(), '#6c757d') }};" aria-label="Category: {{ product.category }}">
+                                    <span class="category-text">{{ product.category.replace('-', ' ').title() }}</span>
+                                    </div>
+                                    <img src="{{ product.image }}" alt="{{ product.name }}" class="product-image" loading="lazy">
+                                    <div class="card-body">
+                                        <h3 class="product-name-heading">{{ product.name }}</h3>
+                                        <p class="long-description-summary">{{ product.long_description[:100] }}...</p>
+                                        <div class="price">
+                                            {{ product.price | format_local_currency(product.currency_iso, user_country_code) }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                            <div class="card-actions">
+                                <button class="add-to-cart-btn" data-product-id="{{ product.product_db_key }}">Add to Cart</button>
+                            </div>
+                            <div class="share-container">
+                                <button class="universal-share-btn"
+                                        data-title="{{ product.name }}"
+                                        data-text="{{ product.name }} - A powerful AI solution from Nexaur!"
+                                        data-url="{{ url_for('home_app.product_detail', product_db_key=product.product_db_key, _external=True) }}">
+                                    <i class="fas fa-share-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <h2 id="apps" class="animate-on-scroll">📱Featured Applications</h2>
+                    <div class="product-grid animate-on-scroll">
+                        <!-- Products from Flask's `apps` list -->
+                        {% for product in apps %}
+                        <div class="product-card-outer">
+                            <a href="{{ url_for('home_app.product_detail', product_db_key=product.product_db_key) }}" class="product-card-content-link" aria-label="View details for {{ product.name }}">
+                                <div class="product-card" data-product-id="{{ product.product_db_key }}">
+                                    <div class="product-card-header" style="background-color: {{ CATEGORY_COLORS.get(product.category.lower(), '#6c757d') }};" aria-label="Category: {{ product.category }}">
+                                        <span class="category-text">{{ product.category.replace('-', ' ').title() }}</span>
+                                    </div>
+                                    <img src="{{ product.image }}" alt="{{ product.name }}" class="product-image" loading="lazy">
+                                    <div class="card-body">
+                                        <h3 class="product-name-heading">{{ product.name }}</h3>
+                                        <p class="long-description-summary">{{ product.long_description[:100] }}...</p>
+                                        <div class="price">
+                                            {{ product.price | format_local_currency(product.currency_iso, user_country_code) }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                            <div class="card-actions">
+                                <button class="add-to-cart-btn" data-product-id="{{ product.product_db_key }}">Add to Cart</button>
+                            </div>
+                            <div class="share-container">
+                                <button class="universal-share-btn"
+                                        data-title="{{ product.name }}"
+                                        data-text="{{ product.name }} - A feature-rich application from Nexaur!"
+                                        data-url="{{ url_for('home_app.product_detail', product_db_key=product.product_db_key, _external=True) }}">
+                                    <i class="fas fa-share-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </section>
+        {% elif request.path == url_for('home_app.cart') %}
+        <div class="container">
+            {% if cart_items %}
+            <div class="cart-container">
+                <div class="cart-items-list">
+                    <h1 class="cart-header">Your Cart (<span id="cart-item-count-header">{{ cart_items|length }}</span> item{% if cart_items|length != 1 %}s{% endif %})</h1>
+                    {% for item in cart_items %}
+                    <div class="cart-item" data-item-id="{{ item.id }}">
+                        <img src="{{ item.image }}" alt="{{ item.name }}" class="cart-item-image">
+                        <div class="cart-item-details">
+                            <h3>{{ item.name }}</h3>
+                            <p class="item-category">{{ item.category|capitalize }}</p>
+                            <div class="quantity-selector">
+                                 <button class="quantity-btn minus-btn" aria-label="Decrease quantity by one">−</button>
+                                 <label for="qty-{{ item.id }}" class="visually-hidden">Quantity for {{ item.name }}</label>
+                                 <input type="number" class="quantity-input" id="qty-{{ item.id }}" value="{{ item.quantity }}" min="1" max="10" readonly>
+                                 <button class="quantity-btn plus-btn" aria-label="Increase quantity by one">+</button>
+                            </div>
+                        </div>
+                        <div class="cart-item-actions">
+                             <div class="cart-item-price">
+                                 {{ item.subtotal | format_local_currency(user_currency.iso, user_country_code) }}
+                             </div>
+                             <div class="item-action-buttons">
+                                <a href="{{ url_for('home_app.buy_now', product_db_key=item.id) }}" class="buy-now-btn">Buy Now</a>
+                                <button class="remove-btn" aria-label="Remove {{ item.name }} from cart">
+                                    <i class="fas fa-trash"></i><span>Remove</span>
+                                </button>
+                             </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    <a href="{{ url_for('home_app.home') }}#products" class="continue-shopping-link"><i class="fas fa-arrow-left"></i> Continue Shopping</a>
+                </div>
+
+                <aside class="order-summary">
+                    <h2>Order Summary</h2>
+                    <div class="summary-row">
+                        <span>Subtotal</span>
+                        <span id="summary-subtotal">{{ cart_items | sum(attribute='subtotal') | format_local_currency(user_currency.iso, user_country_code) }}</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Taxes (Estimated)</span>
+                        <span id="summary-tax">{{ (cart_items | sum(attribute='subtotal') * 0.08) | format_local_currency(user_currency.iso, user_country_code) }}</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span>Total</span>
+                        <span id="summary-total">{{ (cart_items | sum(attribute='subtotal') * 1.08) | format_local_currency(user_currency.iso, user_country_code) }}</span>
+                    </div>
+                    <a href="{{ url_for('home_app.checkout') }}" class="checkout-btn">Proceed to Checkout</a>
+                </aside>
+            </div>
+            {% else %}
+            <div class="empty-cart-message" style="display: block;">
+                <i class="fas fa-shopping-cart"></i>
+                <h2>Your cart is empty</h2>
+                <p>Looks like you haven't added anything to your cart yet.</p>
+                <a href="{{ url_for('home_app.home') }}#products" class="btn-primary">Start Shopping</a>
+            </div>
+            {% endif %}
+        </div>
+        {% else %}
+            {# Placeholder for other pages if not home or cart, or content for a general layout #}
+            <div class="container" style="padding-top: 100px; text-align: center;">
+                <h1>Welcome to Nexaur!</h1>
+                <p>This is a placeholder for other pages. Please navigate to Home or Cart.</p>
+                <a href="{{ url_for('home_app.home') }}" class="btn btn-primary" style="margin-top: 20px;">Go to Home</a>
+            </div>
+        {% endif %}
+    </main>
+
+ 
+<footer>
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-col">
+                <h3>Nexaur 🚀</h3>
+                <p>The marketplace for next-generation digital products. Built for creators and innovators.</p>
+            </div>
+            <div class="footer-col">
+                <h3>Quick Links 🔗</h3>
+                <nav aria-label="Quick links">
+                    <ul>
+                        <li><a href="{{ url_for('home_app.about') }}"><i class="fas fa-chevron-right"></i> About Us</a></li>
+                        <li><a href="{{ url_for('home_app.contact') }}"><i class="fas fa-chevron-right"></i> Contact</a></li>
+                        <li><a href="{{ url_for('home_app.home') }}"><i class="fas fa-chevron-right"></i> Blog</a></li> {# Assuming no specific blog route, linking to home #}
+                        <li><a href="{{ url_for('home_app.careers') }}"><i class="fas fa-chevron-right"></i> Careers</a></li>
+                        <li><a href="{{ url_for('home_app.privacy_policy') }}"><i class="fas fa-chevron-right"></i> Privacy Policy</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="footer-col">
+                <h3>Contact Us 📬</h3>
+                <address>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> 123 Digital Way, Tech City, TX 78701</li>
+                        <li><a href="tel:+15551234567"><i class="fas fa-phone"></i> +1 (555) 123-4567</a></li>
+                        <li><a href="mailto:hello@nexaur.com"><i class="fas fa-envelope"></i> hello@nexaur.com</a></li>
+                    </ul>
+                </address>
+            </div>
+            <div class="footer-col">
+                <h3>Follow & Subscribe 👋</h3>
+                <div class="social-links">
+                    <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" target="_blank" rel="noopener noreferrer" aria-label="View our GitHub profile"><i class="fab fa-github"></i></a>
+                    <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Connect with us on LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Subscribe to our YouTube channel"><i class="fab fa-youtube"></i></a>
+                    <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Like us on Facebook"><i class="fab fa-facebook-f"></i></a>
+                </div>
+                <p style="margin-top: 20px;">Get the latest news and updates.</p>
+                <form class="newsletter-form">
+                    <label for="newsletter-email" class="visually-hidden">Enter your email for newsletter</label>
+                    <input type="email" id="newsletter-email" placeholder="Enter your email" required aria-required="true">
+                    <button type="submit" aria-label="Subscribe to newsletter">Go</button>
+                </form>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2024 Nexaur. All rights reserved.
+        </div>
+    </div>
+</footer>
+
+    <!-- All JavaScript for the page -->
+    <script>
+        // --- Flask Context Variables (will be rendered by Jinja2) ---
+        // These are accessed directly in your template HTML and some JS.
+        // For JS, some URLs are dynamically generated using Jinja2 `url_for` directly into the string.
+        const FLASK_USER_ID = {{ session.get('user_id', 'null') | tojson }}; // null if not logged in
+        const FLASK_IS_ADMIN = {{ is_admin | tojson }};
+        const FLASK_USER_EMAIL = {{ session.get('user_email', 'null') | tojson }};
+        const FLASK_AI_LANGUAGE = {{ session.get('ai_language', 'en-US') | tojson }};
+        // Note: `FLASK_USER_CURRENCY_ISO` is not directly used in JS below, but if needed, define it like others.
+
+        // --- Global URL Templates for JS (rendered by Jinja2) ---
+        const ADD_TO_CART_URL_TEMPLATE = "{{ url_for('home_app.add_to_cart', product_db_key='_PID_') }}";
+        const REMOVE_FROM_CART_URL_TEMPLATE = "{{ url_for('home_app.remove_from_cart', product_db_key='_PID_') }}";
+        const UPDATE_CART_QUANTITY_URL_TEMPLATE = "{{ url_for('home_app.update_cart_quantity', product_db_key='_PID_', quantity=0) }}"; // Use 0 as integer placeholder
+        const GET_CART_COUNT_URL = "{{ url_for('home_app.get_cart_count') }}";
+        const SHIVAY_CHAT_ENDPOINT_URL = "{{ url_for('home_app.shivay_chat_endpoint') }}";
+        const STATIC_NOTIFICATION_SOUND_URL = "{{ url_for('static', filename='sounds/notification.mp3') }}";
+
+        // --- General Page Load & On-Scroll Animation Scripts ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const logoContainer = document.querySelector('.logo');
+            const heroSection = document.querySelector('.hero-section');
+            if (logoContainer) { setTimeout(() => { logoContainer.classList.add('animate'); }, 200); }
+            // Only apply hero animation if on the home page
+            if (heroSection) { 
+                setTimeout(() => { heroSection.classList.add('animate-in'); }, 200); 
+            }
+
+            const scrollElements = document.querySelectorAll('.animate-on-scroll');
+            const elementObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            scrollElements.forEach(el => { elementObserver.observe(el); });
+
+            // --- Mobile Menu Toggle ---
+            // The menu-toggle button is hidden on mobile as per the image,
+            // so this functionality is not active for this specific design,
+            // but kept for reference if a hamburger menu were to be added.
+            const menuToggle = document.querySelector('.menu-toggle');
+            const headerNavActions = document.querySelector('.header-nav-actions'); /* Adjusted to target nav actions directly */
+            if (menuToggle && headerNavActions) {
+                menuToggle.addEventListener('click', () => {
+                    menuToggle.classList.toggle('active');
+                    headerNavActions.classList.toggle('active');
+                });
+            }
+
+            // --- Ripple Effect for btn-primary ---
+            const primaryButton = document.querySelector('.btn-primary');
+            if (primaryButton) {
+                primaryButton.addEventListener('click', function(e) {
+                    const ripple = document.createElement('span');
+                    ripple.classList.add('ripple');
+
+                    const rect = this.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    const x = e.clientX - rect.left - (size / 2);
+                    const y = e.clientY - rect.top - (size / 2);
+
+                    ripple.style.width = ripple.style.height = `${size}px`;
+                    ripple.style.left = `${x}px`;
+                    ripple.style.top = `${y}px`;
+
+                    this.appendChild(ripple);
+
+                    ripple.addEventListener('animationend', () => {
+                        ripple.remove();
+                    });
+                });
+            }
+        });
+
+        // --- Horizontal Scroll Buttons Logic ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = ['websites', 'ai', 'apps']; // IDs of your product sections
+            sections.forEach(sectionId => {
+                const section = document.getElementById(sectionId);
+                if (section) {
+                    const wrapper = section.nextElementSibling; // Get the horizontal-scroll-wrapper
+                    if (wrapper && wrapper.classList.contains('horizontal-scroll-wrapper')) {
+                        const scrollContainer = wrapper.querySelector('.product-grid.horizontal-scroll');
+                        const prevButton = wrapper.querySelector('.scroll-button-prev');
+                        const nextButton = wrapper.querySelector('.scroll-button-next');
+
+                        if (scrollContainer && prevButton && nextButton) {
+                            // This part needs to be conditional as scrollContainer might be null on cart page
+                            const firstCard = scrollContainer.querySelector('.product-card-outer');
+                            if (firstCard) {
+                                const scrollAmount = firstCard.offsetWidth + 24; // Card width + 1.5rem gap
+
+                                nextButton.addEventListener('click', () => {
+                                    scrollContainer.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+                                });
+                                prevButton.addEventListener('click', () => {
+                                    scrollContainer.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+                                });
+                            }
+                        }
+                    }
+                }
+            });
+        });
+
+        // --- ADD TO CART SCRIPT (Uses actual Flask API endpoints) ---
+        let cartItemCount = 0; // Will be updated by API calls
+        const headerCartCount = document.getElementById('headerCartCount');
+
+        const updateCartCount = (count) => {
+            cartItemCount = count; // Ensure global count is updated
+            if (headerCartCount) {
+                headerCartCount.textContent = count;
+                headerCartCount.style.display = count > 0 ? 'flex' : 'none';
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Fetch initial cart count
+            try {
+                const response = await fetch(GET_CART_COUNT_URL);
+                const data = await response.json();
+                if (data.total_items !== undefined) {
+                    updateCartCount(data.total_items);
+                }
+            } catch (error) {
+                console.error('Error fetching initial cart count:', error);
+            }
+
+            const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
+            addToCartButtons.forEach(button => {
+                let originalText = button.textContent;
+
+                button.addEventListener('click', async (event) => {
+                    const productDbKey = button.dataset.productId;
+                    const addUrl = ADD_TO_CART_URL_TEMPLATE.replace('_PID_', productDbKey);
+
+                    if (!productDbKey) {
+                        console.error('Product DB Key not found on add-to-cart button.');
+                        return;
+                    }
+
+                    button.disabled = true;
+                    button.textContent = 'Adding...';
+                    button.classList.add('adding');
+
+                    try {
+                        const response = await fetch(addUrl, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ quantity: 1 }) // Always add 1 for now
+                        });
+
+                        if (response.status === 401) { // User not logged in
+                            const data = await response.json();
+                            if (data.redirect_url) {
+                                window.location.href = data.redirect_url; // Redirect to login page
+                            } else {
+                                showFlashMessage('Please log in to add items to cart.', 'danger');
+                            }
+                            // Reset button state even if redirecting
+                            button.classList.remove('adding');
+                            button.textContent = originalText;
+                            button.disabled = false;
+                            return;
+                        }
+
+                        if (!response.ok) { // Handle other HTTP errors
+                            const errorData = await response.json();
+                            throw new Error(errorData.message || 'Unknown error during add to cart.');
+                        }
+
+                        const data = await response.json();
+                        if (data && data.status === 'success') {
+                            updateCartCount(data.total_items);
+                            button.classList.remove('adding');
+                            button.classList.add('added');
+                            button.textContent = 'Added!';
+                            showFlashMessage(`"${productDbKey}" added to cart!`, 'success');
+
+                            setTimeout(() => {
+                                button.classList.remove('added');
+                                button.textContent = originalText;
+                                button.disabled = false;
+                            }, 1500);
+
+                        } else if (data && data.message) {
+                            showFlashMessage('Error: ' + data.message, 'danger');
+                            button.classList.remove('adding');
+                            button.textContent = originalText;
+                            button.disabled = false;
+                        }
+                    } catch (error) {
+                        console.error('Fetch error:', error);
+                        showFlashMessage('An error occurred: ' + (error.message || 'Please try again.'), 'danger');
+                        button.classList.remove('adding');
+                        button.textContent = originalText;
+                        button.disabled = false;
+                    }
+                });
+            });
+
+            // --- Cart Page Specific JS (for quantity update and remove) ---
+            // Only execute this block if on the cart page
+            if (document.querySelector('.cart-page-main')) {
+                const TAX_RATE = 0.08; // This should ideally come from Flask context or an API
+                
+                const cartItemsList = document.querySelector('.cart-items-list');
+                const subtotalEl = document.getElementById('summary-subtotal');
+                const taxEl = document.getElementById('summary-tax');
+                const totalEl = document.getElementById('summary-total');
+                const cartItemCountHeaderEl = document.getElementById('cart-item-count-header');
+                const emptyCartMessageEl = document.querySelector('.empty-cart-message');
+
+                // Helper to parse price string to a float, assuming it's already in the user's local currency
+                const parseFormattedPrice = (priceString) => {
+                    // Remove currency symbols, commas, and parse as float
+                    return parseFloat(priceString.replace(/[^0-9.-]+/g,"")) || 0;
+                };
+
+                // Function to format currency on client-side if needed for calculations,
+                // otherwise relying on Jinja's `format_local_currency` for display.
+                // This will use a placeholder currency code and symbol, as actual values come from Flask.
+                const formatClientCurrency = (amount) => {
+                    const currencyCode = "{{ user_currency.iso }}"; // Injected from Flask
+                    const currencySymbol = "{{ user_currency.symbol }}"; // Injected from Flask
+                    return currencySymbol + new Intl.NumberFormat('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}).format(amount);
+                };
+
+
+                const updateButtonStates = (quantityInput) => {
+                    const parent = quantityInput.closest('.quantity-selector');
+                    const minusBtn = parent.querySelector('.minus-btn');
+                    const plusBtn = parent.querySelector('.plus-btn');
+                    const currentVal = parseInt(quantityInput.value, 10);
+                    const minVal = parseInt(quantityInput.min, 10);
+                    const maxVal = parseInt(quantityInput.max, 10);
+
+                    minusBtn.disabled = currentVal <= minVal;
+                    plusBtn.disabled = currentVal >= maxVal;
+                };
+
+                const updateCartSummary = () => {
+                    const cartItems = document.querySelectorAll('.cart-item');
+                    const itemCount = cartItems.length;
+
+                    updateCartCount(itemCount); // Update header cart count
+
+                    if (cartItemCountHeaderEl) {
+                        const headerText = document.querySelector('.cart-header');
+                        cartItemCountHeaderEl.textContent = itemCount;
+                        headerText.innerHTML = `Your Cart (${itemCount} item${itemCount !== 1 ? 's' : ''})`;
+                    }
+                    
+                    if (itemCount === 0) {
+                        if (cartItemsList) cartItemsList.style.display = 'none';
+                        if (document.querySelector('.order-summary')) document.querySelector('.order-summary').style.display = 'none';
+                        if (emptyCartMessageEl) emptyCartMessageEl.style.display = 'block';
+                        return;
+                    } else {
+                        if (cartItemsList) cartItemsList.style.display = 'block';
+                        if (document.querySelector('.order-summary')) document.querySelector('.order-summary').style.display = 'block';
+                        if (emptyCartMessageEl) emptyCartMessageEl.style.display = 'none';
+                    }
+
+                    let subtotalValue = 0;
+                    cartItems.forEach(item => {
+                        const priceString = item.querySelector('.cart-item-price').textContent;
+                        let itemSubtotalDisplayed = parseFormattedPrice(priceString);
+                        subtotalValue += itemSubtotalDisplayed; 
+                    });
+
+                    const tax = subtotalValue * TAX_RATE;
+                    const total = subtotalValue + tax;
+
+                    if(subtotalEl) subtotalEl.textContent = formatClientCurrency(subtotalValue);
+                    if(taxEl) taxEl.textContent = formatClientCurrency(tax);
+                    if(totalEl) totalEl.textContent = formatClientCurrency(total);
+                };
+
+                const updateQuantityOnServer = (productId, newQuantity) => {
+                    const updateUrl = UPDATE_CART_QUANTITY_URL_TEMPLATE
+                                        .replace('_PID_', productId)
+                                        .replace('0', newQuantity); // Replace dummy int with actual quantity
+
+                    fetch(updateUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                    })
+                    .then(response => {
+                        if (!response.ok) throw new Error('Network response was not ok.');
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.status === 'success') {
+                            console.log('Server quantity updated successfully.');
+                            const itemRow = document.querySelector(`.cart-item[data-item-id="${productId}"]`);
+                            if (itemRow && data.updated_item_subtotal !== undefined) {
+                                itemRow.querySelector('.cart-item-price').textContent = formatClientCurrency(data.updated_item_subtotal);
+                            }
+                            updateCartSummary();
+                        } else {
+                            console.error('Server error:', data.message);
+                            showFlashMessage(`Error updating cart: ${data.message}`, 'danger');
+                            const itemRow = document.querySelector(`.cart-item[data-item-id="${productId}"]`);
+                            if (itemRow) {
+                                const quantityInput = itemRow.querySelector('.quantity-input');
+                                quantityInput.value = parseInt(quantityInput.dataset.originalQuantity || 1, 10);
+                                updateButtonStates(quantityInput);
+                            }
+                        }
+                    })
+                    .catch(err => {
+                        console.error('Failed to update quantity on server:', err);
+                        showFlashMessage('Failed to update cart. Please try again.', 'danger');
+                        const itemRow = document.querySelector(`.cart-item[data-item-id="${productId}"]`);
+                        if (itemRow) {
+                            const quantityInput = itemRow.querySelector('.quantity-input');
+                            quantityInput.value = parseInt(quantityInput.dataset.originalQuantity || 1, 10);
+                            updateButtonStates(quantityInput);
+                        }
+                    });
+                };
+                
+                const handleCartAction = (event) => {
+                    const removeButton = event.target.closest('.remove-btn');
+                    const quantityButton = event.target.closest('.quantity-btn');
+
+                    if (removeButton) {
+                        const itemToRemove = removeButton.closest('.cart-item');
+                        const productId = itemToRemove.dataset.itemId;
+                        
+                        const removeUrl = REMOVE_FROM_CART_URL_TEMPLATE.replace('_PID_', productId);
+
+                        fetch(removeUrl, { method: 'POST' })
+                            .then(response => {
+                                if (!response.ok) throw new Error('Network response was not ok.');
+                                return response.json();
+                            })
+                            .then(data => {
+                                if (data.status === 'success') {
+                                    itemToRemove.style.opacity = '0';
+                                    itemToRemove.style.transform = 'translateX(50px) scale(0.95)';
+                                    setTimeout(() => { 
+                                        itemToRemove.remove(); 
+                                        updateCartSummary();
+                                        showFlashMessage('Item removed from cart!', 'info');
+                                    }, 400);
+                                } else { 
+                                    showFlashMessage(`Error removing item: ${data.message}`, 'danger');
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error removing item:', error);
+                                showFlashMessage('Failed to remove item. Please try again.', 'danger');
+                            });
+                    }
+
+                    if (quantityButton) {
+                        const itemRow = quantityButton.closest('.cart-item');
+                        const productId = itemRow.dataset.itemId;
+                        const quantityInput = itemRow.querySelector('.quantity-input');
+                        let currentVal = parseInt(quantityInput.value, 10);
+
+                        if (quantityButton.classList.contains('plus-btn')) {
+                            currentVal++;
+                        } else if (quantityButton.classList.contains('minus-btn')) {
+                            currentVal--;
+                        }
+                        
+                        const min = parseInt(quantityInput.min, 10) || 1;
+                        const max = parseInt(quantityInput.max, 10) || Infinity;
+                        currentVal = Math.max(min, Math.min(max, currentVal));
+
+                        if (currentVal !== parseInt(quantityInput.value, 10)) {
+                            quantityInput.value = currentVal;
+                            updateButtonStates(quantityInput);
+                            updateQuantityOnServer(productId, currentVal);
+                        }
+                    }
+                };
+
+                if (cartItemsList) {
+                   cartItemsList.addEventListener('click', handleCartAction);
+                }
+
+                document.querySelectorAll('.quantity-input').forEach(updateButtonStates);
+                updateCartSummary();
+            }
+        });
+
+        // --- Flash Message Display Function (Client-side) ---
+        function showFlashMessage(message, category = 'info') {
+            const container = document.getElementById('flashMessagesContainer');
+            if (!container) return;
+
+            const flashMessageDiv = document.createElement('div');
+            flashMessageDiv.classList.add('flash-message', category);
+
+            let iconHtml = '';
+            if (category === 'success') iconHtml = '<i class="fas fa-check-circle"></i>';
+            else if (category === 'danger') iconHtml = '<i class="fas fa-times-circle"></i>';
+            else if (category === 'warning') iconHtml = '<i class="fas fa-exclamation-triangle"></i>';
+            else if (category === 'info') iconHtml = '<i class="fas fa-info-circle"></i>';
+
+            flashMessageDiv.innerHTML = `${iconHtml} ${message}`;
+            container.appendChild(flashMessageDiv);
+
+            // The CSS animation will handle fading out and removal
+            // For older browsers or immediate removal, you might use:
+            // setTimeout(() => {
+            //     flashMessageDiv.remove();
+            // }, 5000);
+        }
+
+        // --- Universal Share Button Logic ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const shareButtons = document.querySelectorAll('.universal-share-btn');
+
+            shareButtons.forEach(button => {
+                button.addEventListener('click', async (event) => {
+                    const title = button.dataset.title;
+                    const text = button.dataset.text;
+                    const url = button.dataset.url; // URL already pre-rendered by Jinja2
+
+                    if (navigator.share) {
+                        try {
+                            await navigator.share({
+                                title: title,
+                                text: text,
+                                url: url
+                            });
+                            console.log('Content shared successfully');
+                            showFlashMessage('Content shared!', 'success');
+                        } catch (error) {
+                            if (error.name !== 'AbortError') {
+                                console.error('Error sharing content:', error);
+                                showFlashMessage('Could not share. Please try again.', 'danger');
+                            }
+                        }
+                    } else {
+                        // Fallback for browsers that do not support the Web Share API
+                        try {
+                            await navigator.clipboard.writeText(url);
+                            showFlashMessage('Link copied to clipboard!', 'info');
+                            console.log('URL copied to clipboard:', url);
+                        } catch (err) {
+                            console.error('Failed to copy to clipboard: ', err);
+                            showFlashMessage('Could not copy link to clipboard. Please copy it manually.', 'danger');
+                        }
+                    }
+                });
+            });
+        });
+
+        // --- AI Character and Chatbox Logic (Uses actual Flask API endpoint) ---
+        const chatBox = document.getElementById('chatBox');
+        const startButton = document.querySelector('.start-button');
+        const aiCharacter = document.getElementById('ai-character');
+        const shivayChatInput = document.getElementById('shivayChatInput');
+        const sendChatMsgBtn = document.getElementById('sendChatMsgBtn');
+        const chatBody = document.getElementById('chatBody');
+        const headerMicIcon = document.getElementById('headerMicIcon');
+        const inputAreaMicIcon = document.getElementById('inputAreaMicIcon');
+
+        window.handleStartButtonClick = function() {
+            chatBox.classList.toggle('open');
+            aiCharacter.style.display = chatBox.classList.contains('open') ? 'none' : 'block';
+            // Play sound if applicable
+            // (new Audio(STATIC_NOTIFICATION_SOUND_URL)).play(); // Uncomment if you want sound
+            if (chatBox.classList.contains('open')) {
+                shivayChatInput.focus();
+            }
+        };
+
+        window.closeChat = function() {
+            chatBox.classList.remove('open');
+            aiCharacter.style.display = 'block';
+            // Stop mic if active (in a real app)
+            // if (isListening) toggleChatMic(inputAreaMicIcon);
+        };
+
+        let isListening = false;
+        window.toggleChatMic = function(iconElement) {
+            isListening = !isListening;
+            if (isListening) {
+                iconElement.classList.add('active');
+                iconElement.style.color = 'red'; // Indicate listening
+                headerMicIcon.classList.add('active'); // Sync header mic icon
+                headerMicIcon.style.color = 'red';
+                showFlashMessage('Voice input started...', 'info');
+            } else {
+                iconElement.classList.remove('active');
+                iconElement.style.color = '';
+                headerMicIcon.classList.remove('active');
+                headerMicIcon.style.color = '';
+                showFlashMessage('Voice input stopped.', 'info');
+            }
+            // In a real app, integrate Web Speech API here
+            // (new Audio(STATIC_NOTIFICATION_SOUND_URL)).play(); // Uncomment if you want sound
+        };
+
+        sendChatMsgBtn.addEventListener('click', sendMessage);
+        shivayChatInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        async function sendMessage() {
+            const message = shivayChatInput.value.trim();
+            if (message) {
+                appendMessage(message, 'user');
+                shivayChatInput.value = '';
+                // (new Audio(STATIC_NOTIFICATION_SOUND_URL)).play(); // Uncomment if you want sound
+                
+                try {
+                    const response = await fetch(SHIVAY_CHAT_ENDPOINT_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            message: message,
+                            language: FLASK_AI_LANGUAGE // Use AI language from Flask context
+                        })
+                    });
+                    const data = await response.json();
+                    if (data && data.status === 'success') {
+                        appendMessage(data.response_text, 'ai');
+                        // Handle potential language change from AI
+                        // if (data.new_language && data.new_language !== FLASK_AI_LANGUAGE) {
+                        //     // In a real app, you might want to update a JS global for Flask_AI_LANGUAGE or reload parts of UI
+                        //     console.log(`AI suggested language change to: ${data.new_language}`);
+                        //     showFlashMessage(`AI language switched to ${data.new_language}`, 'info');
+                        // }
+                    } else {
+                        appendMessage(data.response_text || "Error processing chat.", 'ai');
+                    }
+                } catch (error) {
+                    console.error('Chat API error:', error);
+                    appendMessage("Sorry, I'm having trouble connecting to my brain right now. Please try again. 😟", 'ai');
+                }
+            }
+        }
+
+        function appendMessage(text, sender) {
+            const msgDiv = document.createElement('div');
+            msgDiv.classList.add('chat-message', sender);
+            msgDiv.textContent = text;
+            chatBody.appendChild(msgDiv);
+            chatBody.scrollTop = chatBody.scrollHeight; // Scroll to bottom
+        }
+
+        // Initially show the AI character
+        document.addEventListener('DOMContentLoaded', () => {
+            aiCharacter.style.display = 'block';
+        });
+
+        // --- Voice Search Logic (Uses actual Flask API endpoint) ---
+        const searchMicrophoneButton = document.querySelector('.search-microphone-button');
+        const mainSearchInput = document.getElementById('main-search-input');
+        const voiceStatus = document.getElementById('voiceStatus');
+
+        let isVoiceSearchActive = false;
+
+        if (searchMicrophoneButton && mainSearchInput && voiceStatus) {
+            searchMicrophoneButton.addEventListener('click', () => {
+                isVoiceSearchActive = !isVoiceSearchActive;
+                if (isVoiceSearchActive) {
+                    searchMicrophoneButton.classList.add('active'); // Apply active class
+                    voiceStatus.textContent = 'Listening...';
+                    showFlashMessage('Voice search active. Speak your query.', 'info');
+                    // In a real application, you'd initialize and start Web Speech API's SpeechRecognition here.
+                    // For now, simulating with a timeout and pre-filled text.
+                    setTimeout(() => {
+                        mainSearchInput.value = 'AI solutions for business'; // Simulated voice input
+                        voiceStatus.textContent = 'Processing...';
+                        isVoiceSearchActive = false;
+                        searchMicrophoneButton.classList.remove('active'); // Remove active class
+                        setTimeout(() => {
+                            voiceStatus.textContent = '';
+                            showFlashMessage('Voice search complete!', 'success');
+                            // In a real app, you'd submit the form here
+                            document.getElementById('mainSearchForm').submit();
+                        }, 500);
+                    }, 3000);
+                } else {
+                    searchMicrophoneButton.classList.remove('active'); // Remove active class
+                    voiceStatus.textContent = '';
+                    showFlashMessage('Voice search stopped.', 'info');
+                    // In a real application, you'd stop the speech recognition service here.
+                }
+            });
+        }
+
+    </script>
 </body>
 </html>
