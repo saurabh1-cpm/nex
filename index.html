@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neon Wave Button</title>
+    <title>Neon Thunder Wave Button</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap'); /* Using Montserrat for a clean, bold look */
 
@@ -39,7 +39,8 @@
             --border-pulse-speed: 5s; /* Speed of the base border gradient pulse */
             --glow-spread: 15px; /* How far the base glow spreads */
             --glow-blur: 25px; /* How much the base glow blurs */
-            --wave-intensity: 6px; /* Thickness of the dynamic wave lines */
+            --wave-intensity: 8px; /* Vertical thickness/amplitude of the dynamic wave lines */
+            --wave-density: 20px; /* Horizontal density of the jagged peaks in the wave */
         }
 
         .neon-button-container {
@@ -89,7 +90,7 @@
             -webkit-mask-composite: xor; /* For WebKit browsers like Chrome/Safari */
         }
 
-        /* ::before for the pulsing gradient blue/pink border */
+        /* ::before for the pulsing gradient blue/pink border (unchanged, provides base) */
         .neon-button-container::before {
             background: linear-gradient(
                 45deg,
@@ -103,31 +104,43 @@
             animation: borderGradientPulse var(--border-pulse-speed) linear infinite;
         }
 
-        /* ::after for the dynamic, colorful wave effect */
+        /* ::after for the dynamic, colorful THUNDER WAVE effect */
         .neon-button-container::after {
+            /* This gradient provides the shifting colors */
             background-image:
                 repeating-linear-gradient(
                     90deg,
-                    var(--neon-yellow) 0%, var(--neon-yellow) var(--wave-intensity),
-                    transparent var(--wave-intensity), transparent calc(var(--wave-intensity) * 2),
-                    var(--neon-orange) calc(var(--wave-intensity) * 2), var(--neon-orange) calc(var(--wave-intensity) * 3),
-                    transparent calc(var(--wave-intensity) * 3), transparent calc(var(--wave-intensity) * 4),
-                    var(--neon-pink) calc(var(--wave-intensity) * 4), var(--neon-pink) calc(var(--wave-intensity) * 5),
-                    transparent calc(var(--wave-intensity) * 5), transparent calc(var(--wave-intensity) * 6),
-                    var(--neon-blue) calc(var(--wave-intensity) * 6), var(--neon-blue) calc(var(--wave-intensity) * 7),
-                    transparent calc(var(--wave-intensity) * 7), transparent calc(var(--wave-intensity) * 8)
+                    var(--neon-yellow) 0%, var(--neon-yellow) 10%,
+                    transparent 10%, transparent 20%,
+                    var(--neon-orange) 20%, var(--neon-orange) 30%,
+                    transparent 30%, transparent 40%,
+                    var(--neon-pink) 40%, var(--neon-pink) 50%,
+                    transparent 50%, transparent 60%,
+                    var(--neon-blue) 60%, var(--neon-blue) 70%,
+                    transparent 70%, transparent 80%
                 );
-            background-size: calc(var(--button-width) * 2) 100%; /* Make stripes wider than button width for scrolling */
-            background-position: 0 0;
+            background-size: calc(var(--button-width) * 3) 100%; /* Large background to scroll smoothly */
+            background-position: 0 0; /* Animated by keyframes */
+
+            /* SVG Mask for the jagged thunder wave shape */
+            /* This SVG defines a jagged path. ViewBox 0 0 20 10 means it's 20 units wide, 10 units tall.
+               The 'Q' commands create quadratic bezier curves for smooth jaggedness.
+               'fill=white' means this part will be opaque in the mask, allowing the background-image to show. */
+            mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 10'%3E%3Cpath d='M0 5 Q2.5 0 5 5 Q7.5 10 10 5 Q12.5 0 15 5 Q17.5 10 20 5 Z' fill='white'/%3E%3C/svg%3E");
+            mask-size: var(--wave-density) var(--wave-intensity); /* Control density and height of the waves */
+            mask-repeat: repeat-x; /* Repeat the jagged pattern horizontally */
+            mask-position: 0 0; /* Animated by keyframes */
+
+            /* Both background-position and mask-position are animated together */
             animation: moveWaves var(--wave-speed) linear infinite;
 
             /* Drop shadows for glowing effect on the waves */
             filter:
-                drop-shadow(0 0 3px var(--neon-yellow))
-                drop-shadow(0 0 3px var(--neon-orange))
-                drop-shadow(0 0 3px var(--neon-pink))
-                drop-shadow(0 0 3px var(--neon-blue));
-            mix-blend-mode: screen; /* Blends nicely with the dark background */
+                drop-shadow(0 0 5px var(--neon-yellow))
+                drop-shadow(0 0 5px var(--neon-orange))
+                drop-shadow(0 0 5px var(--neon-pink))
+                drop-shadow(0 0 5px var(--neon-blue));
+            mix-blend-mode: screen; /* Blends nicely with the dark background for a luminous look */
             opacity: 0.9;
         }
 
@@ -138,10 +151,17 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* Keyframes for the moving colorful waves */
+        /* Keyframes for the moving colorful thunder waves */
+        /* This animates both the background-position (colors) and mask-position (jagged shape) in sync */
         @keyframes moveWaves {
-            0% { background-position: 0 0; }
-            100% { background-position: calc(-1 * var(--button-width) * 2) 0; } /* Move full background-size width */
+            0% {
+                background-position: 0 0;
+                mask-position: 0 0;
+            }
+            100% {
+                background-position: calc(-1 * var(--button-width) * 3) 0; /* Move gradient across entire size */
+                mask-position: calc(-1 * var(--button-width) * 3) 0; /* Move mask in sync */
+            }
         }
 
         /* Small circle overlay */
