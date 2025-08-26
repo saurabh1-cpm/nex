@@ -29,8 +29,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
 
-    <!-- Model Viewer for 3D elements (AI Character) -->
-    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+    <!-- Chatbox Specific Styles - NOW CONTAINS ALL CHAT/BUTTON STYLES -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='chat.css') }}">
 
     <style>
         /* --- General Reset & Base Styles --- */
@@ -55,7 +55,7 @@
             --search-bg: rgba(255, 255, 255, 0.7); /* Transparent white for search bar glass */
             --bg-glass-light: rgba(245, 243, 255, 0.65); /* Lighter transparent background for glassmorphism */
             --bg-glass-medium: rgba(255, 255, 255, 0.75); /* Slightly less transparent */
-            --bg-glass-dark: rgba(30, 41, 59, 0.85); /* Darker transparent blue for chatbox */
+            /* --bg-glass-dark: rgba(30, 41, 59, 0.85); /* This is now in chat.css */
             
             /* Footer Specific Backgrounds - matching new image */
             --footer-bg-start: #e9d5ff; /* Soft lavender-pink */
@@ -99,6 +99,7 @@
 
             /* Other shared variables */
             --color-white: #ffffff;
+            --color-success: #28a744; /* Added for consistency in 'Added!' button state */
             --fw-bold: 700;
             --fw-medium: 600;
             --space-1: 0.5rem; --space-2: 1rem; --space-3: 1.5rem; --space-4: 2.5rem; --space-5: 4rem;
@@ -106,6 +107,11 @@
             --transition-fast: all 0.2s ease-in-out;
             --transition-medium: all 0.3s ease-in-out;
             --container-width: 1200px;
+            --fs-sm: 0.875rem; /* Added for footer consistency */
+
+            /* NEW: For dynamic header height and its bottom accent */
+            --header-calculated-height: 0px; /* Set by JS */
+            --header-accent-border-gradient: linear-gradient(90deg, #f7a5bd, #d4a5fd, #a7c7f9); /* Pink to purple to blue, as seen in image */
         }
 
         html {
@@ -181,8 +187,25 @@
             box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
             backdrop-filter: blur(10px); /* Increased blur for header */
             -webkit-backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+            border-bottom: none; /* REMOVED static border */
+            position: relative; /* IMPORTANT: For pseudo-element positioning */
         }
+
+        /* NEW: Pseudo-element for the gradient border at the bottom of the header */
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 4px; /* Thickness of the gradient line, adjust to match image */
+            background: var(--header-accent-border-gradient); /* The defined gradient */
+            z-index: 1001; /* Ensure it's visually on top of any overlapping elements */
+            pointer-events: none; /* Allow clicks to pass through to the button */
+            filter: brightness(1.1); /* Slightly enhance vibrancy */
+            box-shadow: 0 1px 5px rgba(0,0,0,0.2); /* Subtle shadow for depth, adjust as needed */
+        }
+
 
         header .container {
             display: flex;
@@ -451,24 +474,31 @@
             display: none;
         }
 
-        /* --- Hero Section Styling --- */
-        main { flex-grow: 1; } /* Allows main content to fill space */
-
-        /* Default padding-top for other pages if not home or cart */
-        main:not(.cart-page-main):not(.hero-section-wrapper) { /* Added a placeholder class for hero if needed */
-            padding-top: 90px; /* Adjusted from 85px for subtle extra clearance */
+        /* --- Main Content Layout --- */
+        main { 
+            flex-grow: 1;
+            /* Default padding-top for non-hero, non-cart pages */
+            padding-top: calc(var(--header-calculated-height) + var(--space-4));
+            padding-bottom: var(--space-5); /* Consistent bottom padding */
         }
         
+        /* Specific override for hero section wrapper */
+        .hero-section-wrapper { /* This class is now on <main> if it's the home page */
+            padding-top: 0; /* Clear default main padding-top as hero handles its own offset */
+            padding-bottom: 0; /* Clear default main padding-bottom */
+        }
+
         .hero-section {
             position: relative;
             width: 100%;
-            height: 100vh;
+            /* Make hero section start right after the header */
+            margin-top: var(--header-calculated-height); 
+            height: calc(100vh - var(--header-calculated-height)); /* Ensure it fills remaining viewport height */
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            /* Base 5rem visual padding + estimated header height */
-            padding-top: calc(5rem + 70px); /* Adjusted from 65px */
+            padding-top: 5rem; /* Internal padding for content, no longer includes header offset */
             text-align: left;
         }
 
@@ -693,7 +723,7 @@
         }
 
         .floating-element.icon-1 { top: 15%; left: -10%; animation-delay: 0s; }
-        .floating-element.icon-2 { top: 40%; right: -15%; background-color: var(--bg-glass-dark); color: var(--color-white); animation-delay: -1s; }
+        .floating-element.icon-2 { top: 40%; right: -15%; background-color: rgba(30, 41, 59, 0.85); color: var(--color-white); animation-delay: -1s; } /* Moved bg-glass-dark directly */
         .floating-element.icon-3 { bottom: 5%; left: 20%; animation-delay: -2.5s; }
 
         @keyframes float {
@@ -753,9 +783,9 @@
         .marquee-track {
             display: flex;
             width: fit-content;
-            animation: scroll-left 40s linear infinite;
+            animation: scroll-left 55s linear infinite;
         }
-        .marquee-container.reverse .marquee-track { animation-name: scroll-right; animation-duration: 45s; }
+        .marquee-container.reverse .marquee-track { animation-name: scroll-right; animation-duration: 58s; }
         .marquee-item {
             flex-shrink: 0;
             padding: 0.75rem 2rem;
@@ -837,14 +867,14 @@
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: var(--space-3);
-            margin-bottom: var(--space-5);
+            /* margin-bottom: var(--space-5); */ /* Removed to allow load more button to manage spacing */
         }
 
         /* Horizontal Scroll Specifics */
         .horizontal-scroll-wrapper {
             position: relative;
             margin-top: var(--space-3);
-            margin-bottom: var(--space-5);
+            /* margin-bottom: var(--space-5); */ /* Removed to allow load more button to manage spacing */
         }
         .product-grid.horizontal-scroll {
             display: flex;
@@ -881,7 +911,7 @@
             justify-content: center;
             font-size: 1.2rem;
             color: var(--text-dark);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
             transition: var(--transition-fast);
             outline: none; /* Removed default outline */
         }
@@ -889,7 +919,7 @@
         .scroll-button:focus-visible {
             background-color: var(--color-white);
             transform: translateY(-50%) scale(1.15);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
             outline: none;
         }
         .scroll-button-prev { left: -22px; }
@@ -1029,13 +1059,14 @@
             border-top: 1px solid rgba(0, 0, 0, 0.05);
             background-color: rgba(255, 255, 255, 0.9);
             text-align: center;
-            display: flex;
-            justify-content: center;
+            display: flex; /* Ensure flex layout for two buttons */
+            justify-content: center; /* Center buttons */
             align-items: center;
+            gap: 10px; /* Space between buttons */
         }
 
         .card-actions .add-to-cart-btn {
-            width: 100%;
+            flex-grow: 1; /* Allow button to grow */
             padding: 12px 5px;
             font-size: 0.9rem;
             font-weight: var(--fw-medium);
@@ -1069,7 +1100,7 @@
         }
 
         .card-actions .add-to-cart-btn.added {
-            background-color: var(--btn-buy-now-green); /* Placeholder for green */
+            background-color: var(--color-success); /* Used new variable */
             color: white;
             pointer-events: none;
             transform: scale(1.05);
@@ -1087,8 +1118,41 @@
 
         @keyframes buttonAdded {
             0% { transform: scale(1); background: linear-gradient(90deg, #e0f2fe, #f5e7ff); color: var(--text-dark); }
-            50% { transform: scale(1.05); background-color: #28a745; color: white; box-shadow: 0 6px 15px rgba(40, 167, 69, 0.5); } /* Hardcoded green for button added */
-            100% { transform: scale(1); background-color: #28a745; color: white; box-shadow: 0 6px 15px rgba(40, 167, 69, 0.5); }
+            50% { transform: scale(1.05); background-color: var(--color-success); color: white; box-shadow: 0 6px 15px rgba(40, 167, 69, 0.5); }
+            100% { transform: scale(1); background-color: var(--color-success); color: white; box-shadow: 0 6px 15px rgba(40, 167, 69, 0.5); }
+        }
+
+        /* Styles for the "Buy Now" button */
+        .card-btn { /* General button styling for card buttons */
+            flex-grow: 1; /* Allow button to grow */
+            padding: 12px 20px; /* Adjusted horizontal padding to match image */
+            border-radius: var(--radius-pill); /* Changed to pill shape to match image */
+            font-weight: var(--fw-medium);
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            white-space: nowrap;
+            text-decoration: none;
+            outline: none;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .buy-now-btn {
+            background: linear-gradient(90deg, #041765, #3b82f6); /* Using primary logo color to secondary color for this specific button */
+            color: var(--color-white);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3); /* Custom shadow for this button */
+        }
+        .buy-now-btn:hover,
+        .buy-now-btn:focus-visible,
+        .buy-now-btn:active {
+            transform: translateY(-4px) scale(1.05); 
+            box-shadow: 0 12px 40px rgba(4, 23, 101, 0.7); /* Adjusted shadow for dark blue */
+            filter: brightness(1.1);
         }
 
         .share-container {
@@ -1127,158 +1191,9 @@
         .universal-share-btn i {
             text-shadow: 0 0 10px rgba(255, 255, 255, 0.9), 0 0 20px rgba(255, 255, 255, 0.5);
         }
-
-        /* --- Fixed AI Start Button & Chat Box --- */
-        .start-button {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 950;
-            padding: 15px 25px;
-            border-radius: var(--radius-pill);
-            font-size: 1.1rem;
-            font-weight: var(--fw-bold);
-            color: white;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            cursor: pointer;
-            border: none;
-            outline: none;
-            background: var(--gradient-button-main);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-            transition: all 0.3s ease;
-            animation: pulseGlow 2.5s infinite ease-in-out;
-        }
-        .start-button:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-            background: linear-gradient(90deg, #9932cc, #5a7bd7);
-        }
-        @keyframes pulseGlow {
-            0% { box-shadow: 0 0 8px var(--primary-color), 0 0 15px var(--secondary-color); }
-            50% { box-shadow: 0 0 25px var(--primary-color), 0 0 40px var(--secondary-color); }
-            100% { box-shadow: 0 0 8px var(--primary-color), 0 0 15px var(--secondary-color); }
-        }
-
-        #ai-character {
-            position: fixed;
-            bottom: 60px;
-            right: 20px;
-            width: 300px;
-            height: 300px;
-            pointer-events: none;
-            z-index: 999;
-            --poster-color: transparent;
-            --controls-color: transparent;
-        }
-        #ai-character::part(fallback) { background-color: transparent; }
-
-
-        /* Basic Chatbox Styles with Enhanced Glass Effect */
-        .chatbox {
-            position: fixed;
-            bottom: 80px;
-            right: 20px;
-            width: 350px;
-            height: 500px;
-            background-color: var(--bg-glass-dark);
-            border-radius: var(--radius-md);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            z-index: 1000;
-            transform: translateX(400px);
-            transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-            backdrop-filter: blur(20px); /* Increased blur for chatbox */
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-        .chatbox.open { transform: translateX(0); }
-
-        .chatbox-header {
-            background-color: rgba(63, 76, 107, 0.9);
-            color: var(--color-white);
-            padding: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: var(--fw-medium);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-        }
-        .chatbox-header span { font-size: 1.1rem; }
-        .chatbox-icons i {
-            margin-left: 15px;
-            cursor: pointer;
-            font-size: 1.1rem;
-            color: rgba(255, 255, 255, 0.9);
-            transition: color 0.2s ease;
-        }
-        .chatbox-icons i:hover { color: var(--color-white); }
-        .chatbox-body {
-            flex-grow: 1;
-            padding: 15px;
-            overflow-y: auto;
-            color: var(--color-white);
-            font-size: 0.95rem;
-            background: linear-gradient(180deg, rgba(46, 59, 94, 0.6), rgba(26, 37, 63, 0.6));
-        }
-        .chatbox-input-area {
-            display: flex;
-            padding: 10px 15px;
-            background-color: rgba(63, 76, 107, 0.9);
-            border-top: 1px solid rgba(255, 255, 255, 0.15);
-        }
-        #shivayChatInput {
-            flex-grow: 1;
-            border: none;
-            outline: none;
-            background-color: rgba(255, 255, 255, 0.2);
-            color: var(--color-white);
-            padding: 10px 15px;
-            border-radius: var(--radius-pill);
-            font-size: 1rem;
-            margin-right: 10px;
-        }
-        #shivayChatInput::placeholder { color: rgba(255, 255, 255, 0.7); }
-        #sendChatMsgBtn {
-            background-color: var(--logo-accent-color);
-            border: none;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            color: var(--color-white);
-            font-size: 1.1rem;
-            transition: background-color 0.2s ease;
-            outline: none;
-        }
-        #sendChatMsgBtn:hover { background-color: #cc5b17; }
-        .input-mic { margin-right: 10px; color: var(--secondary-color); transition: color 0.2s ease; }
-        .input-mic.active { color: red; } /* Mic active color */
-        .chat-message {
-            padding: 8px 12px;
-            margin-bottom: 10px;
-            border-radius: 12px;
-            max-width: 80%;
-            word-wrap: break-word;
-        }
-        .chat-message.user {
-            background-color: var(--secondary-color);
-            color: white;
-            margin-left: auto;
-            border-bottom-right-radius: 2px;
-        }
-        .chat-message.ai {
-            background-color: var(--primary-color);
-            color: white;
-            margin-right: auto;
-            border-bottom-left-radius: 2px;
-        }
+        
+        /* Removed CRITICAL FIX for #chatBox display: none here, 
+           as chat.css will handle its visibility now */
 
 
         /* --- Flash Messages --- */
@@ -1350,7 +1265,7 @@
             width: 40px;
             height: 3px;
             background: linear-gradient(90deg, #f7a5bd, #e06d9a);
-            border-radius: 1.5px;
+            border-radius: 2px;
         }
         footer a {
             color: var(--footer-link-color);
@@ -1485,7 +1400,8 @@
 
         /* --- Cart Page Specific Styles (No Glass Background Layer for main containers) --- */
         .cart-page-main { 
-            padding-top: calc(var(--space-4) + 70px); /* Adjusted for desktop header height */
+            /* This will also use the --header-calculated-height variable */
+            padding-top: calc(var(--header-calculated-height) + var(--space-4));
             padding-bottom: var(--space-5); 
         }
         .cart-container { display: flex; gap: var(--space-4); align-items: flex-start; }
@@ -1493,7 +1409,7 @@
         .order-summary { 
             flex: 1; 
             position: sticky; 
-            top: calc(70px + var(--space-3)); /* Adjusted header height + margin */
+            top: calc(var(--header-calculated-height) + var(--space-3)); /* Adjusted for dynamic header height + margin */
             background: rgba(255, 255, 255, 0.75); /* Glassy background for summary */
             border: 1px solid var(--border-color-light);
             border-radius: var(--radius-md);
@@ -1590,31 +1506,6 @@
             outline: none;
         }
 
-        .buy-now-btn {
-            display: inline-block;
-            padding: 0.5rem 1rem;
-            background-color: var(--logo-primary-color);
-            color: var(--color-white);
-            text-decoration: none;
-            border-radius: var(--radius-sm);
-            font-size: 0.9rem;
-            font-weight: var(--fw-medium);
-            transition: var(--transition-fast);
-            text-align: center;
-            border: none;
-            cursor: pointer;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            outline: none; /* Remove default outline */
-        }
-        .buy-now-btn:hover,
-        .buy-now-btn:focus-visible,
-        .buy-now-btn:active {
-            background-color: #06228d;
-            transform: scale(1.05);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            outline: none;
-        }
-
         .item-action-buttons {
             display: flex;
             align-items: center;
@@ -1681,6 +1572,48 @@
             transform: translateY(-3px); box-shadow: var(--shadow-md); 
             outline: none;
         }
+
+        /* --- Load More Button Styling --- */
+        .load-more-container {
+            text-align: center;
+            margin-top: var(--space-4);
+            margin-bottom: var(--space-5); /* Give space below the button */
+        }
+        .load-more-btn {
+            padding: 0.8rem 2.5rem;
+            border-radius: var(--radius-pill);
+            font-weight: var(--fw-medium);
+            font-size: 1.1rem;
+            background-color: rgba(255, 255, 255, 0.85);
+            color: var(--text-dark);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            outline: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .load-more-btn:hover,
+        .load-more-btn:focus-visible,
+        .load-more-btn:active {
+            background-color: rgba(255, 255, 255, 0.98);
+            border-color: rgba(255, 255, 255, 0.9);
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 12px 40px rgba(59, 130, 246, 0.7), 0 0 0 5px rgba(255,255,255,0.2) inset;
+            color: var(--primary-color);
+        }
+        .load-more-btn:disabled {
+            background-color: rgba(200, 200, 200, 0.6);
+            color: rgba(100, 100, 100, 0.8);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+            border-color: rgba(200, 200, 200, 0.8);
+        }
         
         /* --- Responsive Styles --- */
 
@@ -1728,17 +1661,19 @@
 
             /* Adjust main content padding to clear header */
             .hero-section {
-                padding-top: calc(5rem + 105px); /* Recalculated for tablet header height */
+                /* margin-top will be dynamic, padding-top remains 5rem */
+                height: calc(100vh - var(--header-calculated-height));
             }
-            main:not(.cart-page-main):not(.hero-section-wrapper) {
-                padding-top: 125px; /* Recalculated for tablet header height */
+            main:not(.hero-section-wrapper) { /* Use this for general page padding */
+                padding-top: calc(var(--header-calculated-height) + var(--space-4));
             }
             .cart-page-main {
-                padding-top: calc(var(--space-4) + 105px); /* Recalculated */
+                padding-top: calc(var(--header-calculated-height) + var(--space-4));
             }
             .order-summary {
-                top: calc(105px + var(--space-3)); /* Recalculated */
+                top: calc(var(--header-calculated-height) + var(--space-3));
             }
+
         }
 
         /* Large Tablets (up to 992px) - This is the breakpoint for icon-only nav buttons */
@@ -1810,16 +1745,17 @@
 
             /* Adjust main content padding to clear header */
             .hero-section {
-                padding-top: calc(5rem + 100px); /* Recalculated */
+                /* margin-top will be dynamic, padding-top remains 5rem */
+                height: calc(100vh - var(--header-calculated-height));
             }
-            main:not(.cart-page-main):not(.hero-section-wrapper) {
-                padding-top: 120px; /* Recalculated */
+            main:not(.hero-section-wrapper) {
+                padding-top: calc(var(--header-calculated-height) + var(--space-4));
             }
             .cart-page-main {
-                padding-top: calc(var(--space-4) + 100px); /* Recalculated */
+                padding-top: calc(var(--header-calculated-height) + var(--space-4));
             }
             .order-summary {
-                top: calc(100px + var(--space-3)); /* Recalculated */
+                top: calc(var(--header-calculated-height) + var(--space-3));
             }
 
             .marquee-section { padding: var(--space-4) 0; }
@@ -1837,6 +1773,7 @@
             .long-description-summary { font-size: 0.85em; }
             .price { font-size: 1.2rem; }
             .card-actions .add-to-cart-btn { padding: 10px 5px; font-size: 0.85rem; }
+            .card-actions .card-btn.buy-now-btn { padding: 10px 15px; font-size: 0.85rem; } /* Adjusted for mobile button */
 
 
             .scroll-button-prev { left: 5px; }
@@ -1861,25 +1798,6 @@
             .buy-now-btn { padding: 0.4rem 0.8rem; font-size: 0.85rem; }
             .remove-btn { font-size: 0.85rem; }
 
-            /* Fixed elements */
-            .start-button {
-                bottom: 10px;
-                right: 10px;
-                padding: 12px 20px;
-                font-size: 0.95rem;
-            }
-            #ai-character {
-                bottom: 50px;
-                right: 5px;
-                width: 160px;
-                height: 160px;
-            }
-            .chatbox {
-                width: 90vw;
-                height: 60vh;
-                right: 5vw;
-                bottom: 60px;
-            }
         }
 
         /* Mobile Devices (up to 768px) - Further adjustments for smaller screens */
@@ -1922,16 +1840,17 @@
 
             /* Adjust main content padding to clear header */
             .hero-section {
-                padding-top: calc(5rem + 90px); /* Recalculated */
+                /* margin-top will be dynamic, padding-top remains 5rem */
+                height: calc(100vh - var(--header-calculated-height));
             }
-            main:not(.cart-page-main):not(.hero-section-wrapper) {
-                padding-top: 110px; /* Recalculated */
+            main:not(.hero-section-wrapper) {
+                padding-top: calc(var(--header-calculated-height) + var(--space-4));
             }
             .cart-page-main {
-                padding-top: calc(var(--space-4) + 90px); /* Recalculated */
+                padding-top: calc(var(--header-calculated-height) + var(--space-4));
             }
             .order-summary {
-                top: calc(90px + var(--space-3)); /* Recalculated */
+                top: calc(var(--header-calculated-height) + var(--space-3));
             }
 
             .product-grid {
@@ -1945,6 +1864,7 @@
             .long-description-summary { font-size: 0.75em; }
             .price { font-size: 1.1rem; }
             .card-actions .add-to-cart-btn { padding: 8px 5px; font-size: 0.8rem; }
+            .card-actions .card-btn.buy-now-btn { padding: 8px 12px; font-size: 0.8rem; } /* Adjusted for mobile button */
 
 
             .scroll-button { display: none; } /* Hide scroll buttons on very small screens */
@@ -1954,7 +1874,7 @@
                 text-align: center;
             }
             .footer-col:first-child { grid-column: span 1; }
-            .footer-col ul { align-items: center; }
+            .footer-col ul { align-items: flex-start; }
             .newsletter-form { justify-content: center; }
 
             /* Cart Page Responsiveness */
@@ -1977,27 +1897,10 @@
             }
             .remove-btn span { display: none; } 
             .buy-now-btn { padding: 0.4rem 0.8rem; font-size: 0.8rem; }
+            .quantity-input { width: 35px; padding: 0.25rem; font-size: 0.7rem; }
+            .quantity-btn { width: 24px; height: 24px; font-size: 0.9rem; }
+            .remove-btn { font-size: 1rem; }
 
-            /* Fixed elements */
-            .start-button {
-                bottom: 10px;
-                right: 10px;
-                padding: 12px 20px;
-                font-size: 0.95rem;
-                gap: 6px;
-            }
-            #ai-character {
-                bottom: 50px;
-                right: 5px;
-                width: 160px;
-                height: 160px;
-            }
-            .chatbox {
-                width: 90vw;
-                height: 60vh;
-                right: 5vw;
-                bottom: 60px;
-            }
         }
 
         /* Small Mobile Devices (up to 480px) */
@@ -2033,34 +1936,6 @@
             .cart-count { top: -4px; right: -6px; min-width: 12px; height: 12px; font-size: 0.55em; } /* Adjusted */
 
 
-            /* Adjust main content padding to clear header */
-            .hero-section {
-                padding-top: calc(5rem + 75px); /* Recalculated */
-            }
-            main:not(.cart-page-main):not(.hero-section-wrapper) {
-                padding-top: 95px; /* Recalculated */
-            }
-            .cart-page-main {
-                padding-top: calc(var(--space-4) + 75px); /* Recalculated */
-            }
-            .order-summary {
-                top: calc(75px + var(--space-3)); /* Recalculated */
-            }
-
-            .product-grid {
-                grid-template-columns: repeat(auto-fill, minmax(calc(50% - var(--space-1)), 1fr));
-                gap: var(--space-1);
-            }
-            .product-grid.horizontal-scroll .product-card-outer {
-                width: calc(50% - var(--space-1));
-            }
-            .product-image { height: 100px; }
-            .product-name-heading { font-size: 0.85rem; }
-            .long-description-summary { font-size: 0.65em; }
-            .price { font-size: 1rem; }
-            .card-actions .add-to-cart-btn { padding: 6px 4px; font-size: 0.7rem; }
-
-
             /* Cart Page Responsiveness */
             .cart-item-image { width: 60px; height: 35px; }
             .cart-item-details h3 { font-size: 0.8rem; }
@@ -2084,47 +1959,12 @@
             .quantity-btn { width: 24px; height: 24px; font-size: 0.9rem; }
             .remove-btn { font-size: 1rem; }
 
-
-            /* Fixed elements */
-            .start-button {
-                bottom: 5px;
-                right: 5px;
-                padding: 8px 12px;
-                font-size: 0.75rem;
-                gap: 4px;
-            }
-            #ai-character {
-                bottom: 35px;
-                right: 2px;
-                width: 100px; /* Adjusted */
-                height: 100px; /* Adjusted */
-            }
-            .chatbox {
-                width: 98vw;
-                height: 60vh;
-                right: 1vw;
-                bottom: 35px; /* Adjusted */
-            }
         }
     </style>
 </head>
 <body>
-    <!-- AI Character (3D model placeholder) -->
-    <model-viewer id="ai-character"
-        src="https://modelviewer.dev/shared-assets/models/Astronaut.glb"
-        alt="A friendly AI assistant character"
-        shadow-intensity="1"
-        camera-controls
-        auto-rotate
-        rotation-per-second="10deg"
-        disable-zoom
-        ar-status="not-presenting"
-        exposure="1"
-        disable-tap
-        interaction-prompt="none"
-        class="animated-element"
-        style="display: none;"
-    ></model-viewer>
+    <!-- REPLACED: A simple hidden div provides the ID chat.js expects, without loading the 3D model library. -->
+    <div id="ai-character" style="display: none;"></div>
 
     <!-- Fixed AI Start Button -->
     <button class="start-button animated-button" onclick="window.handleStartButtonClick()">
@@ -2135,11 +1975,14 @@
     <!-- Chat Box (Simplified structure) -->
     <div id="chatBox" class="chatbox">
         <div class="chatbox-header">
-            <span>Shivay AI Assistant</span>
+            <div class="header-content">
+                <div class="ai-avatar">AI</div> <!-- ADDED: AI Avatar for Shivay Assistant -->
+                <span>Shivay AI Assistant</span>
+            </div>
             <div class="chatbox-icons">
-                <i id="headerMicIcon" class="fas fa-microphone mic-icon" title="Speak Command (Header)"></i>
-                <i class="fas fa-cog settings-icon" title="Settings"></i>
-                <i class="fas fa-times close-icon" onclick="window.closeChat()" title="Close Chat"></i>
+                <i id="headerMicIcon" class="fas fa-microphone mic-icon" title="Speak Command (Header)" role="button" aria-label="Toggle voice input"></i>
+                <i class="fas fa-cog settings-icon" title="Settings" role="button" aria-label="Chat settings" onclick="window.openSettings()"></i>
+                <i class="fas fa-times close-icon" onclick="window.closeChat()" title="Close Chat" role="button" aria-label="Close chat"></i>
             </div>
         </div>
         <div class="chatbox-body" id="chatBody">
@@ -2148,15 +1991,20 @@
         </div>
         <div class="chatbox-input-area">
             <i id="inputAreaMicIcon" class="fas fa-microphone mic-icon input-mic" title="Speak Command (Input)" aria-label="Toggle Voice Input"></i>
+            <label for="shivayChatInput" class="visually-hidden">Type your message or command</label>
             <input type="text" id="shivayChatInput" placeholder="Type or speak..." aria-label="Type your command">
             <button id="sendChatMsgBtn" aria-label="Send Command"><i class="fas fa-paper-plane"></i></button>
         </div>
     </div>
 
-    <!-- Audio elements (placeholders - update with actual paths in Flask) -->
+    <!-- Audio elements -->
     <audio id="chatOpenSound" src="{{ url_for('static', filename='sounds/notification.mp3') }}" preload="auto"></audio>
     <audio id="micToggleSound" src="{{ url_for('static', filename='sounds/notification.mp3') }}" preload="auto"></audio>
     <audio id="messageSendSound" src="{{ url_for('static', filename='sounds/notification.mp3') }}" preload="auto"></audio>
+    <!-- UPDATED: Use pixies meloboom.mp3 for the main search bar mic sound -->
+    <audio id="mainMicSound" src="{{ url_for('static', filename='pixies meloboom.mp3') }}" preload="auto"></audio> 
+    <!-- NEW: Specific sound for the "Get Started with AI" button -->
+    <audio id="aiButtonSound" src="{{ url_for('static', filename='ierc-oh-really meloboom.mp3') }}" preload="auto"></audio> 
 
     <a href="#main-content" class="skip-link">Skip to main content</a>
 
@@ -2233,7 +2081,7 @@
     </header>
 
     <!-- Flash Messages Container -->
-    <div class="flash-messages" id="flashMessagesContainer">
+    <div class="flash-messages" id="flashMessagesContainer" role="status" aria-live="polite"> {# Added ARIA attributes #}
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for category, message in messages %}
@@ -2245,7 +2093,7 @@
         {% endwith %}
     </div>
 
-    <main id="main-content" class="{% if request.path == url_for('home_app.cart') %}cart-page-main{% endif %}">
+    <main id="main-content" class="{% if request.path == url_for('home_app.cart') %}cart-page-main{% elif request.path == url_for('home_app.home') %}hero-section-wrapper{% endif %}">
         {% if request.path == url_for('home_app.home') %}
         <section class="hero-section">
             <video autoplay loop muted playsinline class="hero-background-video">
@@ -2293,10 +2141,31 @@
                     <a href="#" class="marquee-item"><i class="fas fa-building"></i> Corporate Business Portal</a>
                     <a href="#" class="marquee-item"><i class="fas fa-camera-retro"></i> Image Recognition API</a>
                     <a href="#" class="marquee-item"><i class="fas fa-feather-pointed"></i> Minimalist Blog & News</a>
+                       <a href="#" class="marquee-item"><i class="fas fa-tasks"></i> Project Management Suite</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-chart-line"></i> Predictive Analytics Dashboard</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-rocket"></i> SaaS Starter Kit</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-pen-nib"></i> Content Generation Engine</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-users"></i> Social Media Manager</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-headset"></i> CRM Platform</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-store"></i> E-Commerce Builder</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-money-bill-wave"></i> Subscription Billing System</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-credit-card"></i> Payment Gateway Integration</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-search"></i> SEO Optimization Toolkit</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-bullhorn"></i> Marketing Automation</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-comments"></i> Live Chat Widget</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-video"></i> Video Conferencing App</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-envelope"></i> Email Marketing Suite</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-cloud"></i> Cloud Storage Platform</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-server"></i> API Gateway</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-code"></i> Developer Tools Hub</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-user-shield"></i> Identity & Access Management</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-lock"></i> Cybersecurity Platform</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-chart-pie"></i> Business Intelligence Suite</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-database"></i> Data Warehouse</a>
                 </div>
             </div>
-            <div class="marquee-container reverse" title="Hover to pause scrolling">
-                <div class="marquee-track">
+          <div class="marquee-container reverse" title="Hover to pause scrolling">
+  <div class="marquee-track">
                     <a href="#" class="marquee-item"><i class="fas fa-tasks"></i> Project Management Suite</a>
                     <a href="#" class="marquee-item"><i class="fas fa-chart-line"></i> Predictive Analytics Dashboard</a>
                     <a href="#" class="marquee-item"><i class="fas fa-rocket"></i> SaaS Starter Kit</a>
@@ -2304,21 +2173,126 @@
                     <a href="#" class="marquee-item"><i class="fas fa-users"></i> Social Media Manager</a>
                     <a href="#" class="marquee-item"><i class="fas fa-headset"></i> CRM Platform</a>
                     <!-- Duplicates for seamless looping -->
+                    <a href="#" class="marquee-item"><i class="fas fa-robot"></i> AI Chatbot Platform</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-language"></i> Translation API</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-image"></i> Image Recognition Engine</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-music"></i> Audio Processing Suite</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-microchip"></i> IoT Device Manager</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-globe"></i> CDN Accelerator</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-network-wired"></i> VPN Service</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-terminal"></i> DevOps Automation</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-bug"></i> QA Testing Suite</a>
                     <a href="#" class="marquee-item"><i class="fas fa-tasks"></i> Project Management Suite</a>
                     <a href="#" class="marquee-item"><i class="fas fa-chart-line"></i> Predictive Analytics Dashboard</a>
                     <a href="#" class="marquee-item"><i class="fas fa-rocket"></i> SaaS Starter Kit</a>
                     <a href="#" class="marquee-item"><i class="fas fa-pen-nib"></i> Content Generation Engine</a>
                     <a href="#" class="marquee-item"><i class="fas fa-users"></i> Social Media Manager</a>
                     <a href="#" class="marquee-item"><i class="fas fa-headset"></i> CRM Platform</a>
+                                        <a href="#" class="marquee-item"><i class="fas fa-bus"></i> Transport Booking System</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-hotel"></i> Hotel Reservation System</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-plane"></i> Travel Booking App</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-utensils"></i> Food Delivery Platform</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-shopping-cart"></i> Online Marketplace</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-gift"></i> Loyalty Rewards App</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-wallet"></i> Digital Wallet</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-bitcoin"></i> Crypto Exchange</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-coins"></i> Stock Trading Bot</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-landmark"></i> Banking API</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-university"></i> FinTech Platform</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-leaf"></i> Agriculture IoT Platform</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-solar-panel"></i> Renewable Energy Dashboard</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-city"></i> Smart City Platform</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-industry"></i> Manufacturing ERP</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-truck"></i> Logistics Management</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-box"></i> Inventory Management</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-ship"></i> Supply Chain Tracking</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-balance-scale"></i> LegalTech Platform</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-vr-cardboard"></i> AR/VR Solutions</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-rocket"></i> Startup Incubator Tools</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-lightbulb"></i> Idea Management System</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-dollar-sign"></i> Crowdfunding Platform</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-gavel"></i> Auction Platform</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-newspaper"></i> News Aggregator</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-star"></i> Review & Rating System</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-brain"></i> AI Research Tools</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-cogs"></i> Workflow Automation</a>
+                                        <a href="#" class="marquee-item"><i class="fas fa-university"></i> FinTech Platform</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-leaf"></i> Agriculture IoT Platform</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-solar-panel"></i> Renewable Energy Dashboard</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-city"></i> Smart City Platform</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-industry"></i> Manufacturing ERP</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-truck"></i> Logistics Management</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-box"></i> Inventory Management</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-ship"></i> Supply Chain Tracking</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-balance-scale"></i> LegalTech Platform</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-vr-cardboard"></i> AR/VR Solutions</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-rocket"></i> Startup Incubator Tools</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-lightbulb"></i> Idea Management System</a>
+                </div>
+            </div>
+            <!-- NEW MARQUEE CONTENT ADDED HERE -->
+            <div class="marquee-container" title="Hover to pause scrolling">
+                <div class="marquee-track">
+                    <a href="#" class="marquee-item"><i class="fas fa-tasks"></i> Project Management Suite</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-chart-line"></i> Predictive Analytics Dashboard</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-rocket"></i> SaaS Starter Kit</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-pen-nib"></i> Content Generation Engine</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-users"></i> Social Media Manager</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-headset"></i> CRM Platform</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-store"></i> E-Commerce Builder</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-money-bill-wave"></i> Subscription Billing System</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-credit-card"></i> Payment Gateway Integration</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-search"></i> SEO Optimization Toolkit</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-bullhorn"></i> Marketing Automation</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-comments"></i> Live Chat Widget</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-video"></i> Video Conferencing App</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-envelope"></i> Email Marketing Suite</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-cloud"></i> Cloud Storage Platform</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-server"></i> API Gateway</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-code"></i> Developer Tools Hub</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-user-shield"></i> Identity & Access Management</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-lock"></i> Cybersecurity Platform</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-chart-pie"></i> Business Intelligence Suite</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-database"></i> Data Warehouse</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-robot"></i> AI Chatbot Platform</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-language"></i> Translation API</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-image"></i> Image Recognition Engine</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-music"></i> Audio Processing Suite</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-microchip"></i> IoT Device Manager</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-globe"></i> CDN Accelerator</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-network-wired"></i> VPN Service</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-terminal"></i> DevOps Automation</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-bug"></i> QA Testing Suite</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-gamepad"></i> Game Development Toolkit</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-graduation-cap"></i> LMS Platform</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-book"></i> Knowledge Base System</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-user-friends"></i> HR Management System</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-id-card"></i> Employee Onboarding Portal</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-briefcase"></i> Freelance Marketplace</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-map"></i> GPS Tracking App</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-heartbeat"></i> Health & Fitness Tracker</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-hospital"></i> Telemedicine Platform</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-car"></i> Ride Sharing App</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-bus"></i> Transport Booking System</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-hotel"></i> Hotel Reservation System</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-plane"></i> Travel Booking App</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-utensils"></i> Food Delivery Platform</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-shopping-cart"></i> Online Marketplace</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-gift"></i> Loyalty Rewards App</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-wallet"></i> Digital Wallet</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-bitcoin"></i> Crypto Exchange</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-coins"></i> Stock Trading Bot</a>
+                    <a href="#" class="marquee-item"><i class="fas fa-landmark"></i> Banking API</a>
+
                 </div>
             </div>
         </section>
 
         <section id="products" class="product-grid-section">
             <div class="container">
-                <h2 id="websites" class="animate-on-scroll">🛒Featured Websites</h2>
+                <h2 id="websites-heading" class="animate-on-scroll">🛒Featured Websites</h2>
                 <div class="horizontal-scroll-wrapper">
-                    <button class="scroll-button scroll-button-prev" aria-label="Scroll left"><i class="fas fa-chevron-left"></i></button>
+                    <button class="scroll-button scroll-button-prev" data-target="websites-scroll-container" aria-label="Scroll left"><i class="fas fa-chevron-left"></i></button>
                     <div class="product-grid horizontal-scroll" id="websites-scroll-container">
                         <!-- Products from Flask's `websites` list -->
                         {% for product in websites %}
@@ -2340,6 +2314,7 @@
                             </a>
                             <div class="card-actions">
                                 <button class="add-to-cart-btn" data-product-id="{{ product.product_db_key }}">Add to Cart</button>
+                                <a href="{{ url_for('home_app.buy_now', product_db_key=product.product_db_key) }}" class="card-btn buy-now-btn">Buy Now</a> {# Added Buy Now button #}
                             </div>
                             <div class="share-container">
                                 <button class="universal-share-btn"
@@ -2352,11 +2327,19 @@
                         </div>
                         {% endfor %}
                     </div>
-                    <button class="scroll-button scroll-button-next" aria-label="Scroll right"><i class="fas fa-chevron-right"></i></button>
+                    <button class="scroll-button scroll-button-next" data-target="websites-scroll-container" aria-label="Scroll right"><i class="fas fa-chevron-right"></i></button>
                 </div>
+                {% if show_load_more_websites %}
+                <div class="load-more-container">
+                    <button class="load-more-btn" data-category="websites" data-offset="{{ websites|length }}" data-total="{{ total_websites_count }}" data-product-grid-id="websites-scroll-container">
+                        <i class="fas fa-spinner fa-spin d-none"></i>Load More Websites
+                    </button>
+                </div>
+                {% endif %}
 
-                <h2 id="ai" class="animate-on-scroll">✨Top AI Solutions</h2>
-                <div class="product-grid">
+
+                <h2 id="ai-heading" class="animate-on-scroll">✨Top AI Solutions</h2>
+                <div class="product-grid" id="ai-scroll-container">
                     <!-- Products from Flask's `ai` list -->
                     {% for product in ai %}
                     <div class="product-card-outer animate-on-scroll">
@@ -2377,6 +2360,7 @@
                             </a>
                             <div class="card-actions">
                                 <button class="add-to-cart-btn" data-product-id="{{ product.product_db_key }}">Add to Cart</button>
+                                <a href="{{ url_for('home_app.buy_now', product_db_key=product.product_db_key) }}" class="card-btn buy-now-btn">Buy Now</a> {# Added Buy Now button #}
                             </div>
                             <div class="share-container">
                                 <button class="universal-share-btn"
@@ -2389,12 +2373,19 @@
                         </div>
                         {% endfor %}
                     </div>
+                    {% if show_load_more_ai %}
+                    <div class="load-more-container">
+                        <button class="load-more-btn" data-category="ai" data-offset="{{ ai|length }}" data-total="{{ total_ai_count }}" data-product-grid-id="ai-scroll-container">
+                            <i class="fas fa-spinner fa-spin d-none"></i>Load More AI Solutions
+                        </button>
+                    </div>
+                    {% endif %}
 
-                    <h2 id="apps" class="animate-on-scroll">📱Featured Applications</h2>
-                    <div class="product-grid animate-on-scroll">
+                    <h2 id="apps-heading" class="animate-on-scroll">📱Featured Applications</h2>
+                    <div class="product-grid" id="apps-scroll-container">
                         <!-- Products from Flask's `apps` list -->
                         {% for product in apps %}
-                        <div class="product-card-outer">
+                        <div class="product-card-outer animate-on-scroll">
                             <a href="{{ url_for('home_app.product_detail', product_db_key=product.product_db_key) }}" class="product-card-content-link" aria-label="View details for {{ product.name }}">
                                 <div class="product-card" data-product-id="{{ product.product_db_key }}">
                                     <div class="product-card-header" style="background-color: {{ CATEGORY_COLORS.get(product.category.lower(), '#6c757d') }};" aria-label="Category: {{ product.category }}">
@@ -2412,6 +2403,7 @@
                             </a>
                             <div class="card-actions">
                                 <button class="add-to-cart-btn" data-product-id="{{ product.product_db_key }}">Add to Cart</button>
+                                <a href="{{ url_for('home_app.buy_now', product_db_key=product.product_db_key) }}" class="card-btn buy-now-btn">Buy Now</a> {# Added Buy Now button #}
                             </div>
                             <div class="share-container">
                                 <button class="universal-share-btn"
@@ -2424,6 +2416,13 @@
                         </div>
                         {% endfor %}
                     </div>
+                    {% if show_load_more_apps %}
+                    <div class="load-more-container">
+                        <button class="load-more-btn" data-category="apps" data-offset="{{ apps|length }}" data-total="{{ total_apps_count }}" data-product-grid-id="apps-scroll-container">
+                            <i class="fas fa-spinner fa-spin d-none"></i>Load More Applications
+                        </button>
+                    </div>
+                    {% endif %}
                 </div>
             </section>
         {% elif request.path == url_for('home_app.cart') %}
@@ -2450,7 +2449,7 @@
                                  {{ item.subtotal | format_local_currency(user_currency.iso, user_country_code) }}
                              </div>
                              <div class="item-action-buttons">
-                                <a href="{{ url_for('home_app.buy_now', product_db_key=item.id) }}" class="buy-now-btn">Buy Now</a>
+                                <a href="{{ url_for('home_app.buy_now', product_db_key=item.id) }}" class="card-btn buy-now-btn">Buy Now</a> {# Updated Buy Now button classes #}
                                 <button class="remove-btn" aria-label="Remove {{ item.name }} from cart">
                                     <i class="fas fa-trash"></i><span>Remove</span>
                                 </button>
@@ -2489,7 +2488,7 @@
         </div>
         {% else %}
             {# Placeholder for other pages if not home or cart, or content for a general layout #}
-            <div class="container" style="padding-top: 100px; text-align: center;">
+            <div class="container" style="padding-top: calc(var(--header-calculated-height) + var(--space-4)); text-align: center;">
                 <h1>Welcome to Nexaur!</h1>
                 <p>This is a placeholder for other pages. Please navigate to Home or Cart.</p>
                 <a href="{{ url_for('home_app.home') }}" class="btn btn-primary" style="margin-top: 20px;">Go to Home</a>
@@ -2555,21 +2554,40 @@
     <script>
         // --- Flask Context Variables (will be rendered by Jinja2) ---
         // These are accessed directly in your template HTML and some JS.
-        // For JS, some URLs are dynamically generated using Jinja2 `url_for` directly into the string.
         const FLASK_USER_ID = {{ session.get('user_id', 'null') | tojson }}; // null if not logged in
         const FLASK_IS_ADMIN = {{ is_admin | tojson }};
         const FLASK_USER_EMAIL = {{ session.get('user_email', 'null') | tojson }};
-        const FLASK_AI_LANGUAGE = {{ session.get('ai_language', 'en-US') | tojson }};
-        // Note: `FLASK_USER_CURRENCY_ISO` is not directly used in JS below, but if needed, define it like others.
+        const CATEGORY_COLORS_JS = {{ CATEGORY_COLORS | tojson }}; // Pass category colors to JS
+
 
         // --- Global URL Templates for JS (rendered by Jinja2) ---
         const ADD_TO_CART_URL_TEMPLATE = "{{ url_for('home_app.add_to_cart', product_db_key='_PID_') }}";
         const REMOVE_FROM_CART_URL_TEMPLATE = "{{ url_for('home_app.remove_from_cart', product_db_key='_PID_') }}";
         const UPDATE_CART_QUANTITY_URL_TEMPLATE = "{{ url_for('home_app.update_cart_quantity', product_db_key='_PID_', quantity=0) }}"; // Use 0 as integer placeholder
         const GET_CART_COUNT_URL = "{{ url_for('home_app.get_cart_count') }}";
-        const SHIVAY_CHAT_ENDPOINT_URL = "{{ url_for('home_app.shivay_chat_endpoint') }}";
-        const STATIC_NOTIFICATION_SOUND_URL = "{{ url_for('static', filename='sounds/notification.mp3') }}";
+        
+        // FIX: Use dummy but valid arguments for url_for in Jinja2
+        // Then, replace these specific dummy values with generic placeholders in JavaScript.
+        const LOAD_MORE_BASE_URL = "{{ url_for('home_app.load_more_products', category='dummy_category_name', offset=1) }}";
+        const PRODUCT_DETAIL_BASE_URL = "{{ url_for('home_app.product_detail', product_db_key='dummy_id_placeholder') }}";
+        const BUY_NOW_BASE_URL = "{{ url_for('home_app.buy_now', product_db_key='dummy_id_placeholder') }}";
 
+        // Now, define the JS templates by replacing the dummy values with specific placeholders for JS
+        const LOAD_MORE_PRODUCTS_URL_TEMPLATE = LOAD_MORE_BASE_URL.replace('dummy_category_name', '__CATEGORY_PH__').replace('/1', '/__OFFSET_PH__');
+        const PRODUCT_DETAIL_URL_TEMPLATE = PRODUCT_DETAIL_BASE_URL.replace('dummy_id_placeholder', '__PID_PLACEHOLDER__');
+        const BUY_NOW_URL_TEMPLATE = BUY_NOW_BASE_URL.replace('dummy_id_placeholder', '__PID_PLACEHOLDER__');
+
+
+        // Chat specific configurations passed to external chat.js
+        window.chatConfig = {
+            FLASK_AI_LANGUAGE: {{ session.get('ai_language', 'en-US') | tojson }},
+            SHIVAY_CHAT_ENDPOINT_URL: "{{ url_for('home_app.shivay_chat_endpoint') }}",
+            STATIC_NOTIFICATION_SOUND_URL: "{{ url_for('static', filename='sounds/notification.mp3') }}"
+        };
+
+        // window.closeChat function now handled by chat.js, remove temporary one if it existed.
+        // It's good practice to ensure no temporary functions are left behind.
+        
         // --- General Page Load & On-Scroll Animation Scripts ---
         document.addEventListener('DOMContentLoaded', () => {
             const logoContainer = document.querySelector('.logo');
@@ -2580,16 +2598,7 @@
                 setTimeout(() => { heroSection.classList.add('animate-in'); }, 200); 
             }
 
-            const scrollElements = document.querySelectorAll('.animate-on-scroll');
-            const elementObserver = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('is-visible');
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.1 });
-            scrollElements.forEach(el => { elementObserver.observe(el); });
+            initAnimateOnScroll(); // Initialize for existing elements
 
             // --- Mobile Menu Toggle ---
             // The menu-toggle button is hidden on mobile as per the image,
@@ -2629,36 +2638,185 @@
             }
         });
 
-        // --- Horizontal Scroll Buttons Logic ---
-        document.addEventListener('DOMContentLoaded', () => {
-            const sections = ['websites', 'ai', 'apps']; // IDs of your product sections
-            sections.forEach(sectionId => {
-                const section = document.getElementById(sectionId);
-                if (section) {
-                    const wrapper = section.nextElementSibling; // Get the horizontal-scroll-wrapper
-                    if (wrapper && wrapper.classList.contains('horizontal-scroll-wrapper')) {
-                        const scrollContainer = wrapper.querySelector('.product-grid.horizontal-scroll');
-                        const prevButton = wrapper.querySelector('.scroll-button-prev');
-                        const nextButton = wrapper.querySelector('.scroll-button-next');
+        // --- Reusable Initialization Functions for dynamically loaded content ---
 
-                        if (scrollContainer && prevButton && nextButton) {
-                            // This part needs to be conditional as scrollContainer might be null on cart page
-                            const firstCard = scrollContainer.querySelector('.product-card-outer');
-                            if (firstCard) {
-                                const scrollAmount = firstCard.offsetWidth + 24; // Card width + 1.5rem gap
+        // Function to initialize Add to Cart buttons
+        function initAddToCartButtons(container = document) {
+            const addToCartButtons = container.querySelectorAll('.add-to-cart-btn');
+            addToCartButtons.forEach(button => {
+                // Ensure event listener is not added multiple times
+                if (button.dataset.listenerAdded) return;
+                button.dataset.listenerAdded = 'true';
 
-                                nextButton.addEventListener('click', () => {
-                                    scrollContainer.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-                                });
-                                prevButton.addEventListener('click', () => {
-                                    scrollContainer.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
-                                });
+                let originalText = button.textContent;
+
+                button.addEventListener('click', async (event) => {
+                    event.preventDefault(); // Prevent default if button is inside a link
+                    const productDbKey = button.dataset.productId;
+                    const addUrl = ADD_TO_CART_URL_TEMPLATE.replace('_PID_', productDbKey);
+
+                    if (!productDbKey) {
+                        console.error('Product DB Key not found on add-to-cart button.');
+                        return;
+                    }
+
+                    button.disabled = true;
+                    button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Adding...';
+                    button.classList.add('adding');
+
+                    try {
+                        const response = await fetch(addUrl, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ quantity: 1 })
+                        });
+
+                        if (response.status === 401) {
+                            const data = await response.json();
+                            if (data.redirect_url) {
+                                window.location.href = data.redirect_url;
+                            } else {
+                                showFlashMessage('Please log in to add items to cart.', 'danger');
+                            }
+                            button.classList.remove('adding');
+                            button.innerHTML = originalText;
+                            button.disabled = false;
+                            return;
+                        }
+
+                        if (!response.ok) {
+                            const errorData = await response.json();
+                            throw new Error(errorData.message || 'Unknown error during add to cart.');
+                        }
+
+                        const data = await response.json();
+                        if (data && data.status === 'success') {
+                            updateCartCount(data.total_items);
+                            button.classList.remove('adding');
+                            button.classList.add('added');
+                            button.innerHTML = 'Added!';
+                            showFlashMessage(`"${productDbKey}" added to cart!`, 'success');
+
+                            setTimeout(() => {
+                                button.classList.remove('added');
+                                button.innerHTML = originalText;
+                                button.disabled = false;
+                            }, 1500);
+
+                        } else if (data && data.message) {
+                            showFlashMessage('Error: ' + data.message, 'danger');
+                            button.classList.remove('adding');
+                            button.innerHTML = originalText;
+                            button.disabled = false;
+                        }
+                    } catch (error) {
+                        console.error('Fetch error:', error);
+                        showFlashMessage('An error occurred: ' + (error.message || 'Please try again.'), 'danger');
+                        button.classList.remove('adding');
+                        button.innerHTML = originalText;
+                        button.disabled = false;
+                    }
+                });
+            });
+        }
+
+        // Function to initialize Share buttons
+        function initShareButtons(container = document) {
+            const shareButtons = container.querySelectorAll('.universal-share-btn');
+            shareButtons.forEach(button => {
+                if (button.dataset.listenerAdded) return;
+                button.dataset.listenerAdded = 'true';
+
+                button.addEventListener('click', async (event) => {
+                    event.preventDefault(); // Prevent default if button is inside a link
+                    const title = button.dataset.title;
+                    const text = button.dataset.text;
+                    const url = button.dataset.url;
+
+                    if (navigator.share) {
+                        try {
+                            await navigator.share({ title: title, text: text, url: url });
+                            console.log('Content shared successfully');
+                            showFlashMessage('Content shared!', 'success');
+                        } catch (error) {
+                            if (error.name !== 'AbortError') {
+                                console.error('Error sharing content:', error);
+                                showFlashMessage('Could not share. Please try again.', 'danger');
+                            }
+                        }
+                    } else {
+                        try {
+                            await navigator.clipboard.writeText(url);
+                            showFlashMessage('Link copied to clipboard!', 'info');
+                            console.log('URL copied to clipboard:', url);
+                        } catch (err) {
+                            console.error('Failed to copy to clipboard: ', err);
+                            showFlashMessage('Could not copy link to clipboard. Please copy it manually.', 'danger');
+                        }
+                    }
+                });
+            });
+        }
+
+        // Function to initialize Horizontal Scroll Buttons
+        function initHorizontalScrollButtons(container = document) {
+            const scrollButtons = container.querySelectorAll('.scroll-button');
+            scrollButtons.forEach(button => {
+                if (button.dataset.listenerAdded) return;
+                button.dataset.listenerAdded = 'true';
+
+                button.addEventListener('click', () => {
+                    const targetId = button.dataset.target;
+                    const scrollContainer = document.getElementById(targetId);
+                    if (scrollContainer) {
+                        const firstCard = scrollContainer.querySelector('.product-card-outer');
+                        if (firstCard) {
+                            const scrollAmount = firstCard.offsetWidth + 24; // Card width + 1.5rem gap
+                            if (button.classList.contains('scroll-button-next')) {
+                                scrollContainer.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+                            } else if (button.classList.contains('scroll-button-prev')) {
+                                scrollContainer.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
                             }
                         }
                     }
+                });
+            });
+        }
+
+        // Function to initialize Animate on Scroll
+        let elementObserver; // Declare globally
+        function initAnimateOnScroll(container = document) {
+            if (!elementObserver) { // Create observer only once
+                elementObserver = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('is-visible');
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.1 });
+            }
+            
+            // Observe new elements or re-observe existing ones if needed
+            const scrollElements = container.querySelectorAll('.animate-on-scroll');
+            scrollElements.forEach(el => {
+                if (!el.classList.contains('is-visible')) { // Only observe if not already visible
+                    elementObserver.observe(el);
                 }
             });
+        }
+
+        // --- Initial Calls on DOMContentLoaded ---
+        document.addEventListener('DOMContentLoaded', () => {
+            initAddToCartButtons();
+            initShareButtons();
+            initHorizontalScrollButtons();
+            // initAnimateOnScroll is called earlier for existing elements
         });
+
+        // --- Horizontal Scroll Buttons Logic ---
+        // Moved into initHorizontalScrollButtons for reusability
+
 
         // --- ADD TO CART SCRIPT (Uses actual Flask API endpoints) ---
         let cartItemCount = 0; // Will be updated by API calls
@@ -2683,268 +2841,196 @@
             } catch (error) {
                 console.error('Error fetching initial cart count:', error);
             }
+            // Add to cart buttons initialized by initAddToCartButtons()
+        });
 
-            const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
-            addToCartButtons.forEach(button => {
-                let originalText = button.textContent;
+        // --- Cart Page Specific JS (for quantity update and remove) ---
+        // Only execute this block if on the cart page
+        if (document.querySelector('.cart-page-main')) {
+            const TAX_RATE = 0.08; // This should ideally come from Flask context or an API
+            
+            const cartItemsList = document.querySelector('.cart-items-list');
+            const subtotalEl = document.getElementById('summary-subtotal');
+            const taxEl = document.getElementById('summary-tax');
+            const totalEl = document.getElementById('summary-total');
+            const cartItemCountHeaderEl = document.getElementById('cart-item-count-header');
+            const emptyCartMessageEl = document.querySelector('.empty-cart-message');
 
-                button.addEventListener('click', async (event) => {
-                    const productDbKey = button.dataset.productId;
-                    const addUrl = ADD_TO_CART_URL_TEMPLATE.replace('_PID_', productDbKey);
+            // Helper to parse price string to a float, assuming it's already in the user's local currency
+            const parseFormattedPrice = (priceString) => {
+                // Remove currency symbols, commas, and parse as float
+                return parseFloat(priceString.replace(/[^0-9.-]+/g,"")) || 0;
+            };
 
-                    if (!productDbKey) {
-                        console.error('Product DB Key not found on add-to-cart button.');
-                        return;
-                    }
+            // Function to format currency on client-side if needed for calculations,
+            // otherwise relying on Jinja's `format_local_currency` for display.
+            // This will use a placeholder currency code and symbol, as actual values come from Flask.
+            const formatClientCurrency = (amount) => {
+                const currencyCode = "{{ user_currency.iso }}"; // Injected from Flask
+                const currencySymbol = "{{ user_currency.symbol }}"; // Injected from Flask
+                return currencySymbol + new Intl.NumberFormat('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}).format(amount);
+            };
 
-                    button.disabled = true;
-                    button.textContent = 'Adding...';
-                    button.classList.add('adding');
 
-                    try {
-                        const response = await fetch(addUrl, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ quantity: 1 }) // Always add 1 for now
-                        });
+            const updateButtonStates = (quantityInput) => {
+                const parent = quantityInput.closest('.quantity-selector');
+                const minusBtn = parent.querySelector('.minus-btn');
+                const plusBtn = parent.querySelector('.plus-btn');
+                const currentVal = parseInt(quantityInput.value, 10);
+                const minVal = parseInt(quantityInput.min, 10);
+                const maxVal = parseInt(quantityInput.max, 10);
 
-                        if (response.status === 401) { // User not logged in
-                            const data = await response.json();
-                            if (data.redirect_url) {
-                                window.location.href = data.redirect_url; // Redirect to login page
-                            } else {
-                                showFlashMessage('Please log in to add items to cart.', 'danger');
-                            }
-                            // Reset button state even if redirecting
-                            button.classList.remove('adding');
-                            button.textContent = originalText;
-                            button.disabled = false;
-                            return;
-                        }
+                minusBtn.disabled = currentVal <= minVal;
+                plusBtn.disabled = currentVal >= maxVal;
+            };
 
-                        if (!response.ok) { // Handle other HTTP errors
-                            const errorData = await response.json();
-                            throw new Error(errorData.message || 'Unknown error during add to cart.');
-                        }
+            const updateCartSummary = () => {
+                const cartItems = document.querySelectorAll('.cart-item');
+                const itemCount = cartItems.length;
 
-                        const data = await response.json();
-                        if (data && data.status === 'success') {
-                            updateCartCount(data.total_items);
-                            button.classList.remove('adding');
-                            button.classList.add('added');
-                            button.textContent = 'Added!';
-                            showFlashMessage(`"${productDbKey}" added to cart!`, 'success');
+                updateCartCount(itemCount); // Update header cart count
 
-                            setTimeout(() => {
-                                button.classList.remove('added');
-                                button.textContent = originalText;
-                                button.disabled = false;
-                            }, 1500);
-
-                        } else if (data && data.message) {
-                            showFlashMessage('Error: ' + data.message, 'danger');
-                            button.classList.remove('adding');
-                            button.textContent = originalText;
-                            button.disabled = false;
-                        }
-                    } catch (error) {
-                        console.error('Fetch error:', error);
-                        showFlashMessage('An error occurred: ' + (error.message || 'Please try again.'), 'danger');
-                        button.classList.remove('adding');
-                        button.textContent = originalText;
-                        button.disabled = false;
-                    }
-                });
-            });
-
-            // --- Cart Page Specific JS (for quantity update and remove) ---
-            // Only execute this block if on the cart page
-            if (document.querySelector('.cart-page-main')) {
-                const TAX_RATE = 0.08; // This should ideally come from Flask context or an API
+                if (cartItemCountHeaderEl) {
+                    const headerText = document.querySelector('.cart-header');
+                    cartItemCountHeaderEl.textContent = itemCount;
+                    headerText.innerHTML = `Your Cart (${itemCount} item${itemCount !== 1 ? 's' : ''})`;
+                }
                 
-                const cartItemsList = document.querySelector('.cart-items-list');
-                const subtotalEl = document.getElementById('summary-subtotal');
-                const taxEl = document.getElementById('summary-tax');
-                const totalEl = document.getElementById('summary-total');
-                const cartItemCountHeaderEl = document.getElementById('cart-item-count-header');
-                const emptyCartMessageEl = document.querySelector('.empty-cart-message');
+                if (itemCount === 0) {
+                    if (cartItemsList) cartItemsList.style.display = 'none';
+                    if (document.querySelector('.order-summary')) document.querySelector('.order-summary').style.display = 'none';
+                    if (emptyCartMessageEl) emptyCartMessageEl.style.display = 'block';
+                    return;
+                } else {
+                    if (cartItemsList) cartItemsList.style.display = 'block';
+                    if (document.querySelector('.order-summary')) document.querySelector('.order-summary').style.display = 'block';
+                    if (emptyCartMessageEl) emptyCartMessageEl.style.display = 'none';
+                }
 
-                // Helper to parse price string to a float, assuming it's already in the user's local currency
-                const parseFormattedPrice = (priceString) => {
-                    // Remove currency symbols, commas, and parse as float
-                    return parseFloat(priceString.replace(/[^0-9.-]+/g,"")) || 0;
-                };
+                let subtotalValue = 0;
+                cartItems.forEach(item => {
+                    const priceString = item.querySelector('.cart-item-price').textContent;
+                    let itemSubtotalDisplayed = parseFormattedPrice(priceString);
+                    subtotalValue += itemSubtotalDisplayed; 
+                });
 
-                // Function to format currency on client-side if needed for calculations,
-                // otherwise relying on Jinja's `format_local_currency` for display.
-                // This will use a placeholder currency code and symbol, as actual values come from Flask.
-                const formatClientCurrency = (amount) => {
-                    const currencyCode = "{{ user_currency.iso }}"; // Injected from Flask
-                    const currencySymbol = "{{ user_currency.symbol }}"; // Injected from Flask
-                    return currencySymbol + new Intl.NumberFormat('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}).format(amount);
-                };
+                const tax = subtotalValue * TAX_RATE;
+                const total = subtotalValue + tax;
 
+                if(subtotalEl) subtotalEl.textContent = formatClientCurrency(subtotalValue);
+                if(taxEl) taxEl.textContent = formatClientCurrency(tax);
+                if(totalEl) totalEl.textContent = formatClientCurrency(total);
+            };
 
-                const updateButtonStates = (quantityInput) => {
-                    const parent = quantityInput.closest('.quantity-selector');
-                    const minusBtn = parent.querySelector('.minus-btn');
-                    const plusBtn = parent.querySelector('.plus-btn');
-                    const currentVal = parseInt(quantityInput.value, 10);
-                    const minVal = parseInt(quantityInput.min, 10);
-                    const maxVal = parseInt(quantityInput.max, 10);
+            const updateQuantityOnServer = (productId, newQuantity) => {
+                const updateUrl = UPDATE_CART_QUANTITY_URL_TEMPLATE
+                                    .replace('_PID_', productId)
+                                    .replace('0', newQuantity); // Replace dummy int with actual quantity
 
-                    minusBtn.disabled = currentVal <= minVal;
-                    plusBtn.disabled = currentVal >= maxVal;
-                };
-
-                const updateCartSummary = () => {
-                    const cartItems = document.querySelectorAll('.cart-item');
-                    const itemCount = cartItems.length;
-
-                    updateCartCount(itemCount); // Update header cart count
-
-                    if (cartItemCountHeaderEl) {
-                        const headerText = document.querySelector('.cart-header');
-                        cartItemCountHeaderEl.textContent = itemCount;
-                        headerText.innerHTML = `Your Cart (${itemCount} item${itemCount !== 1 ? 's' : ''})`;
-                    }
-                    
-                    if (itemCount === 0) {
-                        if (cartItemsList) cartItemsList.style.display = 'none';
-                        if (document.querySelector('.order-summary')) document.querySelector('.order-summary').style.display = 'none';
-                        if (emptyCartMessageEl) emptyCartMessageEl.style.display = 'block';
-                        return;
-                    } else {
-                        if (cartItemsList) cartItemsList.style.display = 'block';
-                        if (document.querySelector('.order-summary')) document.querySelector('.order-summary').style.display = 'block';
-                        if (emptyCartMessageEl) emptyCartMessageEl.style.display = 'none';
-                    }
-
-                    let subtotalValue = 0;
-                    cartItems.forEach(item => {
-                        const priceString = item.querySelector('.cart-item-price').textContent;
-                        let itemSubtotalDisplayed = parseFormattedPrice(priceString);
-                        subtotalValue += itemSubtotalDisplayed; 
-                    });
-
-                    const tax = subtotalValue * TAX_RATE;
-                    const total = subtotalValue + tax;
-
-                    if(subtotalEl) subtotalEl.textContent = formatClientCurrency(subtotalValue);
-                    if(taxEl) taxEl.textContent = formatClientCurrency(tax);
-                    if(totalEl) totalEl.textContent = formatClientCurrency(total);
-                };
-
-                const updateQuantityOnServer = (productId, newQuantity) => {
-                    const updateUrl = UPDATE_CART_QUANTITY_URL_TEMPLATE
-                                        .replace('_PID_', productId)
-                                        .replace('0', newQuantity); // Replace dummy int with actual quantity
-
-                    fetch(updateUrl, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                    })
-                    .then(response => {
-                        if (!response.ok) throw new Error('Network response was not ok.');
-                        return response.json();
-                    })
-                    .then(data => {
-                        if (data.status === 'success') {
-                            console.log('Server quantity updated successfully.');
-                            const itemRow = document.querySelector(`.cart-item[data-item-id="${productId}"]`);
-                            if (itemRow && data.updated_item_subtotal !== undefined) {
-                                itemRow.querySelector('.cart-item-price').textContent = formatClientCurrency(data.updated_item_subtotal);
-                            }
-                            updateCartSummary();
-                        } else {
-                            console.error('Server error:', data.message);
-                            showFlashMessage(`Error updating cart: ${data.message}`, 'danger');
-                            const itemRow = document.querySelector(`.cart-item[data-item-id="${productId}"]`);
-                            if (itemRow) {
-                                const quantityInput = itemRow.querySelector('.quantity-input');
-                                quantityInput.value = parseInt(quantityInput.dataset.originalQuantity || 1, 10);
-                                updateButtonStates(quantityInput);
-                            }
+                fetch(updateUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                })
+                .then(response => {
+                    if (!response.ok) throw new Error('Network response was not ok.');
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.status === 'success') {
+                        console.log('Server quantity updated successfully.');
+                        const itemRow = document.querySelector(`.cart-item[data-item-id="${productId}"]`);
+                        if (itemRow && data.updated_item_subtotal !== undefined) {
+                            itemRow.querySelector('.cart-item-price').textContent = formatClientCurrency(data.updated_item_subtotal);
                         }
-                    })
-                    .catch(err => {
-                        console.error('Failed to update quantity on server:', err);
-                        showFlashMessage('Failed to update cart. Please try again.', 'danger');
+                        updateCartSummary();
+                    } else {
+                        console.error('Server error:', data.message);
+                        showFlashMessage(`Error updating cart: ${data.message}`, 'danger');
                         const itemRow = document.querySelector(`.cart-item[data-item-id="${productId}"]`);
                         if (itemRow) {
                             const quantityInput = itemRow.querySelector('.quantity-input');
                             quantityInput.value = parseInt(quantityInput.dataset.originalQuantity || 1, 10);
                             updateButtonStates(quantityInput);
                         }
-                    });
-                };
-                
-                const handleCartAction = (event) => {
-                    const removeButton = event.target.closest('.remove-btn');
-                    const quantityButton = event.target.closest('.quantity-btn');
-
-                    if (removeButton) {
-                        const itemToRemove = removeButton.closest('.cart-item');
-                        const productId = itemToRemove.dataset.itemId;
-                        
-                        const removeUrl = REMOVE_FROM_CART_URL_TEMPLATE.replace('_PID_', productId);
-
-                        fetch(removeUrl, { method: 'POST' })
-                            .then(response => {
-                                if (!response.ok) throw new Error('Network response was not ok.');
-                                return response.json();
-                            })
-                            .then(data => {
-                                if (data.status === 'success') {
-                                    itemToRemove.style.opacity = '0';
-                                    itemToRemove.style.transform = 'translateX(50px) scale(0.95)';
-                                    setTimeout(() => { 
-                                        itemToRemove.remove(); 
-                                        updateCartSummary();
-                                        showFlashMessage('Item removed from cart!', 'info');
-                                    }, 400);
-                                } else { 
-                                    showFlashMessage(`Error removing item: ${data.message}`, 'danger');
-                                }
-                            })
-                            .catch(error => {
-                                console.error('Error removing item:', error);
-                                showFlashMessage('Failed to remove item. Please try again.', 'danger');
-                            });
                     }
-
-                    if (quantityButton) {
-                        const itemRow = quantityButton.closest('.cart-item');
-                        const productId = itemRow.dataset.itemId;
+                })
+                .catch(err => {
+                    console.error('Failed to update quantity on server:', err);
+                    showFlashMessage('Failed to update cart. Please try again.', 'danger');
+                    const itemRow = document.querySelector(`.cart-item[data-item-id="${productId}"]`);
+                    if (itemRow) {
                         const quantityInput = itemRow.querySelector('.quantity-input');
-                        let currentVal = parseInt(quantityInput.value, 10);
-
-                        if (quantityButton.classList.contains('plus-btn')) {
-                            currentVal++;
-                        } else if (quantityButton.classList.contains('minus-btn')) {
-                            currentVal--;
-                        }
-                        
-                        const min = parseInt(quantityInput.min, 10) || 1;
-                        const max = parseInt(quantityInput.max, 10) || Infinity;
-                        currentVal = Math.max(min, Math.min(max, currentVal));
-
-                        if (currentVal !== parseInt(quantityInput.value, 10)) {
-                            quantityInput.value = currentVal;
-                            updateButtonStates(quantityInput);
-                            updateQuantityOnServer(productId, currentVal);
-                        }
+                        quantityInput.value = parseInt(quantityInput.dataset.originalQuantity || 1, 10);
+                        updateButtonStates(quantityInput);
                     }
-                };
+                });
+            };
+            
+            const handleCartAction = (event) => {
+                const removeButton = event.target.closest('.remove-btn');
+                const quantityButton = event.target.closest('.quantity-btn');
 
-                if (cartItemsList) {
-                   cartItemsList.addEventListener('click', handleCartAction);
+                if (removeButton) {
+                    const itemToRemove = removeButton.closest('.cart-item');
+                    const productId = itemToRemove.dataset.itemId;
+                    
+                    const removeUrl = REMOVE_FROM_CART_URL_TEMPLATE.replace('_PID_', productId);
+
+                    fetch(removeUrl, { method: 'POST' })
+                        .then(response => {
+                            if (!response.ok) throw new Error('Network response was not ok.');
+                            return response.json();
+                        })
+                        .then(data => {
+                            if (data.status === 'success') {
+                                itemToRemove.style.opacity = '0';
+                                itemToRemove.style.transform = 'translateX(50px) scale(0.95)';
+                                setTimeout(() => { 
+                                    itemToRemove.remove(); 
+                                    updateCartSummary();
+                                    showFlashMessage('Item removed from cart!', 'info');
+                                }, 400);
+                            } else { 
+                                showFlashMessage(`Error removing item: ${data.message}`, 'danger');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error removing item:', error);
+                            showFlashMessage('Failed to remove item. Please try again.', 'danger');
+                        });
                 }
 
-                document.querySelectorAll('.quantity-input').forEach(updateButtonStates);
-                updateCartSummary();
+                if (quantityButton) {
+                    const itemRow = quantityButton.closest('.cart-item');
+                    const productId = itemRow.dataset.itemId;
+                    const quantityInput = itemRow.querySelector('.quantity-input');
+                    let currentVal = parseInt(quantityInput.value, 10);
+
+                    if (quantityButton.classList.contains('plus-btn')) {
+                        currentVal++;
+                    } else if (quantityButton.classList.contains('minus-btn')) {
+                        currentVal--;
+                    }
+                    
+                    const min = parseInt(quantityInput.min, 10) || 1;
+                    const max = parseInt(quantityInput.max, 10) || Infinity;
+                    currentVal = Math.max(min, Math.min(max, currentVal));
+
+                    if (currentVal !== parseInt(quantityInput.value, 10)) {
+                        quantityInput.value = currentVal;
+                        updateButtonStates(quantityInput);
+                        updateQuantityOnServer(productId, currentVal);
+                    }
+                }
+            };
+
+            if (cartItemsList) {
+               cartItemsList.addEventListener('click', handleCartAction);
             }
-        });
+
+            document.querySelectorAll('.quantity-input').forEach(updateButtonStates);
+            updateCartSummary();
+        }
 
         // --- Flash Message Display Function (Client-side) ---
         function showFlashMessage(message, category = 'info') {
@@ -2971,184 +3057,144 @@
         }
 
         // --- Universal Share Button Logic ---
-        document.addEventListener('DOMContentLoaded', () => {
-            const shareButtons = document.querySelectorAll('.universal-share-btn');
+        // Moved into initShareButtons for reusability
 
-            shareButtons.forEach(button => {
-                button.addEventListener('click', async (event) => {
-                    const title = button.dataset.title;
-                    const text = button.dataset.text;
-                    const url = button.dataset.url; // URL already pre-rendered by Jinja2
 
-                    if (navigator.share) {
-                        try {
-                            await navigator.share({
-                                title: title,
-                                text: text,
-                                url: url
-                            });
-                            console.log('Content shared successfully');
-                            showFlashMessage('Content shared!', 'success');
-                        } catch (error) {
-                            if (error.name !== 'AbortError') {
-                                console.error('Error sharing content:', error);
-                                showFlashMessage('Could not share. Please try again.', 'danger');
-                            }
-                        }
-                    } else {
-                        // Fallback for browsers that do not support the Web Share API
-                        try {
-                            await navigator.clipboard.writeText(url);
-                            showFlashMessage('Link copied to clipboard!', 'info');
-                            console.log('URL copied to clipboard:', url);
-                        } catch (err) {
-                            console.error('Failed to copy to clipboard: ', err);
-                            showFlashMessage('Could not copy link to clipboard. Please copy it manually.', 'danger');
-                        }
-                    }
-                });
-            });
-        });
+        // --- Load More Products Functionality ---
+        // Helper function to create a product card HTML string
+        function createProductCardHtml(product) {
+            // Replace placeholders in the JavaScript template variables
+            const productDetailUrl = PRODUCT_DETAIL_URL_TEMPLATE.replace('__PID_PLACEHOLDER__', product.product_db_key);
+            const buyNowUrl = BUY_NOW_URL_TEMPLATE.replace('__PID_PLACEHOLDER__', product.product_db_key);
 
-        // --- AI Character and Chatbox Logic (Uses actual Flask API endpoint) ---
-        const chatBox = document.getElementById('chatBox');
-        const startButton = document.querySelector('.start-button');
-        const aiCharacter = document.getElementById('ai-character');
-        const shivayChatInput = document.getElementById('shivayChatInput');
-        const sendChatMsgBtn = document.getElementById('sendChatMsgBtn');
-        const chatBody = document.getElementById('chatBody');
-        const headerMicIcon = document.getElementById('headerMicIcon');
-        const inputAreaMicIcon = document.getElementById('inputAreaMicIcon');
+            // Use CATEGORY_COLORS_JS passed from Flask to JavaScript
+            const categoryColor = CATEGORY_COLORS_JS[product.category.toLowerCase()] || '#6c757d';
 
-        window.handleStartButtonClick = function() {
-            chatBox.classList.toggle('open');
-            aiCharacter.style.display = chatBox.classList.contains('open') ? 'none' : 'block';
-            // Play sound if applicable
-            // (new Audio(STATIC_NOTIFICATION_SOUND_URL)).play(); // Uncomment if you want sound
-            if (chatBox.classList.contains('open')) {
-                shivayChatInput.focus();
+            return `
+                <div class="product-card-outer animate-on-scroll">
+                    <a href="${productDetailUrl}" class="product-card-content-link" aria-label="View details for ${product.name}">
+                        <div class="product-card" data-product-id="${product.product_db_key}">
+                            <div class="product-card-header" style="background-color: ${categoryColor};" aria-label="Category: ${product.category}">
+                                <span class="category-text">${product.category.replace('-', ' ').charAt(0).toUpperCase() + product.category.replace('-', ' ').slice(1)}</span>
+                            </div>
+                            <img src="${product.image}" alt="${product.name}" class="product-image" loading="lazy">
+                            <div class="card-body">
+                                <h3 class="product-name-heading">${product.name}</h3>
+                                <p class="long-description-summary">${product.long_description.substring(0, 100)}...</p>
+                                <div class="price">
+                                    ${product.formatted_price}
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <div class="card-actions">
+                        <button class="add-to-cart-btn" data-product-id="${product.product_db_key}">Add to Cart</button>
+                        <a href="${buyNowUrl}" class="card-btn buy-now-btn">Buy Now</a>
+                    </div>
+                    <div class="share-container">
+                        <button class="universal-share-btn"
+                                data-title="${product.name}"
+                                data-text="${product.name} - A great template from Nexaur!"
+                                data-url="${productDetailUrl}">
+                            <i class="fas fa-share-alt"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+
+        async function loadMoreProducts(button) {
+            const category = button.dataset.category;
+            let offset = parseInt(button.dataset.offset, 10);
+            const totalCount = parseInt(button.dataset.total, 10);
+            const productGridId = button.dataset.productGridId;
+            const productGrid = document.getElementById(productGridId);
+            const spinner = button.querySelector('.fa-spinner');
+
+            if (!productGrid || !category) {
+                console.error('Missing product grid or category for load more.');
+                return;
             }
-        };
 
-        window.closeChat = function() {
-            chatBox.classList.remove('open');
-            aiCharacter.style.display = 'block';
-            // Stop mic if active (in a real app)
-            // if (isListening) toggleChatMic(inputAreaMicIcon);
-        };
+            button.disabled = true;
+            spinner.classList.remove('d-none'); // Show spinner
+            button.classList.add('loading');
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...'; // Update text with spinner
 
-        let isListening = false;
-        window.toggleChatMic = function(iconElement) {
-            isListening = !isListening;
-            if (isListening) {
-                iconElement.classList.add('active');
-                iconElement.style.color = 'red'; // Indicate listening
-                headerMicIcon.classList.add('active'); // Sync header mic icon
-                headerMicIcon.style.color = 'red';
-                showFlashMessage('Voice input started...', 'info');
-            } else {
-                iconElement.classList.remove('active');
-                iconElement.style.color = '';
-                headerMicIcon.classList.remove('active');
-                headerMicIcon.style.color = '';
-                showFlashMessage('Voice input stopped.', 'info');
-            }
-            // In a real app, integrate Web Speech API here
-            // (new Audio(STATIC_NOTIFICATION_SOUND_URL)).play(); // Uncomment if you want sound
-        };
+            try {
+                // FIX: Correctly replace the category and offset placeholders in the JavaScript URL template
+                const url = LOAD_MORE_PRODUCTS_URL_TEMPLATE
+                            .replace('__CATEGORY_PH__', category) // Replace the category placeholder
+                            .replace('__OFFSET_PH__', offset.toString()); // Replace the offset placeholder with the actual offset string
 
-        sendChatMsgBtn.addEventListener('click', sendMessage);
-        shivayChatInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                sendMessage();
-            }
-        });
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
 
-        async function sendMessage() {
-            const message = shivayChatInput.value.trim();
-            if (message) {
-                appendMessage(message, 'user');
-                shivayChatInput.value = '';
-                // (new Audio(STATIC_NOTIFICATION_SOUND_URL)).play(); // Uncomment if you want sound
-                
-                try {
-                    const response = await fetch(SHIVAY_CHAT_ENDPOINT_URL, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            message: message,
-                            language: FLASK_AI_LANGUAGE // Use AI language from Flask context
-                        })
+                if (data.products && data.products.length > 0) {
+                    const fragment = document.createDocumentFragment();
+                    data.products.forEach(product => {
+                        const div = document.createElement('div');
+                        // Add animate-on-scroll to new elements
+                        div.classList.add('animate-on-scroll'); 
+                        div.innerHTML = createProductCardHtml(product).trim();
+                        fragment.appendChild(div.firstChild); // Append the actual card element
                     });
-                    const data = await response.json();
-                    if (data && data.status === 'success') {
-                        appendMessage(data.response_text, 'ai');
-                        // Handle potential language change from AI
-                        // if (data.new_language && data.new_language !== FLASK_AI_LANGUAGE) {
-                        //     // In a real app, you might want to update a JS global for Flask_AI_LANGUAGE or reload parts of UI
-                        //     console.log(`AI suggested language change to: ${data.new_language}`);
-                        //     showFlashMessage(`AI language switched to ${data.new_language}`, 'info');
-                        // }
-                    } else {
-                        appendMessage(data.response_text || "Error processing chat.", 'ai');
-                    }
-                } catch (error) {
-                    console.error('Chat API error:', error);
-                    appendMessage("Sorry, I'm having trouble connecting to my brain right now. Please try again. 😟", 'ai');
+                    productGrid.appendChild(fragment);
+
+                    // Re-initialize event listeners and animations for new elements
+                    initAddToCartButtons(productGrid);
+                    initShareButtons(productGrid);
+                    initAnimateOnScroll(productGrid); // Observe new elements
                 }
+
+                // Update offset and check if more products are available
+                button.dataset.offset = data.new_offset;
+                if (!data.has_more) {
+                    button.style.display = 'none'; // Hide button if no more products
+                    showFlashMessage(`All ${category.replace('-', ' ').toLowerCase()} loaded.`, 'info');
+                } else {
+                    button.innerHTML = `<i class="fas fa-spinner fa-spin d-none"></i>Load More ${category.charAt(0).toUpperCase() + category.slice(1)}`;
+                }
+
+            } catch (error) {
+                console.error('Error loading more products:', error);
+                showFlashMessage('Failed to load more products. Please try again.', 'danger');
+                button.innerHTML = `<i class="fas fa-spinner fa-spin d-none"></i>Load More ${category.charAt(0).toUpperCase() + category.slice(1)}`;
+            } finally {
+                button.disabled = false;
+                spinner.classList.add('d-none'); // Hide spinner (if it's still visible)
+                button.classList.remove('loading');
             }
         }
 
-        function appendMessage(text, sender) {
-            const msgDiv = document.createElement('div');
-            msgDiv.classList.add('chat-message', sender);
-            msgDiv.textContent = text;
-            chatBody.appendChild(msgDiv);
-            chatBody.scrollTop = chatBody.scrollHeight; // Scroll to bottom
-        }
-
-        // Initially show the AI character
         document.addEventListener('DOMContentLoaded', () => {
-            aiCharacter.style.display = 'block';
-        });
-
-        // --- Voice Search Logic (Uses actual Flask API endpoint) ---
-        const searchMicrophoneButton = document.querySelector('.search-microphone-button');
-        const mainSearchInput = document.getElementById('main-search-input');
-        const voiceStatus = document.getElementById('voiceStatus');
-
-        let isVoiceSearchActive = false;
-
-        if (searchMicrophoneButton && mainSearchInput && voiceStatus) {
-            searchMicrophoneButton.addEventListener('click', () => {
-                isVoiceSearchActive = !isVoiceSearchActive;
-                if (isVoiceSearchActive) {
-                    searchMicrophoneButton.classList.add('active'); // Apply active class
-                    voiceStatus.textContent = 'Listening...';
-                    showFlashMessage('Voice search active. Speak your query.', 'info');
-                    // In a real application, you'd initialize and start Web Speech API's SpeechRecognition here.
-                    // For now, simulating with a timeout and pre-filled text.
-                    setTimeout(() => {
-                        mainSearchInput.value = 'AI solutions for business'; // Simulated voice input
-                        voiceStatus.textContent = 'Processing...';
-                        isVoiceSearchActive = false;
-                        searchMicrophoneButton.classList.remove('active'); // Remove active class
-                        setTimeout(() => {
-                            voiceStatus.textContent = '';
-                            showFlashMessage('Voice search complete!', 'success');
-                            // In a real app, you'd submit the form here
-                            document.getElementById('mainSearchForm').submit();
-                        }, 500);
-                    }, 3000);
+            const loadMoreButtons = document.querySelectorAll('.load-more-btn');
+            loadMoreButtons.forEach(button => {
+                // Check if the button should be hidden initially based on initial_load_count vs total_category_count
+                const currentLoaded = parseInt(button.dataset.offset, 10);
+                const totalAvailable = parseInt(button.dataset.total, 10);
+                if (currentLoaded >= totalAvailable) {
+                    button.style.display = 'none';
                 } else {
-                    searchMicrophoneButton.classList.remove('active'); // Remove active class
-                    voiceStatus.textContent = '';
-                    showFlashMessage('Voice search stopped.', 'info');
-                    // In a real application, you'd stop the speech recognition service here.
+                    // Spinner is now part of the initial button HTML,
+                    // just ensure it's hidden and event listener is added.
+                    // The text update in loadMoreProducts will show/hide it.
+                    button.addEventListener('click', () => loadMoreProducts(button));
                 }
             });
-        }
+        });
+
+        // The voice search logic for the main header search bar is now expected to be in voice-search.js
+        // If it was previously in this embedded script, it has been removed to avoid duplication.
 
     </script>
+    <!-- External Chatbox JavaScript -->
+    <script src="{{ url_for('static', filename='chat.js') }}"></script>
+    <!-- External Voice Search JavaScript (for the main header search bar) -->
+    <script src="{{ url_for('static', filename='voice-search.js') }}"></script>
 </body>
 </html>
