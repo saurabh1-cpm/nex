@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Claim | It's Pure Veda</title>
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* =========================================
+           1. SHARED STYLES
+           ========================================= */
+        :root {
+            --green-darkest: #022c22;
+            --green-dark: #14532d;
+            --green-main: #166534;
+            --green-light: #4ade80;
+            --green-pale: #dcfce7;
+            --gold-accent: #d97706;
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: var(--font-body);
+            color: var(--green-darkest);
+            background: radial-gradient(circle at 50% 10%, #f0fdf4 0%, #fff7ed 100%);
+            min-height: 100vh;
+            display: flex; flex-direction: column;
+        }
+
+        /* =========================================
+           2. NAVIGATION
+           ========================================= */
+        nav {
+            padding: 20px 5%; display: flex; justify-content: space-between; align-items: center;
+            background: white; box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        }
+        .logo { font-family: var(--font-heading); font-size: 1.5rem; font-weight: 700; color: var(--green-darkest); display: flex; align-items: center; gap: 8px; }
+        .logo i { color: var(--green-main); }
+        
+        .btn-back {
+            text-decoration: none; color: var(--green-dark); font-weight: 600; 
+            display: flex; align-items: center; gap: 8px; transition: 0.3s;
+            border: 1px solid var(--green-dark); padding: 8px 20px; border-radius: 30px;
+        }
+        .btn-back:hover { background: var(--green-dark); color: white; }
+
+        /* =========================================
+           3. FORM CONTAINER
+           ========================================= */
+        .main-container {
+            flex-grow: 1; display: flex; justify-content: center; align-items: center; padding: 40px 20px;
+        }
+
+        .form-card {
+            background: white; width: 100%; max-width: 600px;
+            border-radius: 30px; padding: 40px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+            border: 1px solid rgba(22, 101, 52, 0.1);
+            animation: slideUp 0.6s ease-out;
+            position: relative; overflow: hidden;
+        }
+
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+        .form-header { text-align: center; margin-bottom: 25px; }
+        .form-header h2 { font-family: var(--font-heading); font-size: 2.2rem; margin-bottom: 10px; color: var(--green-darkest); }
+        .form-header p { color: #666; font-size: 0.95rem; }
+
+        /* Form Layout */
+        .input-group { margin-bottom: 18px; position: relative; }
+        .input-group label { display: block; font-weight: 600; margin-bottom: 6px; font-size: 0.9rem; color: var(--green-dark); }
+        
+        .input-group input, .input-group textarea, .input-group select {
+            width: 100%; padding: 12px 15px; border: 2px solid #eee; border-radius: 12px;
+            font-family: var(--font-body); font-size: 0.95rem; transition: 0.3s; outline: none;
+            background: #f9f9f9;
+        }
+        .input-group input:focus, .input-group textarea:focus, .input-group select:focus {
+            border-color: var(--green-main); background: #fff; box-shadow: 0 0 0 4px var(--green-pale);
+        }
+
+        /* 2 Column Row for City/State */
+        .form-row { display: flex; gap: 20px; }
+        .form-row .input-group { flex: 1; }
+
+        /* Readonly Gift Field Styling */
+        #gift-field {
+            background-color: #fffbeb; 
+            border-color: #fde047; 
+            color: #92400e; 
+            font-weight: 700; 
+            pointer-events: none;
+            padding-left: 40px;
+        }
+        .gift-icon { position: absolute; top: 40px; left: 12px; color: #d97706; font-size: 1.1rem; }
+
+        .btn-submit {
+            width: 100%; padding: 16px; background: var(--green-darkest); color: white;
+            font-size: 1.1rem; font-weight: 700; border: none; border-radius: 50px;
+            cursor: pointer; transition: 0.3s; margin-top: 10px;
+            display: flex; justify-content: center; align-items: center; gap: 10px;
+        }
+        .btn-submit:hover { background: var(--gold-accent); transform: translateY(-2px); box-shadow: 0 10px 20px rgba(217, 119, 6, 0.3); }
+
+        /* Loading Spinner */
+        .loader { border: 3px solid rgba(255,255,255,0.3); border-radius: 50%; border-top: 3px solid white; width: 20px; height: 20px; animation: spin 1s linear infinite; display: none; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .form-row { flex-direction: column; gap: 0; }
+            .form-card { padding: 25px; }
+        }
+
+        /* Toast */
+        #toast {
+            visibility: hidden; min-width: 250px; background-color: #333; color: #fff; text-align: center; border-radius: 50px; padding: 16px; position: fixed; z-index: 10000; left: 50%; bottom: 30px; transform: translateX(-50%); font-size: 1rem; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        #toast.show { visibility: visible; animation: fadein 0.5s, fadeout 0.5s 2.5s; }
+        @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 30px; opacity: 1;} }
+        @keyframes fadeout { from {bottom: 30px; opacity: 1;} to {bottom: 0; opacity: 0;} }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo"><i class="fas fa-leaf"></i> It's Pure Veda</div>
+        <a href="claim.html" class="btn-back"><i class="fas fa-arrow-left"></i> Change Gift</a>
+    </nav>
+
+    <div class="main-container">
+        <div class="form-card">
+            
+            <div class="form-header">
+                <h2>Shipping Details</h2>
+                <p>Enter detailed location to receive your <b>Free Reward</b>.</p>
+            </div>
+
+            <form id="shippingForm" onsubmit="submitForm(event)">
+                
+                <!-- Gift Field (Readonly) -->
+                <div class="input-group">
+                    <label>Selected Reward</label>
+                    <i class="fas fa-gift gift-icon"></i>
+                    <input type="text" id="gift-field" value="No gift selected" readonly>
+                </div>
+
+                <!-- Personal Info -->
+                <div class="form-row">
+                    <div class="input-group">
+                        <label>Full Name</label>
+                        <input type="text" id="userName" placeholder="e.g. Rahul Sharma" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Phone Number</label>
+                        <input type="tel" id="userPhone" placeholder="+91 98765 43210" required>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Email Address</label>
+                    <input type="email" id="userEmail" placeholder="yourname@example.com" required>
+                </div>
+
+                <!-- Detailed Address -->
+                <div class="input-group">
+                    <label>Flat / House No. / Street Address</label>
+                    <textarea id="userAddress" rows="2" placeholder="e.g. Flat 101, Galaxy Apartments, MG Road" required></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="input-group">
+                        <label>City</label>
+                        <input type="text" id="userCity" placeholder="e.g. Pune" required>
+                    </div>
+                    <div class="input-group">
+                        <label>State</label>
+                        <select id="userState" required>
+                            <option value="">Select State</option>
+                            <option value="MH">Maharashtra</option>
+                            <option value="DL">Delhi</option>
+                            <option value="KA">Karnataka</option>
+                            <option value="TN">Tamil Nadu</option>
+                            <option value="UP">Uttar Pradesh</option>
+                            <option value="GU">Gujarat</option>
+                            <option value="WB">West Bengal</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="input-group">
+                        <label>Pincode / Zip</label>
+                        <input type="number" id="userZip" placeholder="e.g. 411057" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Landmark (Optional)</label>
+                        <input type="text" id="userLandmark" placeholder="e.g. Near City Mall">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-submit" id="submitBtn">
+                    <span>Verify & Claim Reward</span>
+                    <div class="loader" id="btnLoader"></div>
+                </button>
+
+            </form>
+        </div>
+    </div>
+
+    <div id="toast"></div>
+
+    <script>
+        // 1. Get URL Parameter and Fill Input
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const giftName = urlParams.get('gift');
+            
+            if (giftName) {
+                document.getElementById('gift-field').value = giftName;
+                showToast(`Confirming reward: ${giftName}`);
+            } else {
+                showToast("No gift selected! Redirecting...");
+                setTimeout(() => window.location.href = "claim.html", 2000);
+            }
+        };
+
+        // 2. Handle Form Submission & SAVE DATA
+        function submitForm(event) {
+            event.preventDefault();
+
+            // UI Feedback
+            const btn = document.getElementById('submitBtn');
+            const span = btn.querySelector('span');
+            const loader = document.getElementById('btnLoader');
+            
+            span.style.display = 'none';
+            loader.style.display = 'block';
+            btn.style.opacity = '0.7';
+            btn.style.cursor = 'not-allowed';
+
+            // Gather Data
+            const claimData = {
+                id: Date.now(), // Unique ID
+                gift: document.getElementById('gift-field').value,
+                name: document.getElementById('userName').value,
+                phone: document.getElementById('userPhone').value,
+                email: document.getElementById('userEmail').value,
+                address: document.getElementById('userAddress').value,
+                city: document.getElementById('userCity').value,
+                state: document.getElementById('userState').value,
+                zip: document.getElementById('userZip').value,
+                landmark: document.getElementById('userLandmark').value,
+                status: 'New', // For Admin Panel
+                date: new Date().toLocaleString()
+            };
+
+            // Save to LocalStorage (Database)
+            const existingClaims = JSON.parse(localStorage.getItem('pureVedaClaims') || '[]');
+            existingClaims.push(claimData);
+            localStorage.setItem('pureVedaClaims', JSON.stringify(existingClaims));
+
+            // Simulate Processing & Redirect
+            setTimeout(() => {
+                showToast("Order Placed Successfully!");
+                window.location.href = "thanks.html";
+            }, 1500);
+        }
+
+        // Toast Helper
+        function showToast(message) {
+            const toast = document.getElementById("toast");
+            toast.innerText = message;
+            toast.className = "show";
+            setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
+        }
+    </script>
+
+</body>
+</html>
