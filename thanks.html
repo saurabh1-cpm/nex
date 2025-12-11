@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmed | It's Pure Veda</title>
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* =========================================
+           1. SHARED STYLES
+           ========================================= */
+        :root {
+            --green-darkest: #022c22;
+            --green-dark: #14532d;
+            --green-main: #166534;
+            --gold-accent: #d97706;
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: var(--font-body);
+            color: var(--green-darkest);
+            background: radial-gradient(circle at 50% 10%, #f0fdf4 0%, #fff7ed 100%);
+            min-height: 100vh;
+            display: flex; justify-content: center; align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* =========================================
+           2. CONFETTI ANIMATION
+           ========================================= */
+        .confetti-container {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 1; overflow: hidden;
+        }
+        
+        .confetti-ball {
+            position: absolute; border-radius: 50%;
+            animation: fallDown linear forwards;
+            opacity: 0.8;
+        }
+
+        @keyframes fallDown {
+            0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+        }
+
+        /* =========================================
+           3. MAIN CARD
+           ========================================= */
+        .thanks-card {
+            background: white;
+            width: 90%; max-width: 500px;
+            padding: 50px 30px;
+            border-radius: 40px;
+            text-align: center;
+            box-shadow: 0 30px 60px rgba(22, 101, 52, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            position: relative; z-index: 10;
+            opacity: 0; transform: scale(0.5);
+            animation: popUpBounce 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+            animation-delay: 0.1s;
+        }
+
+        @keyframes popUpBounce {
+            0% { opacity: 0; transform: scale(0.5); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        /* =========================================
+           4. CHECKMARK ANIMATION
+           ========================================= */
+        .success-checkmark { width: 80px; height: 80px; margin: 0 auto 20px; }
+        
+        .check-icon {
+            width: 80px; height: 80px; border-radius: 50%; display: block;
+            stroke-width: 2; stroke: #4ade80; stroke-miterlimit: 10;
+            box-shadow: inset 0px 0px 0px #4ade80;
+            animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
+        }
+        .check-circle {
+            stroke-dasharray: 166; stroke-dashoffset: 166; stroke-width: 2;
+            stroke-miterlimit: 10; stroke: #4ade80; fill: none;
+            animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+        }
+        .check-check {
+            transform-origin: 50% 50%; stroke-dasharray: 48; stroke-dashoffset: 48;
+            animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+        }
+
+        @keyframes stroke { 100% { stroke-dashoffset: 0; } }
+        @keyframes scale { 0%, 100% { transform: none; } 50% { transform: scale3d(1.1, 1.1, 1); } }
+        @keyframes fill { 100% { box-shadow: inset 0px 0px 0px 50px #dcfce7; } }
+
+        /* =========================================
+           5. CONTENT
+           ========================================= */
+        h1 {
+            font-family: var(--font-heading); font-size: 2.5rem; color: var(--green-darkest);
+            margin-bottom: 10px; line-height: 1.2;
+        }
+        .subtitle { color: #666; font-size: 1rem; margin-bottom: 30px; line-height: 1.6; }
+
+        .order-details-box {
+            background: #f9f9f9; border-radius: 20px; padding: 25px;
+            text-align: left; margin-bottom: 30px; border: 1px dashed #ccc;
+        }
+        .detail-row {
+            display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 0.95rem;
+            border-bottom: 1px solid #eee; padding-bottom: 8px;
+        }
+        .detail-row:last-child { margin-bottom: 0; border-bottom: none; padding-bottom: 0; }
+        
+        .d-label { color: #888; font-weight: 500; }
+        .d-value { font-weight: 700; color: var(--green-dark); text-align: right; max-width: 60%; }
+
+        .btn-home {
+            display: inline-flex; align-items: center; gap: 10px; padding: 15px 40px;
+            background: var(--green-darkest); color: white;
+            text-decoration: none; border-radius: 50px; font-weight: 700;
+            transition: 0.3s; box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .btn-home:hover {
+            background: var(--gold-accent); transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(217, 119, 6, 0.3);
+        }
+
+        /* Responsive */
+        @media (max-width: 500px) {
+            .thanks-card { width: 95%; padding: 40px 20px; }
+            h1 { font-size: 2rem; }
+            .d-value { font-size: 0.9rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Falling Balls Animation -->
+    <div class="confetti-container" id="confetti-container"></div>
+
+    <div class="thanks-card">
+        
+        <!-- Animated Checkmark -->
+        <div class="success-checkmark">
+            <svg class="check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                <circle class="check-circle" cx="26" cy="26" r="25" fill="none"/>
+                <path class="check-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+            </svg>
+        </div>
+
+        <h1 id="thank-you-title">Thank You!</h1>
+        <p class="subtitle">Your claim has been successfully recorded.<br>We are preparing your gift for dispatch.</p>
+
+        <div class="order-details-box">
+            <div class="detail-row">
+                <span class="d-label">Order ID:</span>
+                <span class="d-value" id="order-id">Loading...</span>
+            </div>
+            <div class="detail-row">
+                <span class="d-label">Selected Gift:</span>
+                <span class="d-value" id="gift-name" style="color:var(--gold-accent)">-</span>
+            </div>
+            <div class="detail-row">
+                <span class="d-label">Status:</span>
+                <span class="d-value" style="color: #166534;">
+                    <i class="fas fa-check-circle" style="font-size:12px;"></i> Confirmed
+                </span>
+            </div>
+            <div class="detail-row">
+                <span class="d-label">Est. Delivery:</span>
+                <span class="d-value" id="delivery-date">-</span>
+            </div>
+            <div class="detail-row">
+                <span class="d-label">Shipping To:</span>
+                <span class="d-value" id="shipping-address">...</span>
+            </div>
+        </div>
+
+        <a href="index.html" class="btn-home">Continue Shopping <i class="fas fa-arrow-right"></i></a>
+    </div>
+
+    <script>
+        window.onload = function() {
+            // 1. Get Data from LocalStorage (Database)
+            const claims = JSON.parse(localStorage.getItem('pureVedaClaims') || '[]');
+            
+            // Get the MOST RECENT claim (last item in array)
+            const lastClaim = claims.length > 0 ? claims[claims.length - 1] : null;
+
+            // 2. Populate Data
+            if (lastClaim) {
+                // Personalize Title
+                const firstName = lastClaim.name.split(' ')[0];
+                document.getElementById('thank-you-title').innerText = `Thank You, ${firstName}!`;
+                
+                // Order ID (Use timestamp if ID is missing)
+                document.getElementById('order-id').innerText = "#IPV-" + (lastClaim.id || Math.floor(Math.random() * 900000));
+                
+                // Gift Name
+                document.getElementById('gift-name').innerText = lastClaim.gift;
+                
+                // Address (Truncate if too long)
+                let address = lastClaim.city;
+                if(lastClaim.state) address += `, ${lastClaim.state}`;
+                document.getElementById('shipping-address').innerText = address;
+            } else {
+                // Fallback for direct access without form
+                document.getElementById('order-id').innerText = "#IPV-" + Math.floor(100000 + Math.random() * 900000);
+                document.getElementById('gift-name').innerText = "Mystery Gift";
+                document.getElementById('shipping-address').innerText = "Your Location";
+            }
+
+            // 3. Set Delivery Date (+5 Days)
+            const date = new Date();
+            date.setDate(date.getDate() + 5);
+            const options = { year: 'numeric', month: 'short', day: 'numeric' };
+            document.getElementById('delivery-date').innerText = date.toLocaleDateString('en-US', options);
+
+            // 4. Trigger Animation
+            createConfetti();
+        };
+
+        // Confetti Logic
+        function createConfetti() {
+            const container = document.getElementById('confetti-container');
+            const colors = ['#f87171', '#fbbf24', '#34d399', '#60a5fa', '#a78bfa'];
+            
+            for(let i=0; i<50; i++) {
+                const ball = document.createElement('div');
+                ball.classList.add('confetti-ball');
+                const size = Math.random() * 15 + 10; 
+                ball.style.width = size + 'px';
+                ball.style.height = size + 'px';
+                ball.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                ball.style.left = Math.random() * 100 + '%';
+                ball.style.animationDuration = Math.random() * 3 + 2 + 's';
+                ball.style.animationDelay = Math.random() * 2 + 's';
+                container.appendChild(ball);
+            }
+        }
+    </script>
+
+</body>
+</html>
